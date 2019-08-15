@@ -727,67 +727,7 @@ console.log(address);    //undefined
 <h4>SAMPLE #0<b></b></h4>
 </section><!-- section -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<section>
-<h2><b>020</b>真偽値を取り扱う</h2>
-<ul>
-	<li>Boolean型（真偽値型）はtrue（真）かfalse（偽）を表す</li>
-	<li>数値型（0以外）、文字列型（''以外）、配列型、オブジェクト型などをif文の条件式にした場合、trueになる</li>
-</ul>
-<h3>文字列型でtrueになる例</h3>
-<pre><code>const userName = '中田';
-if(userName) {
-alert(userName);    //''以外なのでtrue
-}
-
-const address = '';
-if(address) {
-alert(address); //''なのでfalse
-}
-</code></pre>
-<ul>
-	<li>真偽値に!を付与で真偽値が反転する（論理否定演算子）</li>
-	<li>また、真偽値以外の型は真偽値に変換される</li>
-</ul>
-<h3>論理否定演算子</h3>
-<pre><code>const flg = 2 > 0;    //2は0以上（true）
-alert(!flg);    //trueが反転しfalseになる
-</code></pre>
-<h4>SAMPLE #020<b>真偽値以外の型での論理否定演算子</b></h4>
-<pre><code>const num = 1;
-alert(`num = 1の反転は${!num}`);    //0以外の数値型（true）が反転しfalseになる
-
-const name = '';
-alert(`name = \'\'の反転は'${!name}`);//''以外の文字列型（false）が反転しtrueになる</code></pre>
-<p class="btn" onclick="sec020()">SAMPLE #020</p>
-<ul>
-	<li>!を2回付与でデータをBoolean型に変換</li>
-</ul>
-<pre><code>console.log(!!'中田');    //true
-console.log(!!0);    //false
-</code></pre>
-</section><!-- section -->
-
-
-
-
-	<script src="../js/03.js"></script>
+<script src="../js/03.js"></script>
 </body>
 
 </html>
