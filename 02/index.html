@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_02】真偽値・数値・文字</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<h1>【Chapter2】真偽値や数値や文字の取り扱い【20〜44】</h1>
+<section>
+<h2><b>020</b>真偽値を取り扱う</h2>
+<ul>
+	<li>Boolean型（真偽値型）はtrue（真）かfalse（偽）を表す</li>
+	<li>数値型（0以外）、文字列型（''以外）、配列型、オブジェクト型などをif文の条件式にした場合、trueになる</li>
+</ul>
+<h3>文字列型でtrueになる例</h3>
+<pre><code>const userName = '中田';
+if(userName) {
+  alert(userName);    //''以外なのでtrue
+}
+
+const address = '';
+if(address) {
+  alert(address); //''なのでfalse
+}
+</code></pre>
+<ul>
+	<li>真偽値に!を付与で真偽値が反転する（論理否定演算子）</li>
+	<li>また、真偽値以外の型は真偽値に変換される</li>
+</ul>
+<h3>論理否定演算子</h3>
+<pre><code>const flg = 2 > 0;    //2は0以上（true）
+alert(!flg);    //trueが反転しfalseになる
+</code></pre>
+<h4>SAMPLE #020<b>真偽値以外の型での論理否定演算子</b></h4>
+<pre><code>const num = 1;
+alert(`num = 1の反転は${!num}`);    //0以外の数値型（true）が反転しfalseになる
+
+const name = '';
+alert(`name = \'\'の反転は'${!name}`);//''以外の文字列型（false）が反転しtrueになる</code></pre>
+<p class="btn" onclick="sec020()">SAMPLE #020</p>
+<ul>
+	<li>!を2回付与でデータをBoolean型に変換</li>
+</ul>
+<pre><code>console.log(!!'中田');    //true
+console.log(!!0);    //false
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>021</b>数値を取り扱う</h2>
+<ul>
+	<li>数値の型はNumber型</li>
+	<li>JavaScriptで表すことができる数には限りがある</li>
+</ul>
+<pre><code>Number.MAX_VALUE    //最大の整数
+Number.MIN_VALUE    //最小の「正の」整数
+Number.MAX_SAFE_INTEGER    //正確に扱える最大の整数
+Number.MIN_SAFE_INTEGER    //正確に扱える最小の整数
+</code></pre>
+<h3>不正な計算結果などに返される値</h3>
+<pre><code>NaN 値：NaN    //数値ではない値（数値型）
+Number.POSITIVE_INFINITY 値：Infinity    //正の無限の値
+Number.NEGATIVE_INFINITY 値：-Infinity    //負の無限の値
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>022</b>四捨五入、切り捨て、切り上げをする</h2>
+<pre><code>Math.round(6.24)    //四捨五入する（結果：6）
+Math.floor(6.24)    //切り捨てる（結果：6）
+Math.ceil(6.24)    //切り上げる（結果：7）
+Math.trunc(6.24)    //数値の整数部分を返す（結果：6）
+</code></pre>
+<h3>負の値の場合</h3>
+<pre><code>Math.round(-6.24)    //四捨五入する（結果：-7）
+Math.floor(-6.24)    //切り捨てる（結果：-7）
+Math.ceil(-6.24)    //切り上げる（結果：-6）
+Math.trunc(-6.24)    //数値の整数部分を返す（結果：-6）</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>023</b>ランダムな数を使う</h2>
+<pre><code>Math.random();    //0以上1未満のランダムな小数
+Math.floor(Math.random() * 100);    //0以上100未満のランダムな整数
+10 + Math.floor(Math.random() * 50);    //10以上60未満のランダムな整数
+</code></pre>
+<ul>
+	<li>パスワードなどの文字列を生成する場合、crypto.getRandomValues()を使う</li>
+	<li>型付き配列を引数とし、指定の数の乱数の配列を生成する</li>
+</ul>
+<h4>SAMPLE #023<b>crypto.getRandomValues()</b></h4>
+<pre><code>crypto.getRandomValues(型付き配列)    //乱数の配列を返す
+
+//ランダムな整数（16ビット符号なし）が3個格納された配列を生成
+const randomArray = crypto.getRandomValues(new Uint16Array(3));    //Uint16Arrayは16ビット符号なし整数値の配列
+const password = randomArray.join('');    //配列をつなげて乱数を作成
+alert(password);
+</code></pre>
+<p class="btn" onclick="sec023()">SAMPLE #023</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>024</b>数学的な計算を行う</h2>
+<pre><code>Math.abs(数値)    //数値の絶対値を計算する
+Math.pow(数値A, 数値B)    //べき乗（数値Aの数値B乗）計算する
+Math.sign(数値)    //数値符号を計算する
+Math.sqrt(数値)    //数値の平方根（√2など）を計算する
+Math.log(数値)    //自然対数を計算する
+Math.exp(数値)    //指数関数（eの累乗）を計算する
+Math.E    //自然対数の底（ネイピア数 e）を返す
+</code></pre>
+<pre><code>Math.abs(-10)    //-10の絶対値（結果：10）
+Math.pow(2, 10)    //2の10乗（結果：1024）
+Math.sign(2)    //2が正なので（結果：1）
+Math.sign(-2)    //-2が負なので（結果：-1）
+Math.sqrt(16)    //16の平方根（結果：4）
+Math.log(Math.E)    //eの自然対数（結果：1）
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>025</b>三角関数を使う</h2>
+<pre><code>Math.PI    //円周率
+Math.sin(数値)    //サイン
+Math.cos(数値)    //コサイン
+Math.tan(数値)    //タンジェント
+Math.asin(数値)    //アークサイン
+Math.acos(数値)    //アークコサイン
+Math.atan(数値)    //アークタンジェント
+Math.atan2(y座標, x座標)    //(x, y)の座標がなす角度
+</code></pre>
+<ul>
+	<li>サイン、コサイン、タンジェントなど三角関数を使うためのメソッド</li>
+	<li>数値の単位はラジアンなので、度数をラジアンで変換して使う方がわかりやすい</li>
+</ul>
+<h3>ラジアン、度数の変換式</h3>
+<pre><code>ラジアン = (度 * Math.PI) / 180;</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>026</b>文字列の取り扱い</h2>
+<ul>
+	<li>文字列はString型</li>
+	<li>シングルクオート（'）、ダブルクオート（"）、バッククオート（`）で文字列を囲んで使用する</li>
+</ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>027</b>文字列の長さを取得する</h2>
+<pre><code>'文字列'.length    //文字列の長さを取得</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>028</b>文字列の両端の空白を取り除く</h2>
+<pre><code>'文字列'.trim()    //文字列の両端の空白を取り除く
+
+const txt = ' こんにちは ';    //両端にスペースあり
+alert(txt.trim());    //'こんにちは'が出力
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>029</b>文字列の検索（インデックスを調べる）</h2>
+<ul>
+	<li>検索したい文字列のインデックスを取得する</li>
+	<li>文字列がない場合、-1が返る</li>
+	<li>検索文字の大文字・小文字は区別される</li>
+</ul>
+<pre><code>文字列.indexOf(検索したい文字列, [検索開始位置])    //文字列が最初に現れるインデックス
+文字列.lastIndexOf(検索したい文字列, [検索開始位置])    //文字列が最後に現れるインデックス
+文字列.search(正規表現)    //正規表現にマッチする文字列のインデックス
+</code></pre>
+<ul>
+	<li>検索開始位置は省略可（0が検索開始位置になる）</li>
+</ul>
+<h4>SAMPLE #029<b>検索のサンプル</b></h4>
+<pre><code>const inputTxt = document.getElementById("input029").value,
+  targetTxt = document.getElementById("target029").value,
+  searchTxt = new RegExp(targetTxt);    //RegExp()は正規表現オブジェクトを生成
+
+alert('最初に現れるインデックスは' + inputTxt.indexOf(targetTxt));
+alert('最後に現れるインデックスは' + inputTxt.lastIndexOf(targetTxt));
+alert('正規表現にマッチするインデックスは' + inputTxt.search(searchTxt));
+</code></pre>
+<form action="">
+	<input type="text" placeholder="対象の文字列" id="input029">
+	<input type="text" placeholder="検索したい文字列" id="target029">
+</form>
+<p class="btn" onclick="sec029()">SAMPLE #029</p>
+<a href="https://hichame.hatenadiary.org/entry/20090730/1248915884" target="_blank">JavaScriptの正規表現で変数を使う</a>
+</section><!-- section -->
+
+
+<section>
+<h2><b>030</b>文字列の検索（含まれているかを調べる）</h2>
+<pre><code>文字列.includes(検索したい文字列, [検索開始位置])    //検索したい文字列が含まれているか
+文字列.startsWith(検索したい文字列, [検索開始位置])    //検索したい文字列で始まるか
+文字列.endsWith(検索したい文字列, [検索開始位置])    //検索したい文字列で終わるか
+</code></pre>
+<ul>
+	<li>いずれも戻り値は真偽値</li>
+	<li>検索開始位置は省略可</li>
+</ul>
+<h4>SAMPLE #030<b>検索のサンプル</b></h4>
+<pre><code>const inputTxt = document.getElementById("input030").value,
+  targetTxt = document.getElementById("target030").value;
+
+alert(`「${inputTxt}」に「${targetTxt}」は含まれるか：${inputTxt.includes(targetTxt)}`);
+alert(`「${inputTxt}」の最初は「${targetTxt}」で始まるか：${inputTxt.startsWith(targetTxt)}`);
+alert(`「${inputTxt}」の最後は「${targetTxt}」で終わるか：${inputTxt.endsWith(targetTxt)}`);</code></pre>
+<form action="">
+	<input type="text" placeholder="対象の文字列" id="input030">
+	<input type="text" placeholder="検索したい文字列" id="target030">
+</form>
+<p class="btn" onclick="sec030()">SAMPLE #030</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>031</b>指定した場所の文字列を取り出す</h2>
+<pre><code>文字列.charAt([インデックス])    //指定インデックスの文字を取得
+
+'NOVEMBERS'.charAt(3);    //V
+'NOVEMBERS'.charAt();    //N（引数省略時は0のインデックス）
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>032</b>〇文字目～〇文字目まで取り出す</h2>
+<pre><code>文字列.slice(開始インデックス, [終了インデックス])
+文字列.substring(開始インデックス, [終了インデックス])
+</code></pre>
+<ul>
+	<li>終了インデックスを省略すると、以降すべての文字列を取得する</li>
+	<li>slice()には負の値も指定可能（文字列を末尾から取得できる）</li>
+	<li>substring()に負の値を指定すると、0となる（文字列を末尾から取得できない）</li>
+</ul>
+<h3>負の値を指定した場合</h3>
+<pre><code>'サカナクション'.slice(2, -3);    //ナク（3文字目～末尾から3文字目）
+'サカナクション'.slice(-6, -1);    //カナクショ（末尾から6文字目～末尾から1文字目）
+
+'サカナクション'.substring(3, -3);    //サカナ（-3は0になるため）
+'サカナクション'.substring(-4, -2);    //空文字が返る（-4,-2ともに0になるため）
+</code></pre>
+<ul>
+	<li>substring()は、開始インデックスが終了インデックスより大きくなる場合、入れ替わる</li>
+</ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>033</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>034</b>文字列を別の文字列に置き換える</h2>
+<pre><code>対象文字列.replace(文字列1, 文字列2)    //文字列1を文字列2に置き換える
+対象文字列.replace(正規表現, 文字列)    //正規表現によって文字列を置き換える
+
+const imageName = 'image1.png';
+imageName.replace('1.png', '2.png');    //image2.pngになる
+imageName.replace('1.png', '');    //imageになる
+</code></pre>
+<ul>
+	<li>第一引数が文字列の場合、置換対象となるのは最初にマッチした文字のみ</li>
+</ul>
+<pre><code>let phoneNumber = '080-1234-5678';
+
+phoneNumber.replace('-', '');    //0801234-5678（最初のハイフンのみ置換）
+
+//正規表現でgオプション（文字列全対のマッチ）を指定
+phoneNumber.replace(/-/g, '');    //08012345678（全てのハイフンを置換）
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>035</b>文字列を分割する</h2>
+<pre><code>文字列.split([区切り文字], [何分割まで許容するか])
+文字列.split([正規表現], [何分割まで許容するか])
+</code></pre>
+<ul>
+	<li>split()は、第一引数の文字、または正規表現で区切った配列を取得できる</li>
+	<li>引数は省略可</li>
+</ul>
+<pre><code>const myUrl = 'http://example.com/?id=123456&name=Suzuki&age=28';
+
+myUrl.split('&');    //&で分割
+  //["http://example.com/?id=123456", "name=Suzuki", "age=28"]
+
+myUrl.split(/&|\?/);    //&または?で分割
+  //["http://example.com/", "id=123456", "name=Suzuki", "age=28"]
+</code></pre>
+<h3>引数に''（空文字）を措定した場合</h3>
+<pre><code>'サカナクション'.split('');    //["サ", "カ", "ナ", "ク", "シ", "ョ", "ン"]（1文字ずつ格納される）</code></pre>
+<h3>引数を省略した場合</h3>
+<pre><code>'サカナクション'.split();    //["サカナクション"]（全文字が格納される）</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>036</b>文字列を結合する</h2>
+<pre><code>文字列1 + 文字列2 + 文字列3    //文字列1に対して、文字列2、3を結合する
+`${文字列1}${文字列2}${文字列3}`    //文字列1、2、3を結合する
+</code></pre>
+<h3>+（代入演算子）を使った場合</h3>
+<pre><code>const age = 20;
+console.log('私は' + age + '才です');    //私は20才です
+</code></pre>
+<h3>``（テンプレート文字列）を使った場合</h3>
+<pre><code>const age = 20;
+console.log(`私は${age}才です`);    //私は20才です
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>037</b>文字列を大文字・小文字に変換する</h2>
+<pre><code>文字列.toLowerCase()    //文字列を小文字に変換
+文字列.toUpperCase()    //文字列を大文字に変換
+</code></pre>
+<h4>SAMPLE #037<b>変換のサンプル</b></h4>
+<pre><code>const inputTxt = document.getElementById("input037").value;
+alert(`小文字に変換→「${inputTxt.toLowerCase()}」大文字に変換→「${inputTxt.toUpperCase()}」`);</code></pre>
+<form action="">
+	<input type="text" placeholder="テキストを入力" id="input037">
+</form>
+<p class="btn" onclick="sec037()">SAMPLE #037</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>038</b>テンプレート文字列</h2>
+<ul>
+	<li>複数行の文字列を扱える</li>
+	<li>文字列内に式を挿入できる</li>
+</ul>
+<pre><code>const msg = `10 + 10は${10 + 10}です
+20 - 2は${20 - 2}です`
+alert(msg);    //改行と計算が反映されて出力される
+</code></pre>
+<p class="btn" onclick="sec038()">SAMPLE #038</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>039</b>正規表現を使う</h2>
+<ul>
+	<li>文字列のパターンを用い、検索や置換を行える</li>
+</ul>
+<pre><code>/パターン/    //文字列のパターンは、/で囲む</code></pre>
+<h3>代表的なパターン</h3>
+<pre><code>x    //xという1文字
+xyz    //xyzという文字列
+[xyz]    //x,y,zの1文字
+[a-z]    //a〜zの間の1文字（[A-Za-z]という指定も可）
+[^xyz]    //x,y,z以外の1文字
+[^a-z]    //a〜z以外の1文字
+abc|xyz    //abcまたはxyzという文字列
+{数字}    //繰り返し回数
+^x    //最初の文字がx
+x$    //最後の文字がx
+.    //改行文字を除く1文字
+x*    //xが0個以上続く
+va*    //vのあとaが0個以上続く
+\    //直後の文字をエスケープする
+\d    //数字[0-9]と同じ意味
+\D    //数字以外[^0-9]と同じ意味
+\w    //英数字、アンダースコア[A-Za-z0-9_]と同じ意味
+\s    //スペース、タブ、改ページ、改行などの空白文字
+\S    //空白以外の文字[^\s]と同じ意味
+\t    //水平タブ
+\n    //改行コード
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>040</b>正規表現で特定の文字が含まれているか調べる</h2>
+<pre><code>/パターン/.test(文字列)    //戻り値は真偽値
+
+/ナ/.test('サカナクション');    //「ナ」が「サカナクション」に含まれるか（true）
+/^iP/.test('iPhone');    //「iPhone」が「iP」で始まっているか（true）
+/\d/.test('サカナクション');    //「サカナクション」に「数字」が含まれているか（false）
+/ne*/.test('iPhone');    //「n」のあと「e」が0個以上続くか（true）
+/サ.*ム/.test('サカナクション');    //「サム」または「サ」と「ム」の間に文字が含まれるか（false）
+/\d+-\d+-\d+/.test('080-1234-5678');    //「数字-数字-数字」という形か（true）
+</code></pre>
+<h4>SAMPLE #040<b>電話番号チェックのサンプル</b></h4>
+<pre><code>const phoneNumber = document.getElementById("input040").value;
+
+const trimmedPhoneNumber = phoneNumber.replace(/-/g, '');    //ハイフンが含まれている場合、空文字に置換
+
+if (/^[0][0-9]{9,10}$/.test(trimmedPhoneNumber) === false) {    //「0」から始まる、「10桁か11桁の数字」かチェック
+alert('電話番号を正しく入力してください。');
+} else {
+alert('OK');
+}</code></pre>
+<form action="">
+	<input type="text" placeholder="電話番号を入力" id="input040">
+</form>
+<p class="btn" onclick="sec040()">SAMPLE #040</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>041</b>数値の桁数を指定して小数点表示する</h2>
+<pre><code>数値.toFixed(桁数)    //小数点以下を、指定桁数にする（文字列が返る）
+数値.toPrecision(桁数)    //指定桁数の精度にする（文字列が返る）
+
+(123.123).toFixed(2);    //123.12
+(123.123).toPrecision(3);    //123
+</code></pre>
+<ul>
+	<li>桁数省略時は0として扱われる</li>
+	<li>桁数が多い場合、近似値になる</li>
+	<li>桁数が足りない場合、0で埋められる</li>
+</ul>
+<h3>桁数が多い場合</h3>
+<pre><code>(123.5678).toFixed(1);    //123.6（近似値になる）
+(123.5678).toPrecision(3);    //124（近似値になる）
+</code></pre>
+<h3>桁数が足りない場合</h3>
+<pre><code>(123.5678).toFixed(6);    //123.567800（2桁足りないので0が2つつく）
+(123.5678).toPrecision(8);    //123.56780（1桁足りないので0が1つつく）
+</code></pre>
+<h4>SAMPLE #041<b>桁数指定のサンプル</b></h4>
+<pre><code>const inputNum = document.getElementById("input041").value,
+targetNum = document.getElementById("target041").value;
+
+const result = `【toFixedの場合】${parseFloat(inputNum).toFixed(parseInt(targetNum))}
+【toPrecisionの場合】${parseFloat(inputNum).toPrecision(parseInt(targetNum))}`;
+
+alert(result);</code></pre>
+<form action="">
+	<input type="number" placeholder="数値を入力" id="input041">
+	<input type="text" placeholder="桁数を入力" id="target041">
+</form>
+<p class="btn" onclick="sec041()">SAMPLE #041</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>042</b>文字列を指定の長さになるよう繰り返す</h2>
+<pre><code>文字列.padStart(繰り返しの長さ, '追加する文字列')</code></pre>
+
+<p style="color:red;">
+	※※※※※※※※※※※※<br>
+	ローカルの内容いれる<br>
+	※※※※※※※※※※※※</p>
+
+<h4>SAMPLE #042_2<b>デジタル時計表示のサンプル</b></h4>
+<pre><code>const hourEl = document.querySelector('.hour');
+const secondEl = document.querySelector('.second');
+const minuteEl = document.querySelector('.minute');
+
+update();
+
+function update() {
+  const currentTime = new Date();
+  hourEl.innerText = addZeroPadding(currentTime.getHours());
+  secondEl.innerText = addZeroPadding(currentTime.getSeconds());
+  minuteEl.innerText = addZeroPadding(currentTime.getMinutes());
+
+  //次のフレームで再度update()を実行
+	requestAnimationFrame(update);
+
+  function addZeroPadding(num) {
+    //冒頭に0をつける
+    return String(num).padStart(2, '0');
+  }
+}</code></pre>
+<div id="sec042">
+	<p class="clock" style="border: solid 1px #faff68; padding: 10px; display: inline-block;">
+		<span class="hour"></span>：
+		<span class="minute"></span>：
+		<span class="second"></span>
+	</p>
+</div>
+<a href="https://developer.mozilla.org/ja/docs/Web/API/Window/requestAnimationFrame" target="_blank">requestAnimationFrame(callback)</a>
+</section><!-- section -->
+
+
+<section>
+<h2><b>043</b>文字列をURIエスケープする</h2>
+<pre><code>encodeURI('文字列')    //文字列をエンコードする
+encodeURIComponent('文字列')    //文字列をエンコードする
+</code></pre>
+<ul>
+	<li>URIに日本語が含まれている場合、必要なエンコード（<a href="https://webtan.impress.co.jp/e/2010/03/09/7539" target="_blank" style="display: inline;">URIとは</a>）</li>
+	<li>2種類の違いは、エスケープしない文字の種類</li>
+</ul>
+<pre><code>アルファベット 数字 - _ . ! ~ * ' ( )    //両方エスケープしない文字
+/ ? & = + : @ $ ; , #    //encodeURIだけがエスケープしない文字
+</code></pre>
+<h4>SAMPLE43<b>特定ハッシュタグをつけたツイートをさせる</b></h4>
+<div id="sec043">
+	<textarea id="input043" placeholder="ツイートを入力してください" style="resize: none;" cols="60" rows="4"></textarea>
+	<button id="button043" style="display: block;">ツイートする</button>
+</div>
+</section><!-- section -->
+
+
+<section>
+<h2><b>044</b>文字列をURLデコードする</h2>
+<pre><code>decodeURI('文字列')    //文字列をデコードする
+decodeURIComponent('文字列')    //文字列をデコードする
+</code></pre>
+<ul>
+	<li>エンコードされた文字を日本語に戻す</li>
+</ul>
+<pre><code>decodeURI('http://example.com/%E3%82%B5%E3%82%AB%E3%83%8A%E3%82%AF%E3%82%B7%E3%83%A7%E3%83%B3.html');
+//http://example.com/サカナクション.html
+</code></pre>
+</section><!-- section -->
+
+<script src="../js/02.js"></script>
+</body>
+</html>

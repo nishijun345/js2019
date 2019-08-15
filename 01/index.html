@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_01】基礎</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="../js/01.js"></script>
+</head>
+<body>
+<h1>【Chapter1】Javascriptの基礎【01〜19】</h1>
+<section>
+<h2><b>001</b>基礎</h2>
+<ul>
+	<li>Javascriptの仕様は「ECMA Script」という。</li>
+	<li>ES2015は、クラス構文、ブロックスコープ、アロー関数、モジュール機能など、多くの新機能が追加された。</li>
+	<li>2010年代になってサーバーサイドでも使われるようになった。Node.jsが有名</li>
+</ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>002/003</b>JavaScriptの書き方 / 別ファイル化</h2>
+<ul>
+	<li>&lt;script&gt;JavaScriptの処理&lt;/script&gt;</li>
+	<li>.jsファイルに処理を記述</li>
+</ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>004</b>ログの確認</h2>
+<pre><code>console.log(値1,値2)</code></pre>
+<ul>
+	<li>コンソールパネルで値を表示</li>
+</ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>005</b>計算プログラム</h2>
+<h3>数値の基本的な演算を行う演算子</h3>
+<pre><code>+ 加算
+- 減算
+* 乗算
+/ 除算
+% 除算の余り
+** べき乗</code></pre>
+<pre><code>例)
+console.log(402 % 5);    //2
+console.log(2 ** 3);    //8</code></pre>
+</section><!-- section-->
+
+<section>
+<h2><b>006</b>let</h2>
+<ul>
+	<li>変数</li>
+	<li>再代入可能</li>
+	<li>初期値の省略が可能    //undefinedになる</li>
+</ul>
+<pre><code>let 変数名 = 値</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>007</b>const</h2>
+<ul>
+	<li>定数</li>
+	<li>再代入不可</li>
+	<li>初期値は省略できない</li>
+	<li>配列やオブジェクトの中身は変更できる</li>
+</ul>
+<pre><code>const 定数名 = 値</code></pre>
+<h3>配列やオブジェクトの中身は変更できる</h3>
+<pre><code>配列の例）
+const myArray = [1,2,3];
+
+myArray = [1,2,5];    //エラー
+myArray[2] = 5;    //エラーじゃない</code></pre>
+<h4>SAMPLE #007<b>let/constの比較</b></h4>
+<pre><code>//let
+let age = 24;
+age = age + 1;
+console.log('age='+ age);
+
+//const
+const year = 2019;
+console.log('year='+ year);
+
+year = year + 1;    //再代入でエラー
+console.log('year='+ year);</code></pre>
+<p class="btn" onclick="sec007()">SAMPLE #007</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>008</b>コメント</h2>
+<pre><code>// コメント
+/* */ 複数行のコメントが可能</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>009</b>比較演算子</h2>
+<pre><code>値1 == 値2    //等しいか
+値1 === 値2    //等しく、型も同じか
+値1 != 値2    //等しくないか
+値1 !== 値2    //等しくない、または型が異なるか
+値1 < 値2    //値2より小さいか
+値1 <= 値2    //値2以下か
+値1 > 値2    //値2より大きいか
+値1 >= 値2    //値2以上か</code></pre>
+<ul>
+	<li>いずれも結果はtrueかfalse</li>
+	<li>オブジェクト型の比較は 、参照先が同じ場合のみ等しくなる</li>
+</ul>
+<pre><code>const array1 = [1, 2, 3];
+const array2 = [1, 2, 3];
+console.log(array1 == array2);    //false
+
+const array3 = [1, 2, 3];
+const array4 = array3;
+console.log(array3 == array4);    //true</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>010</b>複合代入演算子</h2>
+<pre><code>x = y    //x = y
+x += y    //x = x + y
+x -= y    //x = x - y</code></pre>
+<ul>
+	<li>左辺と右辺の演算後 、演算結果を左辺の変数に代入できる</li>
+</ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>011</b>関数(function)</h2>
+<pre><code>function 関数名(引数) {処理内容}    //関数を定義
+return 値    //関数内で値を返す(戻り値)
+関数名();    //関数を実行</code></pre>
+<ul>
+	<li>引数は与えない、または複数与えることができる</li>
+	<li>returnの時点で関数の処理は終了する</li>
+	<li>関数名()に引数を与えることができる</li>
+</ul>
+</section><!-- section -->
+
+<section>
+<h2><b>012</b>アロー関数</h2>
+<pre><code>(引数) => {処理内容}    //関数を定義
+
+//従来の関数式
+var fn = function () {};
+
+//アロー関数
+var fn = () => {};
+
+//「関数宣言」をアロー関数に置き換えることは出来ない
+function fn(x) {}</code></pre>
+<ul>
+	<li>関数を簡略化して記述できる</li>
+	<li>thisを束縛できる</li>
+	<li>引数が1つの場合括弧を省略できる</li>
+	<li>アロー関数内の処理が1行のときは、{}とreturnを省略できる</li>
+</ul>
+<h3>引数の省略</h3>
+<pre><code>//引数なし
+const myFunc1 = () => {};
+
+//引数1つ
+const myFunc2 = a => {};
+
+//引数2つ以上
+const myFunc3 = (a,b,c) => {};</code></pre>
+<h3>{}とreturnの省略</h3>
+<pre><code>//aを受け取って、a+2を返す関数
+
+const myFunc = (a) => {
+return a + 2;
+};
+
+const myFunc = (a) => a + 2;    //省略できる</code></pre>
+<a href="https://analogic.jp/arrow-function/" target="_blank">https://analogic.jp/arrow-function/</a>
+</section><!-- section -->
+
+
+<section>
+<h2><b>013</b>関数に渡す値の初期値</h2>
+<pre><code>function 関数名(引数 = 初期値) {}</code></pre>
+<ul>
+	<li>関数の引数では「値=初期値」で初期値を定義できる</li>
+</ul>
+<pre><code>function calcFunc (price, tax = 0.08) {
+  const result = price + price * tax;
+  return result;
+};
+
+//taxの引数を省略(初期値のまま)
+const result1 = calcFunc(100);    //結果108
+
+//taxの引数を指定
+const result2 = calcFunc(100, 0.1);    //結果110</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>014</b>関数に任意の数の引数を渡す(残余引数)</h2>
+<pre><code>function 関数名(...引数) {}    //渡した引数が配列になる
+引数[インデックス]    //インデックスを指定して引数を使用</code></pre>
+<ul>
+	<li>残余引数は「...引数」で不特定数の引数を受け取れる</li>
+</ul>
+<h3>引数の合計値を返す関数</h3>
+<pre><code>
+function calcFunc (...prices) {
+  let result = 0;
+  for (const value of prices) {
+    result += value;    //受け取った引数すべてを加算
+  }
+  return result;
+};
+
+constresult = calcFunc(10,20,30);    //結果60</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>015</b>条件に応じて処理を分ける（if文）</h2>
+<pre><code>if (条件1) {処理1}    //条件1を満たせば処理1を行う
+else if (条件2) {処理2}    //条件1を満たさず、条件2を満たせば処理2を行う
+else {処理3}    //条件1も条件2も満たさなければ、処理3を行う
+</code></pre>
+<h3>alert出し分けの例</h3>
+<pre><code>const num = 100;
+
+if(num >= 50) {
+  alert('50以上です');    //満たすので実行
+} else if (num >= 10) {
+  alert('10以上50未満です');
+} else {
+  alert('10未満です');
+}
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>016</b>条件に応じて処理を分ける（switch文）</h2>
+<pre><code>switch(判定式)    //判定式に応じて処理を分ける
+case 値: 処理    //条件を満たせば、実行
+default: 処理    //どの条件も満たさない場合、実行（省略可）
+break    //処理の終了を明示
+</code></pre>
+<h3>alert出し分けの例</h3>
+<pre><code>const myFruits = 'りんご';
+
+switch(myFruits) {
+  case 'りんご':
+    alert('りんごです');    //満たすので実行
+    break;    //記載しないと次の処理に進んでしまう
+  case 'みかん':
+    alert('みかんです');
+    break;
+  default:
+    alert('その他です');
+    break;
+}
+</code></pre>
+<h3>switchの式は厳密な等価(===)</h3>
+<pre><code>const num = '100';
+
+switch(num) {
+  case 100:
+    alert('true');    //文字列の100ではないので実行されない
+    break;
+  default:
+    alert('false');    //実行される
+    break;
+}
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>017</b>処理を繰り返す（for文）</h2>
+<pre><code>for(初期化処理; 反復の条件; 反復終了の処理) {反復処理}</code></pre>
+<h4>SAMPLE #017<b>数字を順番に出力する</b></h4>
+<pre><code>for (let i = 0; i < 10; i++) {
+	console.log(i);
+}</code></pre>
+<p class="btn" onclick="sec017()">SAMPLE #017</p>
+<ul>
+	<li>1.「初期化処理」が実行、iに0が代入</li>
+	<li>2.「反復の条件」であるi < 10を満たし、console.log(i);が実行（0の出力）</li>
+	<li>3.「反復の終わり」でi++が実行、iが1になる</li>
+	<li>4.「反復の条件」であるi < 10を満たし、console.log(i);が実行（1の出力）</li>
+	<li>5.「反復の終わり」でi++が実行、iが2になる</li>
+	<li>6.（・・・繰り返し・・・）</li>
+	<li>7.「反復の終わり」でi++が実行、iが10になる</li>
+	<li>8.「反復の条件」iが10未満を満たさないので、処理が終了</li>
+</ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>018</b>処理を繰り返す（while文）</h2>
+<pre><code>while(反復の条件) {反復処理}</code></pre>
+<ul>
+	<li>whileは、条件を満たす限り処理を繰り返す</li>
+	<li>forと違い、反復条件しか記載しない</li>
+</ul>
+<h4>SAMPLE #018<b>数字を順番に出力する</b></h4>
+<pre><code>let num = 0;
+
+while(num < 10) {
+  console.log(num);
+  num += 1;
+}
+</code></pre>
+<p class="btn" onclick="sec018()">SAMPLE #018</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>019</b>反復処理をスキップ（continue）</h2>
+<ul>
+	<li>反復処理を抜けたい場合、continueを使うと以降の処理がスキップされ、次のループに移行する。</li>
+</ul>
+<h4>SAMPLE #019<b>処理スキップの例</b></h4>
+<pre><code>for (let i = 0; i < 10; i++) {
+  if (i % 2 === 0) {    //iが偶数の場合スキップ
+    continue;
+  }
+  console.log(i);    //奇数の場合、実行
+}</code></pre>
+<p class="btn" onclick="sec019()">SAMPLE #019</p>
+</section><!-- section -->
+</body>
+</html>

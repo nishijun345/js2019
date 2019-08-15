@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_03】複数データの取り扱い</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter3】複数データの取り扱い【45〜73】</h1>
+<section>
+<h2><b>045</b>配列を定義する</h2>
+<pre><code>[]    //配列を定義
+配列[インデックス]    //配列内の値を取得
+</code></pre>
+<ul>
+	<li>配列に格納するデータの型は問わない</li>
+	<li>配列内に配列・オブジェクトの格納も可能</li>
+	<li>new Array()を用いても、配列を定義できる</li>
+</ul>
+<pre><code>const array1 = [];    //空の配列
+const array2 = [1, 'サカナ', false];    //「1」「サカナ」「false」をまとめたデータ型
+const array3 = [[1, 2, 3], [7, 8, 9]];    //配列内に配列を格納
+const array4 = [{name: 'nakata'}, {name: 'koshijima'}];    //配列内にオブジェクトを格納
+
+//console.logの出力
+console.log(array2);    //(3) [1, 'サカナ', false] （3は値の数）
+console.log(array2[1]);    //'サカナ'
+
+//new Arrayの場合
+const array5 = new Array('りんご', 'みかん');
+const array6 = new Array(10);    //10個の値を格納できる配列
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>046</b>配列の長さを取得する</h2>
+<pre><code>配列.length    //配列の長さを取得する
+
+const array = [1, 'サカナ', false];
+console.log(array.length);    //3
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>047</b>配列の各要素に対して処理を行う（1）</h2>
+<pre><code>配列.forEach(コールバック関数)    //配列の各要素についてコールバックを行う
+([要素], [インデックス], [元配列]) => {}    //要素、インデックス、元配列を用いて処理
+</code></pre>
+<ul>
+	<li>forEach()は、引数に渡したコールバック関数を用いて要素を順に処理する</li>
+	<li>コールバック関数は、処理している要素、インデックス、元の配列を取得する</li>
+	<li>インデックス、元の配列は省略可</li>
+</ul>
+<pre><code>const array = ['いちご', 'みかん', 'りんご'];
+
+array.forEach((value, index) => {
+	//インデックスと値を順に出力
+	console.log(index, value);    //0 'いちご', 1 'みかん', 2 'りんご'が順に出力
+});
+</code></pre>
+<ul>
+	<li>forやfor ofと異なり、map()【⇒61】やfilter()【⇒62】による処理結果をそのままループできる</li>
+</ul>
+<pre><code>const array = [1, 2, 3, 4, 5, 6];
+
+//filter()で偶数の配列を生成、forEachでループ処理
+array.filter((value) => value % 2 === 0).forEach((value) => {
+  console.log(value);    //2, 4, 6が出力される
+});
+</code></pre>
+<h4>SAMPLE #047<b>データの配列をループ処理して要素を出力する</b></h4>
+<pre><code>const memberList = [
+  {name: '岩寺', part: 'gt'},
+  {name: '草刈', part: 'ba'},
+  {name: '江島', part: 'dr'},
+  {name: '岡崎', part: 'key'}
+  {name: '山口', part: 'vo'},
+];
+
+const resultArea = document.querySelector('.result047');
+memberList.forEach((memberData) => {
+  resultArea.innerHTML += `&lt;p&gt;${userData.name} ${userData.part}&lt;/p&gt;`;
+});</code></pre>
+<p class="btn" onclick="sec047()">SAMPLE #047</p>
+<div class="result047"></div>
+</section><!-- section -->
+
+
+<section>
+<h2><b>048</b>配列の各要素に対して処理を行う（2）</h2>
+<pre><code>for (const 要素 of 配列) {}    //for...ofでループ</code></pre>
+<ul>
+	<li>配列の「値」が1つずつ変数へ代入されていく</li>
+	<li>要素のインデックスが不要なときに使う</li>
+	<li>通常のオブジェクトには利用できない（イテレータを持たない）【⇒273】</li>
+	<li>配列はイテレータを持つ</li>
+	<li>イテレーターとは、値を順番に取り出す仕組みを備えたオブジェクト（これを利用することでfor-ofは動作している）</li>
+</ul>
+<pre><code>const array = ['いちご', 'みかん', 'りんご'];
+
+//配列の各要素についてループ
+for (const value of array) {
+  console.log(value);    //いちご、みかん、りんごが順に出力
+}
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>049</b>配列の各要素に対して処理を行う（3）</h2>
+<pre><code>for (let i = 0; i < 配列の長さ; i++) {}    //forでループ</code></pre>
+<ul>
+	<li>要素のインデックスが必要なときに使う</li>
+</ul>
+<pre><code>const array = ['いちご', 'みかん', 'りんご'];
+
+//配列の長さを取得
+const arrayLength = array.length;
+
+//配列の各値について処理
+for (let i = 0; i < arrayLength; i++) {
+  console.log(array[i]);    //いちご、みかん、りんごが順に出力
+}
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h3>for文の違いなど参考</h3>
+<ul>
+	<li>「for」決められた回数だけ処理を繰り返す場合に使う</li>
+	<li>「for-in」オブジェクトの中身を取得する場合によく使う</li>
+	<li>「for-of」配列の中身を取得する場合によく使う（ES2015から）</li>
+	<li>「forEach」配列の繰り返し処理にのみ使える構文</li>
+</ul>
+<a href="https://www.sejuku.net/blog/20777" target="_blank">参考</a>
+</section><!-- section -->
+
+
+<section>
+<h2><b>050</b>配列に要素を追加する</h2>
+<pre><code>配列.unshift(要素1, 要素2,...)    //先頭に要素を追加
+配列.push(要素1, 要素2,...)    //末尾に要素を追加
+</code></pre>
+<ul>
+	<li>unshift()、push()は、一度初期化した配列に後から要素を追加できる</li>
+	<li>追加要素は何個でもいい</li>
+	<li>戻り値は、追加後の要素数が返る</li>
+</ul>
+<h4>SAMPLE #050<b>魚の配列に要素を追加</b></h4>
+<pre><code>const fishArray = ['マグロ', 'カツオ', 'タイ'];
+const unshiftTxt = document.getElementById("unshift050").value;
+const pushTxt = document.getElementById("push050").value;
+if (unshiftTxt) {
+  fishArray.unshift(unshiftTxt);
+}
+if (pushTxt) {
+  fishArray.push(pushTxt);
+}
+alert(fishArray);</code></pre>
+<form action="">
+	<input type="text" placeholder="先頭に追加する魚" id="unshift050">
+	<input type="text" placeholder="末尾に追加する魚" id="push050">
+</form>
+<p class="btn" onclick="sec050()">SAMPLE #050</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>051</b>配列の要素を削除する</h2>
+<pre><code>配列.shift()    //先頭の要素を取り除く
+配列.pop()    //末尾の要素を取り除く
+</code></pre>
+<ul>
+	<li>戻り値は、取り除いた要素が返る</li>
+	<li>削除可能な要素がない場合、undefinedが返る</li>
+</ul>
+<pre><code>const array = ['いちご', 'みかん', 'りんご'];
+console.log(array.shift());    //取り除かれた要素　いちご
+console.log(array);    //削除後の配列　(2)['みかん', 'りんご']
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>052</b>配列内の要素の一部を置き換える</h2>
+<pre><code>配列.splice(追加位置, 取り除く数, 要素1, 要素2,...)    //指定位置から要素を取り出しつつ、要素を追加する</code></pre>
+<ul>
+	<li>splice()は、位置を指定して要素を追加する場合に用いる</li>
+	<li>戻り値は配列</li>
+</ul>
+<pre><code>const array1 = ['いちご', 'みかん'];
+array1.splice(1, 0, 'バナナ');    //インデックス1の位置で、0個取り除きつつ、バナナを追加する
+console.log(array1);    //['いちご', 'バナナ', 'みかん']
+
+const array2 = ['メロン', 'すいか'];
+array2.splice(1, 1, 'もも', 'ぶどう');    //インデックス1の位置で、1個取り除きつつ、ももとぶどうを追加する
+console.log(array2); //['メロン', 'もも', 'ぶどう']
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>053</b>配列を連結する</h2>
+<pre><code>配列1.concat(配列2, 配列3)    //concat()で配列1に配列2、配列3を結合
+[...配列1, ...配列2, ...配列3]    //スプレッド演算子で配列1に配列2、配列3を結合
+</code></pre>
+<ul>
+	<li>concat()、スプレッド演算子で配列を結合できる</li>
+	<li>結合する配列の数は何個でもいい</li>
+</ul>
+<pre><code>const array1 = [1, 2];
+const array2 = [10];
+
+const array3 = array1.concat(array2);
+console.log(array3);    //1, 2, 10
+
+//スプレッド演算子[...配列]のように指定し、配列の要素をすべて展開する性質を利用
+const array4 = [...array1, ...array2];
+console.log(array4);    //1, 2, 10（array3と結果は同じ）
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>054</b>配列の要素を結合して文字列にする</h2>
+<pre><code>配列.join([結合文字列])</code></pre>
+<ul>
+	<li>join()は、配列の要素を結合し、文字列として出力できる</li>
+	<li>要素と要素の間に挿入する文字列を指定できる（省略した場合「,」コンマで結合）</li>
+</ul>
+<pre><code>const array = ['a', 'b', 'c']
+console.log(array.join());    //"a,b,c"
+console.log(array.join(''));    //"abc"（空文字で連結）
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>055</b>配列の要素を検索する</h2>
+<pre><code>配列.indexOf(検索したい要素, [検索開始位置])    //要素のインデックスを調べる
+配列.lastIndexOf(検索したい要素, [検索開始位置]) //要素の末尾からのインデックスを調べる
+配列.includes(検索したい要素, [検索開始位置]) //要素が含まれているかを調べる
+</code></pre>
+<ul>
+	<li>検索開始位置は省略可</li>
+	<li>includes()の戻り値は真偽値</li>
+</ul>
+<pre><code>['a', 'b', 'c'].indexOf('c');    //2
+['a', 'b', 'c'].includes('f');    //false
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>056</b>配列から条件を満たす要素を取得する</h2>
+<pre><code>配列.find(コールバック関数)    //コールバック関数に合格する最初の要素（戻り値：要素）
+配列.findIndex(コールバック関数)    //コールバック関数に合格する最初の要素のインデックス（戻り値：数値）
+
+//コールバック関数
+([要素], [インデックス], [元配列]) => 真偽値    //要素を受け取って、真偽値を返す（要素、インデックス、元配列は省略可）
+</code></pre>
+<ul>
+	<li>find()は、配列で条件を満たす最初の要素を取得する</li>
+</ul>
+<pre><code>const array = ['メロン', 'もも', 'ぶどう'];
+
+const target = array.find((element) => element === 'もも');
+console.log(target);    //もも
+
+const targetIndex = array.findIndex((element) => element === 'もも');
+console.log(targetIndex); //1
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>057</b>配列の並びを逆順にする</h2>
+<pre><code>配列.reverse()    //配列の並び順を反転（戻り値：配列）
+
+const array = [1, 2, 5];
+array.reverse();    //[5, 2, 1]
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>058</b>配列をソートする</h2>
+<pre><code>配列.sort([比較関数])</code></pre>
+<ul>
+	<li>sort()は、配列を比較関数にしたがってソートする</li>
+	<li>比較関数は数値の大小によって順番を決める</li>
+	<li>0未満…a,bの順にソート</li>
+	<li>0…a,bの順のまま</li>
+	<li>0より大…b,aの順にソート</li>
+	<li>比較関数を省略した場合、文字列としてユニコード（文字コード）の順番にソートされる</li>
+</ul>
+<pre><code>const array = [9, 5, 3, 2, 8, 5];
+
+array.sort((a, b) => {
+if (a < b) {
+	return -1;    //a,bの順
+}
+if (a === b) {
+	return 0;    //そのまま
+}
+if (a > b) {
+	return 1;    //b,aの順
+}
+});
+
+console.log(array);    //[2, 3, 5, 5, 8, 9]
+</code></pre>
+<h3>数字の場合簡略化できる</h3>
+<pre><code>const array = [9, 5, 3, 2, 8, 5];
+
+array.sort((a, b) => {
+  return a - b;
+});
+
+console.log(array); //[2, 3, 5, 5, 8, 9]
+
+array.sort((a, b) => {
+  return b - a;    //逆順の場合
+});
+console.log(array); //[9, 8, 5, 5, 3, 2]
+</code></pre>
+<ul>
+	<li>a-bと計算して、その答えをそのままreturnしている</li>
+	<li>計算結果そのものが正の数、負の数、ゼロとなっているため比較関数のロジックとして成り立つ</li>
+</ul>
+<a href="https://goma.pw/article/2015-11-18-0/" target="_blank">参考</a>
+</section><!-- section -->
+
+
+<section>
+<h2><b>059</b>オブジェクトを含む配列をソートする</h2>
+<h4>SAMPLE #059<b>ID・ユーザー名がペアの配列をソート</b></h4>
+<pre><code>const userDataList = [
+  {id: 2, name: 'あか'},
+  {id: 20, name: 'みどり'}
+  //省略
+];
+
+//表示を更新
+function updateList() {
+  let listHtml = '';
+  for (const data of userDataList) {
+    listHtml += `&lt;li&gt;${data.id} : ${data.name}&lt;/li&gt;`;
+  }
+  document.querySelector('.userList').innerHTML = listHtml;
+}
+updateList();
+
+//昇順にソート
+function sortByAscending() {
+  userDataList.sort((a, b) => {
+    return a.id - b.id;
+  });
+  updateList();
+}
+
+document.querySelector('.ascending').addEventListener('click', (event) => {
+  sortByAscending();
+});
+
+//降順省略</code></pre>
+<div class="btnWrap">
+	<button class="ascending">昇順</button>
+	<button class="descending">降順</button>
+</div>
+<ul class="userList"></ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>060</b>文字列の順番で配列をソートする</h2>
+<pre><code>文字列1.localCompare(文字列2)</code></pre>
+<ul>
+	<li>localeCompare()で文字列の順番を比較する（戻り値：数値）</li>
+	<li>文字コードだけでソートする場合、アルファベットの大文字が優先される</li>
+	<li>localeCompare()を使うと、大文字小文字が無視される</li>
+</ul>
+<h3>比較関数なしのソートとの比較</h3>
+<pre><code>const array = ['grape', 'Orange', 'apple'];
+
+//比較関数なし
+result1 = array.sort();
+console.log(result1); 　　　//(3) ["Orange", "apple", "grape"]
+
+//比較関数にlocaleCompareを利用
+result2 = array.sort((a, b) => a.localeCompare(b));
+console.log(result2); 　　　//(3) ["apple", "grape", "Orange"]
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>061</b>ある配列から別の配列をつくる</h2>
+<pre><code>配列.map(コールバック関数)    //コールバック関数によって新しい配列を生成
+
+//コールバック関数
+([要素], [インデックス], [元配列]) => 変更後の要素    //要素を受け取って変更後の要素を返す（要素、インデックス、元配列は省略可）
+</code></pre>
+<ul>
+	<li>map()は配列の要素一つずつに対して処理するため、配列のループ処理にも役立つ</li>
+	<li>forEach()は戻り値がなく実行するだけ、map()は実行後の結果を配列として返す</li>
+</ul>
+<pre><code>const idList = [4, 10, 20];
+
+//コールバックに要素
+const userIdList1 = idList.map((value) => `id_${value}`);
+console.log(userIdList1);    //["id_4", "id_10", "id_20"]
+
+//コールバックに要素とインデックス
+const userIdList2 = idList.map((value, index) => `id_${index + 1}_${value}`);
+console.log(userIdList2); //["id_1_4", "id_2_10", "id_3_20"]
+</code></pre>
+<h3>オブジェクトの配列からIDだけの配列を作成</h3>
+<pre><code>const userList = [
+{id: 10, name: '山口'},
+{id: 22, name: '山田'},
+{id: 40, name: '山中'}
+];
+
+//idを配列にして返す
+const idList = userList.map((value) => value.id);
+
+console.log(idList);    //[10, 22, 40]
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>062</b>ある配列から条件を満たす別の配列をつくる</h2>
+<pre><code>配列.filter(コールバック関数)    //コールバック関数に合格した配列を生成
+
+//コールバック関数
+([要素], [インデックス], [元配列]) => 真偽値    //要素を受け取って、真偽値を返す（要素、インデックス、元配列は省略可）
+</code></pre>
+<h3>30以上の要素だけの配列を生成</h3>
+<pre><code>const array = [10, 20, 30, 40];
+
+const newArray = array.filter((value) => value >= 30);
+console.log(newArray);    //[30, 40]
+</code></pre>
+<h4>SAMPLE #062<b>年代別に表示するサンプル</b></h4>
+<pre><code>const userList = [
+  { age: 12, name: 'あか' },
+  { age: 20, name: 'みどり' }
+  //省略
+];
+
+document.querySelectorAll('.btn062').forEach((element) => {
+  element.addEventListener('click', (event) => {
+    onClickButton(event);
+  })
+});
+
+function onClickButton(event) {
+  //クリックされたボタン
+  const button = event.target;
+  //data-ageを取得
+  const targetAge = button.dataset.age;
+  //targetAge以上のユーザー配列を生成
+  const filterdList = userList.filter((data) => data.age >=   targetAge);
+  //配列を出力
+  updateList(filterdList);
+}
+
+function updateList(filterdList) {
+  listHtml = '';
+  for (const data of filterdList) {
+    listHtml += `&lt;li&gt;${data.name} : ${data.age}歳&lt;/li&gt;`;
+  }
+  document.querySelector('.userList062').innerHTML = listHtml;
+}</code></pre>
+<div class="btnWrap">
+	<button class="btn062" data-age="20">20歳以上</button>
+	<button class="btn062" data-age="30">30歳以上</button>
+	<button class="btn062" data-age="40">40歳以上</button>
+</div>
+<ul class="userList062"></ul>
+</section><!-- section -->
+
+
+<section>
+<h2><b>063</b>各要素から単一の値をつくる</h2>
+<pre><code>配列.reduce(コールバック関数, [初期値])    //各要素を左から右に処理して、単一の値を生成
+配列.reduceRight(コールバック関数, [初期値])    //各要素を右から左に処理して、単一の値を生成
+
+//コールバック関数
+((前の要素, 現在の要素, インデックス, 元の配列) => {処理})
+</code></pre>
+<h3>forとの比較</h3>
+<pre><code>const priceList = [100, 500, 900];
+
+//reduceの場合
+const sum1 = priceList.reduce((previous, current) => {
+  return previous + current;
+};)
+console.log(sum1);    //1500
+
+//forの場合
+let sum2 = 0;
+for (const price of priceList) {
+  sum2 += price;
+}
+console.log(sum2);    //1500
+</code></pre>
+<h3>2次元配列を1次元配列にする（フラット化）</h3>
+<pre><code>const array = [[100, 200, 300], [600, 900]];
+
+const flattenedArray = array.reduce((previous, current) => {
+  return previous.concat(current);
+});
+
+console.log(flattenedArray);    //[100, 200, 300, 600, 900]
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>064</b>配列に似たオブジェクトを配列に変換する</h2>
+<pre><code>[...変換対象]    //配列に変換</code></pre>
+<ul>
+	<li>スプレッド演算子を使うと、配列のようなオブジェクト「ArrayLikeオブジェクト（下記のようなもの）」を配列に変換できる</li>
+	<li>lengthプロパティで長さを取得できる</li>
+	<li>インデックス付けされた要素を持つ</li>
+</ul>
+<h3>NodeListOfの例</h3>
+<ul>
+	<li>document.querySelectorAll()は、戻り値はNodeListOfというオブジェクト</li>
+	<li>lengthとインデックス付けされた要素を持つため、NodeListOfオブジェクトはArrayLikeオブジェクト</li>
+	<li>NodeListは配列そのものではないため、filter()等の配列用メソッドは使えない</li>
+</ul>
+<pre><code>//div要素をすべて取得
+const allDivElementList = document.querySelectorAll('div');
+
+//&lt;div class="on"&gt;を探すためにfilterを使う
+
+allDivElementList.filter((element) => element.classList.contains('on'));
+//NodeListではfilter()が使えないのでエラー
+
+//スプレッド演算子で配列に変換
+const elementsArray = [...allDivElementList];
+elementsArray.filter((element) => element.classList.contains('on'));
+</code></pre>
+<h3>文字列もArrayLikeなオブジェクト</h3>
+<pre><code>const myString = 'こんにちは';
+console.log([...myString]);    //["こ", "ん", "に", "ち", "は"]
+</code></pre>
+<h3>Array.from()</h3>
+<pre><code>Array.from(変換対象, [コールバック関数])
+
+//コールバック関数
+([要素], [インデックス], [元配列]) => {}
+</code></pre>
+<ul>
+	<li>Array.from()でも、スプレッド演算子と同じように変換可能</li>
+	<li>コールバック関数を指定すると、map()のように新しい配列を作成できる</li>
+</ul>
+<pre><code>const myString = 'こんにちは';
+console.log(Array.from(myString));    //["こ", "ん", "に", "ち", "は"]
+
+//文字列の一つずつに！を追加
+const newArray = Array.from(myString, (character) => `${character}！`);
+console.log(newArray);    //["こ！", "ん！", "に！", "ち！", "は！"]
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>065</b>配列に複数の値をまとめて代入する（分割代入）</h2>
+<pre><code>[変数1, 変数2, 変数3] = [値1, 値2, 値3]    //各変数に値を代入</code></pre>
+<pre><code>let a, b, c;
+[a, b, c] = [1, 2, 3];
+console.log(a, b, c);    //1, 2, 3
+</code></pre>
+<h3>配列内の値を入れ替える例</h3>
+<pre><code>const array = ['りんご', 'みかん'];
+
+[array[0], array[1]] = [array[1], array[0]];
+console.log(array);    //['みかん', 'りんご']
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>066</b>配列をシャッフルする</h2>
+<ul>
+	<li>配列を偏りなく高速にシャッフルするには、Fisher Yatesのアルゴリズムを使う</li>
+</ul>
+<h4>SAMPLE #066<b>配列をシャッフル</b></h4>
+<pre><code>const numArray = [1, 2, 3, 4, 5, 6];
+const shuffled = shuffleArray(numArray);
+alert(shuffled);
+
+//シャッフルする関数を定義
+function shuffleArray(sourceArr) {
+  //元の配列の複製
+  const array = sourceArr.concat();
+  //Fisher Yatesのアルゴリズム
+  const arrayLength = array.length;
+  for (let i = arrayLength - 1; i >= 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [array[i], array[randomIndex]] = [array[randomIndex], array  [i]];
+  }
+  return array;
+}</code></pre>
+<p class="btn" onclick="sec066()">SAMPLE #066</p>
+</section><!-- section -->
+
+
+<section>
+<h2><b>067</b>オブジェクト型を使う</h2>
+<pre><code>{キー: 値, キー: 値};
+</code></pre>
+<ul>
+	<li>複数のプロパティを持つことができる</li>
+	<li>プロパティはキーと値の組み合わせからなる</li>
+	<li>値のデータ型に制限はない（配列、オブジェクト、関数なども格納できる）</li>
+</ul>
+<pre><code>const object = {
+  id: 1,    //数値
+  name: '山口',    //文字列
+  list: [1, 2, 3],    //配列
+  subObject: { id: 1, name: '鈴木' },    //オブジェクト
+  method: () => { console.log('メソッドを実行'); }    //関数
+};
+console.log(object);    //{id: 1, name: "山口", list: Array(3), subObject: {...}, method: f}</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>068</b>オブジェクトの定義、値の取得、値の更新をする</h2>
+<pre><code>{}    //オブジェクトを初期化
+{キー: 値, キー: 値}    //オブジェクトを初期化
+オブジェクト[キー]    //値を取得する
+オブジェクト.キー    //値を取得する
+オブジェクト[キー] = 値    //値を更新する
+オブジェクト.キー = 値    //値を更新する
+</code></pre>
+<ul>
+	<li>存在しないプロパティを取得するとundefinedとなる</li>
+	<li>多階層の場合でも取得、更新できる</li>
+</ul>
+<h3>undefinedの例</h3>
+<pre><code>const person = {
+	name: '山口',
+	age: 22
+};
+
+//値の取得
+console.log(person.name);    //"山口"
+
+//値の更新
+person.age = 23;
+console.log(person.age);    //23
+
+//undefined
+console.log(address);    //undefined
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+<section>
+<h2><b>0</b></h2>
+<h4>SAMPLE #0<b></b></h4>
+</section><!-- section -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section>
+<h2><b>020</b>真偽値を取り扱う</h2>
+<ul>
+	<li>Boolean型（真偽値型）はtrue（真）かfalse（偽）を表す</li>
+	<li>数値型（0以外）、文字列型（''以外）、配列型、オブジェクト型などをif文の条件式にした場合、trueになる</li>
+</ul>
+<h3>文字列型でtrueになる例</h3>
+<pre><code>const userName = '中田';
+if(userName) {
+alert(userName);    //''以外なのでtrue
+}
+
+const address = '';
+if(address) {
+alert(address); //''なのでfalse
+}
+</code></pre>
+<ul>
+	<li>真偽値に!を付与で真偽値が反転する（論理否定演算子）</li>
+	<li>また、真偽値以外の型は真偽値に変換される</li>
+</ul>
+<h3>論理否定演算子</h3>
+<pre><code>const flg = 2 > 0;    //2は0以上（true）
+alert(!flg);    //trueが反転しfalseになる
+</code></pre>
+<h4>SAMPLE #020<b>真偽値以外の型での論理否定演算子</b></h4>
+<pre><code>const num = 1;
+alert(`num = 1の反転は${!num}`);    //0以外の数値型（true）が反転しfalseになる
+
+const name = '';
+alert(`name = \'\'の反転は'${!name}`);//''以外の文字列型（false）が反転しtrueになる</code></pre>
+<p class="btn" onclick="sec020()">SAMPLE #020</p>
+<ul>
+	<li>!を2回付与でデータをBoolean型に変換</li>
+</ul>
+<pre><code>console.log(!!'中田');    //true
+console.log(!!0);    //false
+</code></pre>
+</section><!-- section -->
+
+
+
+
+	<script src="../js/03.js"></script>
+</body>
+
+</html>
