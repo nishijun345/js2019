@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_04】データについて深く知る</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter4】データについて深く知る【74〜81】</h1>
+<section>
+<h2><b>074</b>データの型について知る</h2>
+<ul>
+	<li>JavaScriptで取扱う数値、文字列、真偽値、オブジェクトなどの値はすべて「型」（データ型）という区切りで分けられる</li>
+	<li>その違いは「データそのもの」か「データを参照するデータ」</li>
+</ul>
+<h3>プリミティブ型（基本型）は「データそのもの」（6種類）</h3>
+<pre><code>//真偽値の型
+Boolean    例）true、false
+
+//文字列の型
+String    例）'りんご'、'山口'
+
+//数値の型
+Number    例）1、30
+
+//値が未定であることを示す型
+Undefined    例）undefined
+
+//値が存在しないことを示す型
+Null    例）null
+
+//シンボルの型
+Symbol    例）Symbol()
+</code></pre>
+<h3>オブジェクト型（複合型）は「データを参照するデータ」（プリミティブ型以外のすべてのデータ）</h3>
+<pre><code>//100を参照するデータ
+const num = 100;
+
+//キーageでデータ18を、キーnameでデータ'山口'を参照するデータ
+const obj = {age: 18, name: '山口'};
+
+//2つのオブジェクトを参照するデータ（各オブジェクトはさらに数値や文字列データを参照している）
+const arr = [
+  {age: 18, name: '山口'},
+  {age: 28, name: '山田'}
+];
+</code></pre>
+</section><!-- section -->
+
+
+<section>
+<h2><b>075</b>イミュータブル（不変性）とミュータブル（可変性）について知る</h2>
+<ul>
+	<li>プリミティブ型とオブジェクト型の違いは、データが書き換わるか否かの違いともいえる</li>
+</ul>
+<h3>オブジェクト型はミュータブル（可変）</h3>
+<pre><code>const array = [1, 2, 3];
+array[0] = 100;
+console.log(array);    //[100, 2, 3]（配列データは変わる）
+</code></pre>
+<h3>プリミティブ型はイミュータブル（不変）</h3>
+<pre><code>let num = 10;    //10というデータはこれ以上変更できない
+num = 20;    //numに20を格納しても、10と20は別のデータ
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>076</b>データの型を調べる</h2>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>077</b></h2>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>078</b></h2>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>079</b></h2>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>080</b></h2>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>081</b></h2>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+
+	<script src="../js/04.js"></script>
+</body>
+
+</html>
