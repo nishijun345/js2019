@@ -137,3 +137,20 @@ section > pre code {
 	padding: 15px;
 	display: inline-block;
 }
+section > table {
+	border: solid 1px #fff;
+}
+section > table th {
+	font-style: italic;
+}
+section > table th,
+section > table td {
+	padding: 10px 20px;
+}
+section > table th + th,
+section > table td + td {
+	border-left: solid 1px #fff;
+}
+section > table tr + tr {
+	border-top: solid 1px #fff;
+}
