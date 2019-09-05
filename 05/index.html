@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_05】日付や時間の取り扱い</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter5】日付や時間の取り扱い【82〜93】</h1>
+<section>
+<h2><b>082</b>西暦を取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>getFullYear()</td>
+		<td>西暦を取得</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>DateオブジェクトのgetFullYear()を利用する</li>
+	<li>new　Date()でインスタンス化した時点での年を取得</li>
+</ul>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code>const date = new Date();
+const year = date.getFullYear();
+
+alert(`今年は西暦${year}年です`);</code></pre>
+<p class="btn" onclick="sec082()">SAMPLE #082</p>
+</section><!-- section -->
+
+<section>
+<h2><b>083</b>日付を取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>getMonth()</td>
+		<td>月を取得する</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>getDate()</td>
+		<td>日を取得する</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>getMonth()は0を起点とした数値のため1を加算して使う</li>
+</ul>
+<h4>SAMPLE #083<b>月と日の取得</b></h4>
+<pre><code>const date = new Date();
+const month = date.getMonth() + 1;
+const day = date.getDate();
+
+alert(`今日は${month}月${day}日です`);</code></pre>
+<p class="btn" onclick="sec083()">SAMPLE #083</p>
+</section><!-- section -->
+
+<section>
+<h2><b>084</b>時刻の取得</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>getHours()</td>
+		<td>時間を取得</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>getMinutes()</td>
+		<td>分数を取得</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>getSeconds()</td>
+		<td>秒数を取得</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>getMilliseconds()</td>
+		<td>ミリ秒数（1000分の1秒）を取得</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>getHours()は0〜23の整数を返す（24時の場合0が返る）</li>
+	<li>getMinutes(), getSeconds()は0〜59の整数を返す</li>
+</ul>
+<h4>SAMPLE #084<b>時刻の取得</b></h4>
+<pre><code>const date = new Date();
+const hour = date.getHours();
+const minutes = date.getMinutes();
+const seconds = date.getSeconds();
+
+//午前午後の分岐
+let meridiem;
+let hour2;
+if (hour < 12) {
+	meridiem='午前';
+	hour2=hour;
+} else {
+	meridiem='午後';
+	hour2 = hour - 12;
+}
+
+alert(`${meridiem}${hour2}時${minutes}分${seconds}秒です`);</code></pre>
+<p class="btn" onclick="sec084()">SAMPLE #084</p>
+</section><!-- section -->
+
+<section>
+<h2><b>085</b>曜日の取得</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>getDay()</td>
+		<td>曜日を取得</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>getDay()は0〜6の整数を返す（日曜から0）</li>
+</ul>
+<h4>SAMPLE #085<b>曜日の取得</b></h4>
+<pre><code>const date = new Date();
+const day = date.getDay();
+const dayList = ['日', '月', '火', '水', '木', '金', '土'];
+
+alert(`今日は${dayList[day]}曜日です`);</code></pre>
+<p class="btn" onclick="sec085()">SAMPLE #085</p>
+</section><!-- section -->
+
+<section>
+<h2><b>086</b>日本式表記の時刻の取得</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>toLocaleString()</td>
+		<td>日付時刻の文字列を取得</td>
+		<td>文字列</td>
+	</tr>
+	<tr>
+		<td>toLocaleDateString()</td>
+		<td>日付の文字列を取得</td>
+		<td>文字列</td>
+	</tr>
+	<tr>
+		<td>toLocaleTimeString()</td>
+		<td>時刻の文字列を取得</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>toLocaleString()を使うと利用者の言語環境にあわせた日付時刻情報が得られる</li>
+</ul>
+<h4>SAMPLE #086<b>toLocaleString()の例</b></h4>
+<pre><code>const date = new Date();
+const locale = date.toLocaleString();
+const localeDate = date.toLocaleDateString();
+const localeTime = date.toLocaleTimeString();
+
+alert(`【toLocaleString()】
+${locale}
+【toLocaleDateString()】
+${localeDate}
+【toLocaleTimeString()】
+${localeTime}`);</code></pre>
+<p class="btn" onclick="sec086()">SAMPLE #086</p>
+</section><!-- section -->
+
+<section>
+<h2><b>087</b>日付文字列からタイムスタンプ値を取得</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>Date.parse()</td>
+		<td>日付文字列からタイムスタンプ値を取得</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>Date.now()</td>
+		<td>現在時刻のタイムスタンプ値を取得</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>タイムスタンプとは協定世界時での1970年1月1日0時0分0秒から現在までの経過時間（単位はミリ秒）</li>
+</ul>
+<pre><code>const num = Date.parse('2018/06/20');
+console.log(num);    //1529420400000</code></pre>
+<h4>SAMPLE #087<b>Date.now()</b></h4>
+<pre><code>const num = Date.now();
+alert(num);</code></pre>
+<p class="btn" onclick="sec087()">SAMPLE #087</p>
+</section><!-- section -->
+
+<section>
+<h2><b>088</b>Dateインスタンスに別の日時を設定</h2>
+<h3>コンストラクターで設定</h3>
+<pre><code></code></pre>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #083<b>月と日の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec083()">SAMPLE #083</p>
+</section><!-- section -->
+
+<section>
+<h2><b>089</b></h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>()</td>
+		<td></td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #083<b>月と日の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec083()">SAMPLE #083</p>
+</section><!-- section -->
+
+<section>
+<h2><b>090</b></h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>()</td>
+		<td></td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #083<b>月と日の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec083()">SAMPLE #083</p>
+</section><!-- section -->
+
+<section>
+<h2><b>08</b></h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>()</td>
+		<td></td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #083<b>月と日の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec083()">SAMPLE #083</p>
+</section><!-- section -->
+
+<section>
+<h2><b>08</b></h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>()</td>
+		<td></td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #083<b>月と日の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec083()">SAMPLE #083</p>
+</section><!-- section -->
+
+<section>
+<h2><b>08</b></h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>()</td>
+		<td></td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #083<b>月と日の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec083()">SAMPLE #083</p>
+</section><!-- section -->
+
+
+	<script src="../js/05.js"></script>
+</body>
+
+</html>

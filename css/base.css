@@ -142,8 +142,8 @@ section > table {
 }
 section > table th {
 	font-style: italic;
+	padding: 2px 20px;
 }
-section > table th,
 section > table td {
 	padding: 10px 20px;
 }
