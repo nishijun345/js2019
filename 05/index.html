@@ -226,18 +226,32 @@ alert(num);</code></pre>
 
 <section>
 <h2><b>088</b>Dateインスタンスに別の日時を設定</h2>
+<ul>
+	<li>Dateインスタンスに日時を設定できる</li>
+	<li>任意の日時を設定しておくことで、日時に関するデータ加工に対応できる</li>
+</ul>
 <h3>コンストラクターで設定</h3>
-<pre><code></code></pre>
 <ul>
-	<li></li>
+	<li>コンストラクターに引数を指定</li>
+	<li>文字列・数値・タイムスタンプで指定できる</li>
 </ul>
-<h4>SAMPLE #083<b>月と日の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec083()">SAMPLE #083</p>
-</section><!-- section -->
+<pre><code>//文字列で指定
+const date1 = new Date('2018/06/12 20:01:10');
+const date2 = new Date('Tue Jun 12 2018 20:01:10');
 
-<section>
-<h2><b>089</b></h2>
+//数値で指定
+//年・月（0〜11で指定）・日・時・分・秒・ミリ秒の順番
+const date3 = new Date(2018, 5, 12, 20, 1, 10);
+
+//タイムスタンプで指定
+//1970年1月1日0時0分0秒からの経過ミリ秒を使用
+const date4 = new Date(1528801270000);
+</code></pre>
+<h3>メソッドで設定</h3>
+<ul>
+	<li>Dateオブジェクトにはset●●●()という名前で年・月・日・時・分・秒・ミリ秒を指定できるメソッドがある</li>
+	<li>引数には数値を指定</li>
+</ul>
 <table>
 	<tr>
 		<th>メソッド</th>
@@ -245,21 +259,144 @@ alert(num);</code></pre>
 		<th>戻り値</th>
 	</tr>
 	<tr>
-		<td>()</td>
-		<td></td>
-		<td>数値</td>
+		<td>setFullYear(西暦)</td>
+		<td>西暦を設定</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>setMonth(月)（0〜11で指定）</td>
+		<td>月を設定</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>setDate(日)</td>
+		<td>日を設定</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>setHours(時)</td>
+		<td>時を設定</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>setMinutes(分)</td>
+		<td>分を設定</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>setSeconds(秒)</td>
+		<td>秒を設定</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>setMilliseconds(ミリ秒)</td>
+		<td>ミリ秒を設定</td>
+		<td>なし</td>
 	</tr>
 </table>
-<ul>
-	<li></li>
-</ul>
-<h4>SAMPLE #083<b>月と日の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec083()">SAMPLE #083</p>
+<pre><code>const date = new Date();
+//日時を設定
+date.setFullYear(2015);
+date.setMonth(0);
+date.setDate(1);
+date.setHours(0);
+date.setMinutes(0);
+date.setSeconds(0);
+
+alert(date.toLocaleString());    //2015/1/1 0:00:00
+</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>090</b></h2>
+<h2><b>089</b>日付・時刻値を加算・減算したい</h2>
+<ul>
+	<li>日付の取得と設定のメソッドを使うことで、●ヶ月前や●日後の日付を求められる</li>
+</ul>
+<h4>SAMPLE #089<b>日付・時刻の加算・減算</b></h4>
+<pre><code>const date089 = new Date();
+let inputMonth, inputDate;
+//入力値取得
+function inputValue() {
+	inputMonth = parseInt(document.querySelector('#inputMonth').value);
+	inputDate = parseInt(document.querySelector('#inputDate').value);
+	//空白の場合
+	if (isNaN(inputMonth)) {
+		inputMonth = 0;
+	}
+	if (isNaN(inputDate)) {
+		inputDate = 0;
+	}
+}
+//減算
+function prev() {
+	date089.setMonth(date089.getMonth() - inputMonth);
+	date089.setDate(date089.getDate() - inputDate);
+}
+//加算
+function next() {
+	date089.setMonth(date089.getMonth() + inputMonth);
+	date089.setDate(date089.getDate() + inputDate);
+}
+//過去出力
+function sec089prev() {
+	inputValue();
+	prev();
+	alert(`${inputMonth}ヶ月${inputDate}日前は${date089.toLocaleDateString()}`);
+	next();
+}
+//未来出力
+function sec089next() {
+	inputValue();
+	next();
+	alert(`${inputMonth}ヶ月${inputDate}日後は${date089.toLocaleDateString()}`);
+	prev();
+}</code></pre>
+<form action="">
+	<input type="text" id="inputMonth" placeholder="月">
+	<input type="text" id="inputDate" placeholder="日">
+</form>
+<p class="btn prev" onclick="sec089prev()">●ヶ月●日前</p>
+<p class="btn next" onclick="sec089next()">●ヶ月●日後</p>
+</section><!-- section -->
+
+<section>
+<h2><b>090</b>日付・時刻の差分を計算する</h2>
+<ul>
+	<li>比較したい日付・時間のDateインスタンスを用意し、getTime()でミリ秒を求める</li>
+	<li>ミリ秒のままだとわかりづらいので、目的とする単位に変換する</li>
+</ul>
+<h3>日数の場合（24*60*60*1000）で差分を除算</h3>
+<pre><code>const dateA = new Date('2018/06/01 10:00:00');
+const dateB = new Date('2018/05/01 07:50:00');
+const diffMSec = dateA.getTime() - dateB.getTime();
+const diffDate = diffMSec / (24 * 60 * 60 * 1000);
+const diffHour = diffMSec / (60 * 60 * 1000);
+const diffMin = diffMSec / (60 * 1000);
+alert(`${diffDate}日の差があります。`);    //31.09027777777778日の差があります。
+alert(`${diffHour}時間の差があります。`);    //746.1666666666666時間の差があります。
+alert(`${diffMin}分の差があります。`);    //44770分の差があります。
+</code></pre>
+<h4>SAMPLE #090<b>日付の差分を計算</b></h4>
+<pre><code>const inputDateA = document.querySelector('#inputDateA').value;
+const inputDateB = document.querySelector('#inputDateB').value;
+const dateA = new Date(inputDateA);
+const dateB = new Date(inputDateB);
+const diffMSec = dateA.getTime() - dateB.getTime();
+let diffDate = diffMSec / (24 * 60 * 60 * 1000);
+//空白のチェック
+if (isNaN(diffDate)) {
+	alert(`日付を選択してください`);
+} else {
+	alert(`${diffDate}日の差があります。`);
+}</code></pre>
+<form action="">
+	<input type="date" id="inputDateA">と<input type="date" id="inputDateB">を比較
+</form>
+<p class="btn" onclick="sec090()">SAMPLE #090</p>
+</section><!-- section -->
+
+<section>
+<h2><b>091</b>経過時間を調べる</h2>
 <table>
 	<tr>
 		<th>メソッド</th>
@@ -267,21 +404,26 @@ alert(num);</code></pre>
 		<th>戻り値</th>
 	</tr>
 	<tr>
-		<td>()</td>
-		<td></td>
+		<td>Date.now()</td>
+		<td>現在の時間を基準時からのミリ秒数で取得</td>
 		<td>数値</td>
 	</tr>
 </table>
-<ul>
-	<li></li>
-</ul>
-<h4>SAMPLE #083<b>月と日の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec083()">SAMPLE #083</p>
+<h4>SAMPLE #091<b>経過時間を調べる</b></h4>
+<pre><code>const oldTime = Date.now();    //スタートの時間を取得
+
+setInterval(() => {
+	const currentTime = Date.now();    //1秒ごとに時間を取得
+	const diff = currentTime - oldTime;    //経過したミリ秒
+	const sec = Math.floor(diff / 1000);    //秒数に変換
+	document.querySelector('.time091').innerHTML = `${sec}秒が経過`;
+}, 1000);</code></pre>
+<p class="btn" onclick="sec091()" id="btn091">#091 START</p>
+<p class="time091" style="font-size: 30px; font-weight: bold;"></p>
 </section><!-- section -->
 
 <section>
-<h2><b>091</b></h2>
+<h2><b>092</b>カウントダウン処理</h2>
 <table>
 	<tr>
 		<th>メソッド</th>
@@ -289,64 +431,91 @@ alert(num);</code></pre>
 		<th>戻り値</th>
 	</tr>
 	<tr>
-		<td>()</td>
-		<td></td>
+		<td>setInterval(関数, ミリ秒)</td>
+		<td>ミリ秒後に引数の関数を実行</td>
 		<td>数値</td>
 	</tr>
 </table>
 <ul>
-	<li></li>
+	<li>目標時間から経過時間を引き算することでカウントダウンとなる</li>
 </ul>
-<h4>SAMPLE #083<b>月と日の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec083()">SAMPLE #083</p>
+<h4>SAMPLE #092<b>カウントダウン</b></h4>
+<pre><code>const totalT = 10000;    //10秒
+const oldT = Date.now();
+
+const timerId = setInterval(() => {
+	const currentT = Date.now();    //1秒ごとに時間を取得
+	const diffT = currentT - oldT;    //経過したミリ秒
+	const remainMSec = totalT - diffT;    //残りミリ秒
+	const remainSec = Math.ceil(remainMSec / 1000);    //秒数に変換
+	let label = `残り${remainSec}秒`;
+
+	//0秒以下になったら
+	if (remainSec <= 0) {
+		clearInterval(timerId);
+		label=`終了`;
+	}
+	document.querySelector('.time092').innerHTML = label;
+},1000);</code></pre>
+<p class="btn" onclick="sec092()" id="btn092">#092 START</p>
+<p class="time092" style="font-size: 30px; font-weight: bold;"></p>
 </section><!-- section -->
 
 <section>
-<h2><b>092</b></h2>
-<table>
-	<tr>
-		<th>メソッド</th>
-		<th>意味</th>
-		<th>戻り値</th>
-	</tr>
-	<tr>
-		<td>()</td>
-		<td></td>
-		<td>数値</td>
-	</tr>
-</table>
+<h2><b>093</b>アナログ時計の表示</h2>
+<h4>SAMPLE #093<b>アナログ時計の表示</b></h4>
 <ul>
-	<li></li>
+	<li>現在時刻を取得</li>
+	<li>時間・分・秒を取得</li>
+	<li>取得した値を針の角度に反映</li>
+	<li>角度をstyleのtransform:rotate(deg)に代入</li>
+	<li>以上をsetIntervalで繰り返す</li>
 </ul>
-<h4>SAMPLE #083<b>月と日の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec083()">SAMPLE #083</p>
+<div class="clock">
+	<div class="lineHour"></div>
+	<div class="lineMin"></div>
+	<div class="lineSec"></div>
+</div>
 </section><!-- section -->
 
-<section>
-<h2><b>093</b></h2>
-<table>
-	<tr>
-		<th>メソッド</th>
-		<th>意味</th>
-		<th>戻り値</th>
-	</tr>
-	<tr>
-		<td>()</td>
-		<td></td>
-		<td>数値</td>
-	</tr>
-</table>
-<ul>
-	<li></li>
-</ul>
-<h4>SAMPLE #083<b>月と日の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec083()">SAMPLE #083</p>
-</section><!-- section -->
-
-
+	<style>
+		.clock {
+			margin-top: 50px;
+			border-radius: 50%;
+			border: solid 3px #fff;
+			width: 400px;
+			height: 400px;
+			background: rgba(255, 255, 255, 0.1);
+			position: relative;
+		}
+		.lineHour {
+			width: 10px;
+			height: 150px;
+			background: #fff;
+			position: absolute;
+			top: calc(50% - 150px);
+			left: calc(50% - 5px);
+			transform-origin: bottom;
+		}
+		.lineMin {
+			width: 4px;
+			height: 200px;
+			background: #fff;
+			position: absolute;
+			top: calc(50% - 200px);
+			left: calc(50% - 2px);
+			transform-origin: bottom;
+		}
+		.lineSec {
+			width: 2px;
+			height: 200px;
+			background: #ccc;
+			position: absolute;
+			top: calc(50% - 200px);
+			left: calc(50% - 1px);
+			transform-origin: bottom;
+		}
+	</style>
 	<script src="../js/05.js"></script>
 </body>
 
