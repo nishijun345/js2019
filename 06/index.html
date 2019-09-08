@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_06】ブラウザーの操作方法</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter6】ブラウザーの操作方法【94〜112】</h1>
+<section>
+<h2><b>094</b>アラートを表示する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>alert(メッセージ)</td>
+		<td>警告ダイアログを表示</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>alert()はメッセージとOKボタンのみの警告ダイアログを表示する</li>
+	<li>windowオブジェクトのメソッド</li>
+</ul>
+<h4>SAMPLE #094<b>アラート</b></h4>
+<pre><code>const btn094 = document.querySelector('#btn094');
+
+btn094.addEventListener('click', (event) => {
+	alert(`これがアラートです`);
+});</code></pre>
+<p class="btn" id="btn094">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>095</b>コンファームを表示する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>confirm(メッセージ)</td>
+		<td>確認ダイアログを表示</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<ul>
+	<li>confirm()はOKとキャンセルがある確認ダイアログを表示する</li>
+	<li>OKだとtrue、キャンセルだとfalseを返す</li>
+	<li>windowオブジェクトのメソッド</li>
+</ul>
+<h4>SAMPLE #095<b>コンファーム</b></h4>
+<pre><code>const btn095 = document.querySelector('#btn095');
+
+btn095.addEventListener('click', (event) => {
+	const confirmResult = confirm('ごはん食べていいですか？');
+	alert(`戻り値は${confirmResult}`);
+});</code></pre>
+<p class="btn" id="btn095">SAMPLE #095</p>
+</section><!-- section -->
+
+<section>
+<h2><b>096</b>文字入力プロンプトを表示する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>prompt(メッセージ, 入力欄の初期値)</td>
+		<td>文字入力プロンプトを表示</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>prompt()はOKとキャンセルと文字入力欄がある文字入力ダイアログを表示する</li>
+	<li>OKだと入力された文字列、キャンセルだとnullを返す</li>
+	<li>windowオブジェクトのメソッド</li>
+</ul>
+<h4>SAMPLE #096<b>プロンプト</b></h4>
+<pre><code>const btn096 = document.querySelector('#btn096');
+
+btn096.addEventListener('click', (event) => {
+	const promptResult = prompt('おとといの晩ごはんは？', '');
+	alert(`戻り値は${promptResult}`);
+});</code></pre>
+<p class="btn" id="btn096">SAMPLE #096</p>
+</section><!-- section -->
+
+<section>
+<h2><b>097</b>ウィンドウサイズを調べる</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>window.innerWidth</td>
+		<td>ブラウザのビューポートの横幅</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>window.innerHeight</td>
+		<td>ブラウザのビューポートの高さ</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>参照したタイミングでのサイズを取得</li>
+	<li>幅や高さを変更した場合resizeイベントを使う</li>
+	<li>これらのプロパティは読み取り専用</li>
+</ul>
+<h4>SAMPLE #097<b>ウィンドウサイズの取得（リサイズ）</b></h4>
+<pre><code>let w = window.innerWidth;
+let h = window.innerHeight;
+function windowSize() {
+	document.querySelector('.width').innerHTML = `横幅は${w}pxです`;
+	document.querySelector('.height').innerHTML = `高さは${h}pxです`;
+}
+windowSize();
+//リサイズイベント
+window.addEventListener('resize', resizeHandler);
+function resizeHandler(event) {
+	w = window.innerWidth;
+	h = window.innerHeight;
+	windowSize();
+}</code></pre>
+<p class="width">横幅はpxです</p>
+<p class="height">高さはpxです</p>
+</section><!-- section -->
+
+<section>
+<h2><b>098</b>デバイスピクセル比を調べる</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>window.devicePixelRatio</td>
+		<td>デバイスピクセル比の値</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>devicePixelRatioプロパティはディスプレイの解像度に対する物理ピクセル数を調べる</li>
+</ul>
+<h4>SAMPLE #098<b>デバイスピクセル比の取得</b></h4>
+<pre><code>const dpr = window.devicePixelRatio;
+alert(`このデバイスのデバイスピクセル比は「${dpr}」です`);</code></pre>
+<p class="btn" onclick="sec098()">SAMPLE #098</p>
+</section><!-- section -->
+
+<section>
+<h2><b>099</b>デバイスピクセル比をcanvas要素に適用する</h2>
+<ul>
+	<li>canvasを高解像度ディスプレイできれいに表示させる</li>
+	<li>canvasでは表示させたいサイズに対してデバイスピクセル比を掛け算した値を設定する</li>
+</ul>
+<h4>SAMPLE #099<b>canvas</b></h4>
+<canvas></canvas>
+</section><!-- section -->
+
+<section>
+<h2><b>100</b>タッチ可能か調べる</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>window.ontouchstart</td>
+		<td>タッチ開始時のイベント</td>
+		<td>関数</td>
+	</tr>
+	<tr>
+		<td>navigator.pointerEnabled</td>
+		<td>ポインターが使えるか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>navigator.maxTouchPoints</td>
+		<td>ポインターの最大数</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>windowオブジェクトにタッチイベントを監視できるイベントハンドラーontouchstartが存在する場合、iOSかAndroid端末</li>
+	<li>タッチの有効可否を判定するpointerEnabledプロパティが存在し、かつタッチ可能なポイントの数maxTouchPointsが0より大きい場合、タッチ操作が可能なブラウザ</li>
+</ul>
+<h4>SAMPLE #100<b>タッチ可能か調べる</b></h4>
+<pre><code>const isSupported = !!(
+	'ontouchstart' in window || //ontouchstartが存在するか
+	(navigator.pointerEnabled && navigator.maxTouchPoints > 0) //pointerEnabledが存在し、かつmaxTouchPointsが0より大きいか
+);
+alert(`このデバイスはタッチ可能か「${isSupported}」`);</code></pre>
+<p class="btn" onclick="sec100()">SAMPLE #100</p>
+</section><!-- section -->
+
+<section>
+<h2><b>101</b>ページを移動する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>location.href</td>
+		<td>ブラウザのURL</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>location.hrefプロパティに文字列でリンクとなるURLを代入する</li>
+	<li>代入したタイミングでページ遷移する</li>
+	<li>読み取りの場合、現在のURLを取得できる</li>
+</ul>
+<pre><code>//読み取りの場合
+console.log(location.href);    //現在のURLを出力
+//書き込みの場合
+location.href = 'another.html';    //代入したURLに遷移
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>102</b>ページをリロードする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>location.reload()</td>
+		<td>ページをリロードする</td>
+	</tr>
+</table>
+<pre><code>location.reload();
+location.reload(true);    //引数にtrueを指定した場合、キャッシュを無視してリロードする</code></pre>
+<p class="btn" onclick="sec102()">リロードする</p>
+</section><!-- section -->
+
+<section>
+<h2><b>103</b>履歴の前後のページに移動する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>history.back()</td>
+		<td>履歴をひとつ戻る</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>history.forward()</td>
+		<td>履歴をひとつ進む</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>history.go(数値)</td>
+		<td>履歴を任意の数だけ進む</td>
+		<td>なし</td>
+	</tr>
+</table>
+<pre><code>history.go(2);    //次のページに2進む
+history.go(-2);    //前のページに2戻る
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>104</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>105</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>106</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>107</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>108</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>109</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>110</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>111</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+<section>
+<h2><b>112</b></h2>
+<h4>SAMPLE #082<b>西暦の取得</b></h4>
+<pre><code></code></pre>
+<p class="btn" onclick="sec094()">SAMPLE #094</p>
+</section><!-- section -->
+
+
+	<script src="../js/06.js"></script>
+</body>
+
+</html>
