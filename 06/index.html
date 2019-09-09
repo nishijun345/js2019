@@ -139,8 +139,8 @@ function resizeHandler(event) {
 	h = window.innerHeight;
 	windowSize();
 }</code></pre>
-<p class="width">横幅はpxです</p>
-<p class="height">高さはpxです</p>
+<p class="width" style="font-size: 20px;">横幅はpxです</p>
+<p class="height" style="font-size: 20px;">高さはpxです</p>
 </section><!-- section -->
 
 <section>
@@ -286,24 +286,79 @@ history.go(-2);    //前のページに2戻る
 </section><!-- section -->
 
 <section>
-<h2><b>104</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>104</b>ハッシュ（#）に応じて処理を分ける</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>location.hash</td>
+		<td>アンカー</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>location.hashプロパティでアンカーを取得できる</li>
+</ul>
+<pre><code>//読み取りの場合
+const hash = location.hash;
+console.log(hash);    //（例）'#app'
+
+//書き込みの場合
+location.hash = 'app';
+</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>105</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>105</b>ハッシュの変更を検知する</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>hashchange</td>
+		<td>URLのハッシュが変更されたとき</td>
+	</tr>
+</table>
+<h4>SAMPLE #105<b>ハッシュ変更のイベントを監視</b></h4>
+<pre><code>window.addEventListener('hashchange', handleHashChange);
+handleHashChange();
+function handleHashChange() {
+	const hash = location.hash;
+	document.querySelector('.hashTxt').innerHTML = `現在のアンカーは「${hash}」です`;
+}</code></pre>
+<p class="btn" onclick="sec105()">ハッシュ変更を監視する</p>
+<a href="#orange" class="hashAnchor">orangeのアンカーリンク</a>
+<a href="#apple" class="hashAnchor">appleのアンカーリンク</a>
+<p class="hashTxt"></p>
 </section><!-- section -->
 
 <section>
-<h2><b>106</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>106</b>新しいウィンドウを開く</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>window.open(URL)</td>
+		<td>別窓で開く</td>
+		<td>新しく開かれたウィンドウのオブジェクト</td>
+	</tr>
+</table>
+<ul>
+	<li>window.open()の第一引数にURLを指定する</li>
+	<li>focus()メソッドでアクティブにできる（開いたウィンドウが後ろに表示される場合があるため）</li>
+	<li>開いたウィンドウは戻り値を使って参照できる</li>
+</ul>
+<h4>SAMPLE #106<b>新しいウィンドウを開く</b></h4>
+<pre><code>const win = window.open('../index.html');
+win.focus();</code></pre>
+<p class="btn" onclick="sec106()">SAMPLE #106</p>
 </section><!-- section -->
 
 <section>

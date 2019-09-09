@@ -119,3 +119,27 @@ sec102 リロード
 function sec102() {
 	location.reload(true);
 }
+
+
+/* ------------------------------------
+sec105 ハッシュ変更イベントの監視
+-------------------------------------*/
+
+function sec105() {
+	window.addEventListener('hashchange', handleHashChange);
+	handleHashChange();
+	function handleHashChange() {
+		const hash = location.hash;
+		document.querySelector('.hashTxt').innerHTML = `現在のアンカーは「${hash}」です`;
+	}
+}
+
+
+/* ------------------------------------
+sec106 新しいウィンドウを開く
+-------------------------------------*/
+
+function sec106() {
+	const win = window.open('../index.html');
+	win.focus();
+}
