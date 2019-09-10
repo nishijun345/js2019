@@ -13,7 +13,7 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 
-<body>
+<body style="	height: auto!important; overflow: auto!important;">
 <h1>【Chapter6】ブラウザーの操作方法【94〜112】</h1>
 <section>
 <h2><b>094</b>アラートを表示する</h2>
@@ -104,7 +104,7 @@ btn096.addEventListener('click', (event) => {
 <h2><b>097</b>ウィンドウサイズを調べる</h2>
 <table>
 	<tr>
-		<th>メソッド</th>
+		<th>プロパティ</th>
 		<th>意味</th>
 		<th>型</th>
 	</tr>
@@ -147,7 +147,7 @@ function resizeHandler(event) {
 <h2><b>098</b>デバイスピクセル比を調べる</h2>
 <table>
 	<tr>
-		<th>メソッド</th>
+		<th>プロパティ</th>
 		<th>意味</th>
 		<th>型</th>
 	</tr>
@@ -180,7 +180,7 @@ alert(`このデバイスのデバイスピクセル比は「${dpr}」です`);<
 <h2><b>100</b>タッチ可能か調べる</h2>
 <table>
 	<tr>
-		<th>メソッド</th>
+		<th>プロパティ</th>
 		<th>意味</th>
 		<th>型</th>
 	</tr>
@@ -217,7 +217,7 @@ alert(`このデバイスはタッチ可能か「${isSupported}」`);</code></pr
 <h2><b>101</b>ページを移動する</h2>
 <table>
 	<tr>
-		<th>メソッド</th>
+		<th>プロパティ</th>
 		<th>意味</th>
 		<th>型</th>
 	</tr>
@@ -289,7 +289,7 @@ history.go(-2);    //前のページに2戻る
 <h2><b>104</b>ハッシュ（#）に応じて処理を分ける</h2>
 <table>
 	<tr>
-		<th>メソッド</th>
+		<th>プロパティ</th>
 		<th>意味</th>
 		<th>型</th>
 	</tr>
@@ -362,45 +362,212 @@ win.focus();</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>107</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>107</b>ウィンドウのスクロール量を調べる</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>window.scrollX</td>
+		<td>水平方向のスクロール量</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>window.scrollY</td>
+		<td>垂直方向のスクロール量</td>
+		<td>数値</td>
+	</tr>
+</table>
+<h4>SAMPLE #107<b>ウィンドウのスクロール量</b></h4>
+<pre><code>window.addEventListener('scroll', scrollHandler);
+function scrollHandler(event) {
+	const scrX = window.scrollX;
+	const scrY = window.scrollY;
+	document.querySelector('.scrollX').innerHTML = `横スクロール量は${scrX}pxです`;
+	document.querySelector('.scrollY').innerHTML = `縦スクロール量は${scrY}pxです`;
+}</code></pre>
+<p class="scrollX" style="font-size: 20px;">横スクロール量はpxです</p>
+<p class="scrollY" style="font-size: 20px;">縦スクロール量はpxです</p>
 </section><!-- section -->
 
 <section>
-<h2><b>108</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>108</b>ウィンドウをスクロールさせる</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>scrollTo(X, Y)</td>
+		<td>指定した座標までスクロール</td>
+		<td>なし</td>
+	</tr>
+</table>
+<h4>SAMPLE #108<b>scrollTo()</b></h4>
+<pre><code>window.addEventListener('click', () => window.scrollTo(0, 1000));</code></pre>
+<p class="btn" onclick="sec108()">SAMPLE #108</p>
 </section><!-- section -->
 
 <section>
-<h2><b>109</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>109</b>タイトルを書き換える</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>document.title</td>
+		<td>ウェブページのタイトル</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<h3>読み取りの場合</h3>
+<pre><code>const title = document.title;</code></pre>
+<h4>SAMPLE #109<b>タイトルを書き換える</b></h4>
+<pre><code>document.title = '任意のタイトル';</code></pre>
+<p class="btn" onclick="sec109()">SAMPLE #109</p>
 </section><!-- section -->
 
 <section>
-<h2><b>110</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>110</b>ページにフォーカスされているか調べる</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>focus</td>
+		<td>フォーカスがあたったとき</td>
+	</tr>
+	<tr>
+		<td>blur</td>
+		<td>フォーカスがはずれたとき</td>
+	</tr>
+</table>
+<h4>SAMPLE #110<b>ページにフォーカスされているか調べる</b></h4>
+<pre><code>window.addEventListener('focus', () => {
+	document.querySelector('.focus').innerHTML = 'フォーカスがあたっている';
+});
+window.addEventListener('blur', () => {
+	document.querySelector('.focus').innerHTML = 'フォーカスがはずれている';
+});</code></pre>
+<p class="focus" style="font-size: 20px;"></p>
 </section><!-- section -->
 
 <section>
-<h2><b>111</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>111</b>全画面表示にする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>element.requestFullscreen()</td>
+		<td>フルスクリーンで表示する</td>
+		<td>Promise</td>
+	</tr>
+	<tr>
+		<td>document.exitFullscreen()</td>
+		<td>フルスクリーンを解除する</td>
+		<td>Promise</td>
+	</tr>
+</table>
+<ul>
+	<li>requestFullscreen()は任意の要素を指定できる</li>
+	<li>exitFullscreen()はdocumentのみ指定できる</li>
+	<li>現時点では対応していないブラウザがあるためベンダープレフィックスを付与する</li>
+</ul>
+<h4>SAMPLE #111<b>全画面表示と解除</b></h4>
+<pre><code>const btn = document.querySelector('.request');
+const btnExit = document.querySelector('.exit');
+
+//フルスクリーンにする
+btn.addEventListener('click', (event) => {
+	myRequestFullScreen(document.body);
+});
+//フルスクリーンを解除
+btnExit.addEventListener('click', (event) => {
+	myCancelFullScreen();
+});
+
+function myRequestFullScreen(element) {
+	if (element.requestFullscreen) {
+		//標準仕様
+		element.requestFullscreen();
+	} else if (element.webkitRequestFullscreen) {
+		//Safari, Chrome
+		element.webkitRequestFullscreen();
+	} else if (element.mozRequestFullscreen) {
+		//Firefox
+		element.mozRequestFullscreen();
+	} else if (element.msRequestFullscreen) {
+		//IE11+
+		element.msRequestFullscreen();
+	}
+}
+
+function myCancelFullScreen() {
+	if (document.exitFullscreen) {
+		//標準仕様
+		document.exitFullscreen();
+	} else if (document.webkitCancelFullscreen) {
+		//Safari, Chrome
+		document.webkitCancelFullscreen();
+	} else if (document.mozCancelFullscreen) {
+		//Firefox
+		document.mozCancelFullscreen();
+	} else if (document.msExitFullscreen) {
+		//IE11+
+		document.msExitFullscreen();
+	}
+}</code></pre>
+<p class="btn request" >全画面表示にする</p>
+<p class="btn exit" >全画面表示を解除</p>
 </section><!-- section -->
 
 <section>
-<h2><b>112</b></h2>
-<h4>SAMPLE #082<b>西暦の取得</b></h4>
-<pre><code></code></pre>
-<p class="btn" onclick="sec094()">SAMPLE #094</p>
+<h2><b>112</b>オンライン、オフラインに応じて処理を分ける</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>navigator.onLine</td>
+		<td>ネットワーク状況を取得</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<ul>
+	<li>onLineプロパティは読み取り専用</li>
+	<li>trueの場合はネットワークにつながっていることを示す</li>
+</ul>
+<h4>SAMPLE #112<b>onLineプロパティ</b></h4>
+<pre><code>const isOnline = navigator.onLine;
+if(isOnline === true) {
+	console.log('オンラインです');
+} else {
+	console.log('オフラインです');
+}
+</code></pre>
+<p class="btn" onclick="sec112()">SAMPLE #112</p>
+<h3>onlineイベント・offlineイベント</h3>
+<ul>
+	<li>windowオブジェクトに対してonlineイベント・offlineイベントを監視すればネットワーク状況の変化を監視できる</li>
+</ul>
+<pre><code>window.addEventListener('online', () => {
+	alert('オンラインです');
+});
+window.addEventListener('offline', () => {
+	alert('オフラインです');
+});
+</code></pre>
 </section><!-- section -->
 
 

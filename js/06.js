@@ -143,3 +143,115 @@ function sec106() {
 	const win = window.open('../index.html');
 	win.focus();
 }
+
+
+/* ------------------------------------
+sec107 ウィンドウのスクロール量
+-------------------------------------*/
+
+function sec107() {
+	window.addEventListener('scroll', scrollHandler);
+	function scrollHandler(event) {
+		const scrX = window.scrollX;
+		const scrY = window.scrollY;
+		document.querySelector('.scrollX').innerHTML = `横スクロール量は${scrX}pxです`;
+		document.querySelector('.scrollY').innerHTML = `縦スクロール量は${scrY}pxです`;
+	}
+} sec107();
+
+
+/* ------------------------------------
+sec108 ウィンドウをスクロールさせる
+-------------------------------------*/
+
+function sec108() {
+	window.addEventListener('click', () => window.scrollTo(0, 1000));
+}
+
+
+/* ------------------------------------
+sec109 タイトルを書き換える
+-------------------------------------*/
+
+function sec109() {
+	document.title = '任意のタイトル';
+}
+
+
+/* ------------------------------------
+sec110 フォーカス
+-------------------------------------*/
+
+function sec110() {
+	window.addEventListener('focus', () => {
+		document.querySelector('.focus').innerHTML = 'フォーカスがあたっている';
+	});
+	window.addEventListener('blur', () => {
+		document.querySelector('.focus').innerHTML = 'フォーカスがはずれている';
+	});
+} sec110();
+
+
+/* ------------------------------------
+sec111 フルスクリーン
+-------------------------------------*/
+
+function sec111() {
+	const btn = document.querySelector('.request');
+	const btnExit = document.querySelector('.exit');
+
+	//フルスクリーンにする
+	btn.addEventListener('click', (event) => {
+		myRequestFullScreen(document.body);
+	});
+	//フルスクリーンを解除
+	btnExit.addEventListener('click', (event) => {
+		myCancelFullScreen();
+	});
+
+	function myRequestFullScreen(element) {
+		if (element.requestFullscreen) {
+			//標準仕様
+			element.requestFullscreen();
+		} else if (element.webkitRequestFullscreen) {
+			//Safari, Chrome
+			element.webkitRequestFullscreen();
+		} else if (element.mozRequestFullscreen) {
+			//Firefox
+			element.mozRequestFullscreen();
+		} else if (element.msRequestFullscreen) {
+			//IE11+
+			element.msRequestFullscreen();
+		}
+	}
+
+	function myCancelFullScreen() {
+		if (document.exitFullscreen) {
+			//標準仕様
+			document.exitFullscreen();
+		} else if (document.webkitCancelFullscreen) {
+			//Safari, Chrome
+			document.webkitCancelFullscreen();
+		} else if (document.mozCancelFullscreen) {
+			//Firefox
+			document.mozCancelFullscreen();
+		} else if (document.msExitFullscreen) {
+			//IE11+
+			document.msExitFullscreen();
+		}
+	}
+} sec111();
+
+
+/* ------------------------------------
+sec112 オンライン・オフライン
+-------------------------------------*/
+
+function sec112() {
+	const isOnline = navigator.onLine;
+	if (isOnline === true) {
+		alert('オンラインです');
+	} else {
+		alert('オフラインです');
+	}
+}
