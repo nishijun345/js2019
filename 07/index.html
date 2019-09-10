@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_07】ユーザーアクションの取り扱い</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body style="	height: auto!important; overflow: auto!important;">
+<h1>【Chapter7】ユーザーアクションの取り扱い【113〜134】</h1>
+<section>
+<h2><b>113</b>イベントについて知る</h2>
+<ul>
+	<li>イベントを発生させるオブジェクトを「イベントターゲット」という</li>
+	<li>イベントが発生したときの処理を「イベントリスナー」という</li>
+	<li>イベントターゲット、イベント、イベントリスナーはaddEventListener()メソッドで関連づける</li>
+</ul>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b>ユーザーの操作が起こった時に処理を行う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>イベントターゲット.addEventListener(イベント名, リスナー, [オプション※省略可])</td>
+		<td>イベントリスナーの設定</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>イベント発生時に呼び出す関数を指定できる</li>
+</ul>
+<pre><code>const button = document.querySelector('.button');
+
+//アロー関数を使う方法
+button.addEventListener('click', () => {
+	console.log('クリック');
+})
+
+//function宣言を使う方法
+button.addEventListener('click', function() {
+	console.log('クリック');
+})
+
+//関数名を指定する方法
+button.addEventListener('click', onClickButton);
+function onClickButton() {
+	console.log('クリック');
+}
+</code></pre>
+<h4>SAMPLE #114<b>イベントの情報を取得する</b></h4>
+<ul>
+	<li>引数としてイベントの情報（イベントオブジェクト）を受け取ることができる</li>
+	<li>イベントオブジェクトには、イベントが発生した要素の参照や押されたキーなどの情報が含まれている</li>
+</ul>
+<pre><code>
+button.addEventListener('click', (event) => {
+	//イベントの情報を出力する
+	console.log(event);
+	//クリックされたボタン要素が出力される
+	console.log(event.target);
+});
+</code></pre>
+<div class="btn" id="btn114">SAMPLE #114</div>
+</section><!-- section -->
+
+
+	<script src="../js/07.js"></script>
+</body>
+
+</html>
