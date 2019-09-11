@@ -75,6 +75,331 @@ button.addEventListener('click', (event) => {
 <div class="btn" id="btn114">SAMPLE #114</div>
 </section><!-- section -->
 
+<section>
+<h2><b>115</b>イベントリスナーを一度だけ呼び出す</h2>
+<table>
+	<tr>
+		<th>オプション</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>capture</td>
+		<td>キャプチャーフェーズで取得するか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>once</td>
+		<td>リスナーの呼び出しを一回のみにするか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>passive</td>
+		<td>パッシブイベントかどうか</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<ul>
+	<li>addEventListener()の第3引数にオプションを指定できる</li>
+</ul>
+<h4>SAMPLE #115<b>一度だけイベントを受け付ける場合</b></h4>
+<pre><code>const option = {
+	once: true
+};
+//オプションなし
+document.querySelector('#btn115').addEventListener('click', onClickButton);
+//オプションあり
+document.querySelector('#btn115once').addEventListener('click', onClickButton, option);
+
+function onClickButton() {
+	alert('ボタンが押されました');
+}
+</code></pre>
+<div class="btn" id="btn115">once設定なし</div>
+<div class="btn" id="btn115once">once設定あり</div>
+</section><!-- section -->
+
+<section>
+<h2><b>116</b>設定したイベントリスナーを削除する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>イベントターゲット.removeEventListener(イベント名, リスナー, [オプション※省略可])</td>
+		<td>イベントリスナーの削除</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>removeEventListener()メソッドを使うとイベントの監視を取りやめる</li>
+	<li>関数名を指定する（アロー関数は不可）</li>
+	<li>addEventListener()の引数と（オプションを含めて）同じ引数を指定する</li>
+</ul>
+<pre><code>const box = document.querySelector('.box');
+box.addEventListener('click', onClickButton);
+
+//3秒後にリスナー関数を削除する
+setTimeout(() => {
+	box.removeEventListener('click', onClickButton);
+}, 3000);
+
+function onClickButton() {
+	alert('boxがクリックされました');
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>117</b>ページが表示されたときに処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>DOMContentLoaded</td>
+		<td>HTMLドキュメントの解析完了時</td>
+	</tr>
+	<tr>
+		<td>load</td>
+		<td>全リソースの読み込み完了時</td>
+	</tr>
+</table>
+<h3>DOMContentLoaded</h3>
+<ul>
+	<li>jsでDOMを操作できるのは、HTMLの読み込みと解析が完了したタイミング</li>
+	<li>このタイミングで発生するのが、DOMContentLoadedイベント</li>
+</ul>
+<h3>load</h3>
+<ul>
+	<li>ページ内の全リソースの読み込み完了時に発生するのが、loadイベント</li>
+</ul>
+<h4>SAMPLE #117<b>DOMContentLoaded、load</b></h4>
+<pre><code>window.addEventListener('DOMContentLoaded', () => {
+	//sectionの数を取得
+	const sectionNum = document.querySelectorAll('section').length;
+	console.log(`sectionの数は${sectionNum}`);
+});
+
+window.addEventListener('load', () => {
+	const sectionNum = document.querySelectorAll('section').length;
+	console.log(`sectionの数は${sectionNum}`);
+});</code></pre>
+<h3>scriptタグのdefer属性とDOMContentLoaded</h3>
+<ul>
+	<li>scriptタグにdefer属性を設定すると、HTMLの解析終了後に実行される（DOMContentLoadedイベントの発生前）</li>
+	<li>したがってdefer属性を設定している場合、DOMContentLoadedイベントは不要といえる</li>
+</ul>
+</section><!-- section -->
+
+<section>
+<h2><b>118</b>クリック時に処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>click</td>
+		<td>要素のクリック時</td>
+	</tr>
+</table>
+<ul>
+	<li>clickイベントは要素のクリック時、タップ時に発生する</li>
+</ul>
+<h4>SAMPLE #118<b>click</b></h4>
+<pre><code>document.querySelector('#btn118').addEventListener('click', () => {
+	alert('ボタンがクリックされました');
+})</code></pre>
+<p class="btn" id="btn118">SAMPLE #118</p>
+</section><!-- section -->
+
+<section>
+<h2><b>119</b>マウスを押したときや動かしたときに処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>mousedown</td>
+		<td>マウスボタンを押したとき</td>
+	</tr>
+	<tr>
+		<td>mouseup</td>
+		<td>マウスボタンを離したとき</td>
+	</tr>
+	<tr>
+		<td>mousemove</td>
+		<td>マウスを動かしたとき</td>
+	</tr>
+</table>
+<h4>SAMPLE #119<b>マウス操作イベント</b></h4>
+<pre><code>const logArea = document.querySelector('.logArea');
+
+logArea.addEventListener('mousedown', () => {
+	logArea.innerHTML = 'マウスボタンを押した';
+});
+logArea.addEventListener('mouseup', () => {
+	logArea.innerHTML = 'マウスボタンを離した';
+});
+logArea.addEventListener('mousemove', () => {
+	logArea.innerHTML = 'マウスを動かした';
+});</code></pre>
+<div class="logArea" style="background: rgba(255,255,255,0.5); text-align: center; padding: 100px;">操作対象エリア</div>
+</section><!-- section -->
+
+<section>
+<h2><b>120</b>マウスオーバー時に処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>mouseenter</td>
+		<td>ポインティングデバイスが要素上に乗ったとき</td>
+	</tr>
+	<tr>
+		<td>mouseleave</td>
+		<td>ポインティングデバイスが要素上から離れたとき</td>
+	</tr>
+</table>
+<h4>SAMPLE #120<b>マウスオーバーイベント</b></h4>
+<pre><code>const logArea2 = document.querySelector('.logArea2');
+
+logArea2.addEventListener('mouseenter', () => {
+	logArea2.innerHTML = 'マウスが乗った';
+});
+logArea2.addEventListener('mouseleave', () => {
+	logArea2.innerHTML = 'マウスが離れた';
+});</code></pre>
+<div class="logArea2" style="background: rgba(255,255,255,0.5); text-align: center; padding: 0 100px;">
+	<p>操作対象エリア「2」</p>
+	<div class="logArea2_child" style="background: rgba(255,255,255,0.5); text-align: center; padding: 100px;">
+		<p>操作対象エリア「2Child」</p>
+	</div>
+</div>
+</section><!-- section -->
+
+<section>
+<h2><b>121</b>マウスオーバー時に処理をする（バブリングあり）</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>mouseover</td>
+		<td>ポインティングデバイスが要素上に乗ったとき（バブリングあり）</td>
+	</tr>
+	<tr>
+		<td>mouseout</td>
+		<td>ポインティングデバイスが要素上から離れたとき（バブリングあり）</td>
+	</tr>
+</table>
+<ul>
+	<li>mouseenter、mouseleaveと異なりイベントがバブリングする</li>
+	<li>バブリングとは、ある要素で発生したイベントが親要素・先祖要素に伝わること</li>
+	<li>親要素・子要素でイベントリスナーを設定していた場合、子要素で発生したベントが親要素にも発生し、親要素のイベントリスナーが実行される</li>
+</ul>
+<h4>SAMPLE #120<b>マウスオーバーイベント（バブリングあり）</b></h4>
+<div class="logArea3" style="background: rgba(255,255,255,0.5); text-align: center; padding: 0 100px;">
+	<p>操作対象エリア「3」</p>
+	<div class="logArea3_child" style="background: rgba(255,255,255,0.5); text-align: center; padding: 100px;">
+		<p>操作対象エリア「3Child」</p>
+	</div>
+</div>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>114</b></h2>
+<pre><code></code></pre>
+</section><!-- section -->
+
 
 	<script src="../js/07.js"></script>
 </body>
