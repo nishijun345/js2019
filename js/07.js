@@ -76,6 +76,7 @@ function sec119() {
 	});
 	logArea.addEventListener('mousemove', () => {
 		logArea.innerHTML = 'マウスを動かした';
+		console.log(event.clientX, event.clientY);
 	});
 } sec119();
 
@@ -124,3 +125,77 @@ function sec121() {
 		console.log('3Childマウスが離れた');
 	});
 } sec121();
+
+
+
+/* ------------------------------------
+sec122 マウスに合わせて要素を動かす
+-------------------------------------*/
+
+function sec122() {
+	const chara = document.querySelector('.chara');
+	const charaArea = document.querySelector('.charaArea');
+	//マウスを押すとキャラの移動開始
+	charaArea.addEventListener('mousedown', () => {
+		//キャラを動かす
+		charaArea.addEventListener('mousemove', onMouseMove);
+		//マウスを離したらキャラの移動終了
+		charaArea.addEventListener('mouseup', () => {
+			charaArea.removeEventListener('mousemove', onMouseMove);
+		});
+	});
+
+	function onMouseMove(event) {
+		chara.style.left = `${event.clientX - 180}px`;
+		chara.style.top = `${event.clientY - 500}px`;
+	}
+} sec122();
+
+
+/* ------------------------------------
+sec123 スクロール
+-------------------------------------*/
+
+function sec123() {
+	const scrollBox = document.querySelector('.scrollBox');
+	window.addEventListener('scroll', () => {
+		scrollBox.innerHTML = `スクロール X「${window.scrollX}」 Y「${window.scrollY}」`;
+	});
+} sec123();
+
+
+/* ------------------------------------
+sec124 テキスト選択
+-------------------------------------*/
+
+function sec124() {
+	const balloon = document.querySelector('#balloon');
+	const paragraph = document.querySelector('.paragraph');
+
+	paragraph.addEventListener('selectstart', () => {
+		//マウスを離したとき
+		paragraph.addEventListener('mouseup', (event) => {
+			//選択された文字列を取得
+			const selectionCharacters = window.getSelection().toString();
+			if (selectionCharacters.length > 0) {
+				balloon.innerHTML = selectionCharacters;
+				balloon.classList.add('on');
+				balloon.style.left = `${event.clientX - 10}px`;
+				balloon.style.top = `${event.clientY - 440}px`;
+			} else {
+				//吹き出しを閉じる
+				removePopup();
+			}
+		},
+		{
+			once: true
+		});
+	});
+
+	//吹き出しを閉じる
+	balloon.addEventListener('click', removePopup);
+
+	function removePopup() {
+		balloon.classList.remove('on');
+	}
+} sec124();

@@ -390,17 +390,119 @@ logArea3Child.addEventListener('mouseout', () => {
 	<li>MouseEventオブジェクトにはイベント発生時の座標情報が含まれている</li>
 	<li>pageX、pageYはページスクロール量が加味される</li>
 </ul>
-<pre><code></code></pre>
+<h3>マウス移動時の座標を出力</h3>
+<pre><code>targetBox.addEventListener('mousemove', (event) => {
+	console.log(event.clientX, event.clientY);
+});</code></pre>
+<h4>SAMPLE #122<b>マウスに合わせて要素を動かす</b></h4>
+<pre><code>const chara = document.querySelector('.chara');
+const charaArea = document.querySelector('.charaArea');
+
+//マウスを押すとキャラの移動開始
+charaArea.addEventListener('mousedown', () => {
+	//キャラを動かす
+	charaArea.addEventListener('mousemove', onMouseMove);
+	//マウスを離したらキャラの移動終了
+	charaArea.addEventListener('mouseup', () => {
+		charaArea.removeEventListener('mousemove', onMouseMove);
+	});
+});
+
+function onMouseMove(event) {
+	chara.style.left = `${event.clientX - 180}px`;
+	chara.style.top = `${event.clientY - 500}px`;
+}</code></pre>
+<h3>マウスをドラッグ</h3>
+<div class="charaArea" style="background: rgba(255,255,255,0.5); text-align: center; padding: 0 100px; position: relative; height: 400px;">
+	<div class="chara" style="display: inline-block; position: absolute; top: 100px; left: 100px;"><img src="../img/chara.png" alt=""></div>
+</div>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
+<h2><b>123</b>スクロール時に処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>scroll</td>
+		<td>対象の要素（主にwindow）がスクロールしたとき</td>
+	</tr>
+</table>
+<ul>
+	<li>ウィンドウ上のスクロール量は、window.scrollY（縦方向）window.scrollX（横方向）で取得できる</li>
+</ul>
+<h4>SAMPLE #123<b>スクロールで座標を出力</b></h4>
 <pre><code></code></pre>
+<div class="scrollBox" style="display: inline-block;position: fixed;top: 20px;right: 0;background: rgba(255,255,255,0.5);padding: 10px 20px;"></div>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
+<h2><b>124</b>テキスト選択時に処理する</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>selectstart</td>
+		<td>テキストが選択されたとき</td>
+	</tr>
+</table>
+<h4>SAMPLE #124<b>選択した文字列を表示する</b></h4>
+<pre><code>const balloon = document.querySelector('#balloon');
+const paragraph = document.querySelector('.paragraph');
+
+paragraph.addEventListener('selectstart', () => {
+	//マウスを離したとき
+	paragraph.addEventListener('mouseup', (event) => {
+		//選択された文字列を取得
+		const selectionCharacters = window.getSelection().toString();
+		if (selectionCharacters.length > 0) {
+			balloon.innerHTML = selectionCharacters;
+			balloon.classList.add('on');
+			balloon.style.left = `${event.clientX - 10}px`;
+			balloon.style.top = `${event.clientY - 440}px`;
+		} else {
+			//吹き出しを閉じる
+			removePopup();
+		}
+	},
+	{
+		once: true
+	});
+});
+
+//吹き出しを閉じる
+balloon.addEventListener('click', removePopup);
+
+function removePopup() {
+	balloon.classList.remove('on');
+}</code></pre>
+<ul>
+	<li>window.getSelection()は選択範囲を返す処理</li>
+	<li>toString()を末尾に付与することで選択中の文字列を返す</li>
+</ul>
+<div class="wrap" style="border: solid 1px #fff; text-align: center; padding: 30px; position: relative;">
+	<p class="paragraph">あうｇはういｆがｓｈｄふぁうｓｄさんｆｋぁｓｋｌｆばｓｆｋぁｓふぃあ<br>23473ndglkdsｄｓｇｌｄｋｓんｇｌ<br>ふぁそｓｄｎ6786fklGSFGSFLSKF</p>
+	<div id="balloon"></div>
+</div>
+<style>
+#balloon {
+	opacity: 0;
+	position: absolute;
+	background: #faff68;
+	color: #11131a;
+	padding: 3px 6px;
+	border-radius: 5px;
+	font-weight: bold;
+	cursor: pointer;
+}
+#balloon.on {
+	opacity: 1;
+}
+</style>
 </section><!-- section -->
 
 <section>
