@@ -409,11 +409,11 @@ charaArea.addEventListener('mousedown', () => {
 });
 
 function onMouseMove(event) {
-	chara.style.left = `${event.clientX - 180}px`;
-	chara.style.top = `${event.clientY - 500}px`;
+	chara.style.left = `${event.offsetX - 160}px`;
+	chara.style.top = `${event.offsetY - 160}px`;
 }</code></pre>
 <h3>マウスをドラッグ</h3>
-<div class="charaArea" style="background: rgba(255,255,255,0.5); text-align: center; padding: 0 100px; position: relative; height: 400px;">
+<div class="charaArea" style="background: rgba(255,255,255,0.5); text-align: center; padding: 0 100px; position: relative; height: 700px;">
 	<div class="chara" style="display: inline-block; position: absolute; top: 100px; left: 100px;"><img src="../img/chara.png" alt=""></div>
 </div>
 </section><!-- section -->
@@ -462,8 +462,8 @@ paragraph.addEventListener('selectstart', () => {
 		if (selectionCharacters.length > 0) {
 			balloon.innerHTML = selectionCharacters;
 			balloon.classList.add('on');
-			balloon.style.left = `${event.clientX - 10}px`;
-			balloon.style.top = `${event.clientY - 440}px`;
+			balloon.style.left = `${event.offsetX - 10}px`;
+			balloon.style.top = `${event.offsetY - 10}px`;
 		} else {
 			//吹き出しを閉じる
 			removePopup();
@@ -506,13 +506,118 @@ function removePopup() {
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
+<h2><b>125</b>タッチ操作時に処理する</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>touchstart</td>
+		<td>タッチを開始したとき</td>
+	</tr>
+	<tr>
+		<td>touchmove</td>
+		<td>タッチポイントを動かしたとき</td>
+	</tr>
+	<tr>
+		<td>touchend</td>
+		<td>タッチを終了したとき</td>
+	</tr>
+</table>
+<h4>SAMPLE #125<b>タッチ操作</b></h4>
+<pre><code>const targetBox = document.querySelector('.touchWrap');
+const logBox = document.querySelector('.log');
+
+//タッチ開始
+targetBox.addEventListener('touchstart', () => {
+	logBox.innerHTML = 'タッチ開始';
+});
+//タッチ位置を移動
+targetBox.addEventListener('touchmove', () => {
+	logBox.innerHTML = 'タッチ位置移動';
+});
+//タッチ終了
+targetBox.addEventListener('touchend', () => {
+	logBox.innerHTML = 'タッチ終了';
+});</code></pre>
+<div class="touchWrap" style="border: solid 1px #fff; text-align: center; padding: 30px; position: relative;">
+	<p>タッチ可能デバイスでご確認ください</p>
+	<p class="log"></p>
+</div>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
+<h2><b>126</b>タッチ操作時のイベントの発生情報を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>内容</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>event.changedTouches</td>
+		<td>タッチ情報（Touchオブジェクト）の配列</td>
+		<td>配列</td>
+	</tr>
+	<tr>
+		<td>タッチ情報.clientX</td>
+		<td>ブラウザ左上を基準としたX座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>タッチ情報.clientY</td>
+		<td>ブラウザ左上を基準としたY座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>タッチ情報.offsetX</td>
+		<td>要素左上を基準としたX座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>タッチ情報.offsetY</td>
+		<td>要素左上を基準としたY座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>タッチ情報.pageX</td>
+		<td>ページ左上を基準としたX座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>タッチ情報.pageY</td>
+		<td>ページ左上を基準としたY座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>タッチ情報.screenX</td>
+		<td>デバイス左上を基準としたX座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>タッチ情報.screenY</td>
+		<td>デバイス左上を基準としたY座標</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>マウスイベントと違いタッチイベントは複数同時に発生する可能性がある（人差し指と親指で同時にタッチなど）</li>
+	<li>event.changedTouchesで各タッチ情報にアクセスする</li>
+	<li>タッチ情報（Touchオブジェクト）の配列となっていて、インデックス0から順にタッチ情報が含まれている</li>
+</ul>
+<h4>SAMPLE #126<b>タッチイベントに応じた座標の出力</b></h4>
+<pre><code>const targetBox2 = document.querySelector('.touchWrap2');
+const logBox2 = document.querySelector('.log2');
+
+targetBox2.addEventListener('touchstart', (event) => {
+	const touch = event.changedTouches;
+	logBox2.innerHTML = `${touch[0].pageX.toFixed(2)}${touch[0].pageY.toFixed(2)}`;
+});</code></pre>
+<div class="touchWrap2" style="border: solid 1px #fff; text-align: center; padding: 30px; position: relative;">
+	<p>タッチ可能デバイスでご確認ください</p>
+	<p class="log2"></p>
+</div>
 </section><!-- section -->
 
 <section>

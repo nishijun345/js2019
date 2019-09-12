@@ -146,8 +146,8 @@ function sec122() {
 	});
 
 	function onMouseMove(event) {
-		chara.style.left = `${event.clientX - 180}px`;
-		chara.style.top = `${event.clientY - 500}px`;
+		chara.style.left = `${event.offsetX - 160}px`;
+		chara.style.top = `${event.offsetY - 160}px`;
 	}
 } sec122();
 
@@ -180,8 +180,8 @@ function sec124() {
 			if (selectionCharacters.length > 0) {
 				balloon.innerHTML = selectionCharacters;
 				balloon.classList.add('on');
-				balloon.style.left = `${event.clientX - 10}px`;
-				balloon.style.top = `${event.clientY - 440}px`;
+				balloon.style.left = `${event.offsetX - 10}px`;
+				balloon.style.top = `${event.offsetY - 10}px`;
 			} else {
 				//吹き出しを閉じる
 				removePopup();
@@ -199,3 +199,41 @@ function sec124() {
 		balloon.classList.remove('on');
 	}
 } sec124();
+
+
+/* ------------------------------------
+sec125 タッチ操作
+-------------------------------------*/
+
+function sec125() {
+	const targetBox = document.querySelector('.touchWrap');
+	const logBox = document.querySelector('.log');
+
+	//タッチ開始
+	targetBox.addEventListener('touchstart', () => {
+		logBox.innerHTML = 'タッチ開始';
+	});
+	//タッチ位置を移動
+	targetBox.addEventListener('touchmove', () => {
+		logBox.innerHTML = 'タッチ位置移動';
+	});
+	//タッチ終了
+	targetBox.addEventListener('touchend', () => {
+		logBox.innerHTML = 'タッチ終了';
+	});
+} sec125();
+
+
+/* ------------------------------------
+sec126 タッチイベント
+-------------------------------------*/
+
+function sec126() {
+	const targetBox2 = document.querySelector('.touchWrap2');
+	const logBox2 = document.querySelector('.log2');
+
+	targetBox2.addEventListener('touchstart', (event) => {
+		const touch = event.changedTouches;
+		logBox2.innerHTML = `${touch[0].pageX.toFixed(2)}<br>${touch[0].pageY.toFixed(2)}`;
+	});
+} sec126();
