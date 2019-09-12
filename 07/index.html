@@ -269,12 +269,19 @@ logArea.addEventListener('mousemove', () => {
 </table>
 <h4>SAMPLE #120<b>マウスオーバーイベント</b></h4>
 <pre><code>const logArea2 = document.querySelector('.logArea2');
+const logArea2Child = document.querySelector('.logArea2_child');
 
 logArea2.addEventListener('mouseenter', () => {
-	logArea2.innerHTML = 'マウスが乗った';
+	console.log('2マウスが乗った');
+});
+logArea2Child.addEventListener('mouseenter', () => {
+	console.log('2Childマウスが乗った');
 });
 logArea2.addEventListener('mouseleave', () => {
-	logArea2.innerHTML = 'マウスが離れた';
+	console.log('2マウスが離れた');
+});
+logArea2Child.addEventListener('mouseleave', () => {
+	console.log('2Childマウスが離れた');
 });</code></pre>
 <div class="logArea2" style="background: rgba(255,255,255,0.5); text-align: center; padding: 0 100px;">
 	<p>操作対象エリア「2」</p>
@@ -306,17 +313,83 @@ logArea2.addEventListener('mouseleave', () => {
 	<li>親要素・子要素でイベントリスナーを設定していた場合、子要素で発生したベントが親要素にも発生し、親要素のイベントリスナーが実行される</li>
 </ul>
 <h4>SAMPLE #120<b>マウスオーバーイベント（バブリングあり）</b></h4>
+<pre><code>const logArea3 = document.querySelector('.logArea3');
+const logArea3Child = document.querySelector('.logArea3_child');
+
+logArea3.addEventListener('mouseover', () => {
+	console.log('3マウスが乗った');
+});
+logArea3Child.addEventListener('mouseover', () => {
+	console.log('3Childマウスが乗った');
+});
+logArea3.addEventListener('mouseout', () => {
+	console.log('3マウスが離れた');
+});
+logArea3Child.addEventListener('mouseout', () => {
+	console.log('3Childマウスが離れた');
+});</code></pre>
 <div class="logArea3" style="background: rgba(255,255,255,0.5); text-align: center; padding: 0 100px;">
 	<p>操作対象エリア「3」</p>
 	<div class="logArea3_child" style="background: rgba(255,255,255,0.5); text-align: center; padding: 100px;">
 		<p>操作対象エリア「3Child」</p>
 	</div>
 </div>
-<pre><code></code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
+<h2><b>122</b>マウス操作時の座標を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>内容</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>event.clientX</td>
+		<td>ブラウザ左上を基準としたX座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.clientY</td>
+		<td>ブラウザ左上を基準としたY座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.offsetX</td>
+		<td>要素左上を基準としたX座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.offsetY</td>
+		<td>要素左上を基準としたY座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.pageX</td>
+		<td>ページ左上を基準としたX座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.pageY</td>
+		<td>ページ左上を基準としたY座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.screenX</td>
+		<td>デバイス左上を基準としたX座標</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.screenY</td>
+		<td>デバイス左上を基準としたY座標</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>clickやmousemoveなどマウス操作イベントが発生した際のイベントはMouseEventオブジェクト</li>
+	<li>MouseEventオブジェクトにはイベント発生時の座標情報が含まれている</li>
+	<li>pageX、pageYはページスクロール量が加味される</li>
+</ul>
 <pre><code></code></pre>
 </section><!-- section -->
 
