@@ -9,6 +9,21 @@
 	<title>【js_07】ユーザーアクションの取り扱い</title>
 	<!--css-->
 	<link rel="stylesheet" href="../css/base.css" media="all">
+	<style>
+		#balloon {
+			opacity: 0;
+			position: absolute;
+			background: #faff68;
+			color: #11131a;
+			padding: 3px 6px;
+			border-radius: 5px;
+			font-weight: bold;
+			cursor: pointer;
+		}
+		#balloon.on {
+			opacity: 1;
+		}
+	</style>
 	<!--js-->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
@@ -434,7 +449,10 @@ function onMouseMove(event) {
 	<li>ウィンドウ上のスクロール量は、window.scrollY（縦方向）window.scrollX（横方向）で取得できる</li>
 </ul>
 <h4>SAMPLE #123<b>スクロールで座標を出力</b></h4>
-<pre><code></code></pre>
+<pre><code>const scrollBox = document.querySelector('.scrollBox');
+window.addEventListener('scroll', () => {
+	scrollBox.innerHTML = `スクロール X「${window.scrollX}」 Y「${window.scrollY}」`;
+});</code></pre>
 <div class="scrollBox" style="display: inline-block;position: fixed;top: 20px;right: 0;background: rgba(255,255,255,0.5);padding: 10px 20px;"></div>
 </section><!-- section -->
 
@@ -488,21 +506,6 @@ function removePopup() {
 	<p class="paragraph">あうｇはういｆがｓｈｄふぁうｓｄさんｆｋぁｓｋｌｆばｓｆｋぁｓふぃあ<br>23473ndglkdsｄｓｇｌｄｋｓんｇｌ<br>ふぁそｓｄｎ6786fklGSFGSFLSKF</p>
 	<div id="balloon"></div>
 </div>
-<style>
-#balloon {
-	opacity: 0;
-	position: absolute;
-	background: #faff68;
-	color: #11131a;
-	padding: 3px 6px;
-	border-radius: 5px;
-	font-weight: bold;
-	cursor: pointer;
-}
-#balloon.on {
-	opacity: 1;
-}
-</style>
 </section><!-- section -->
 
 <section>
@@ -621,62 +624,177 @@ targetBox2.addEventListener('touchstart', (event) => {
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
+<h2><b>127</b>キーボード入力時に処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>keydown</td>
+		<td>キーが押されたとき</td>
+	</tr>
+	<tr>
+		<td>keyup</td>
+		<td>キーが離されたとき</td>
+	</tr>
+	<tr>
+		<td>keypress</td>
+		<td>文字を生成するキーが押されたとき</td>
+	</tr>
+</table>
+<ul>
+	<li>keypressは日本語を取り扱うときに注意</li>
+	<li>IMEで日本語を入力しEnterで確定する場合、イベントを取得できない</li>
+</ul>
+<h4>SAMPLE #127<b>キー入力の監視と文字数カウント</b></h4>
+<pre><code>const text127 = document.querySelector('.text127');
+let result127 = document.querySelector('.result127');
+let num127 = document.querySelector('.num127');
+
+text127.addEventListener('keydown', () => {
+	result127.innerHTML = 'キーが押された';
+});
+text127.addEventListener('keypress', () => {
+	result127.innerHTML = '文字が入力された';
+});
+text127.addEventListener('keyup', onKeyUp);
+
+function onKeyUp() {
+	result127.innerHTML = 'キーが離された';
+	const inputText = text127.value;
+	num127.innerText = inputText.length;
+}</code></pre>
+<textarea class="text127" cols="50" rows="5"></textarea>
+<div style="display: inline-block; margin-left: 20px;">
+	<p>キー入力「<span class="result127"></span>」</p>
+	<p>文字数カウント「<span class="num127"></span>」</p>
+</div>
+</section><!-- section -->
+
+<section>
+<h2><b>128</b>入力されたキーを調べる</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>キーボードイベント.key</td>
+		<td>押されたボタンの値</td>
+		<td>文字列</td>
+	</tr>
+	<tr>
+		<td>キーボードイベント.code</td>
+		<td>押されたボタンのコード</td>
+		<td>文字列</td>
+	</tr>
+	<tr>
+		<td>キーボードイベント.altKey</td>
+		<td>ALTキーが押されたかどうか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>キーボードイベント.ctrlKey</td>
+		<td>Ctrlキーが押されたかどうか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>キーボードイベント.shiftKey</td>
+		<td>Shiftキーが押されたかどうか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>キーボードイベント.metaKey</td>
+		<td>metaキー（windowsならWinキー、macならコマンドキー」）が押されたかどうか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>キーボードイベント.repeat</td>
+		<td>キーを押しっぱなしにしているかどうか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>キーボードイベント.isComposing</td>
+		<td>入力が未確定かどうか</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<h4>SAMPLE #128<b>入力されたキー</b></h4>
+<pre><code>const text128 = document.querySelector('.text128');
+const arrow128 = document.querySelector('.arrow128');
+
+text128.addEventListener('keydown', handleKeydown);
+
+function handleKeydown() {
+	document.querySelector('.key128').innerHTML = event.key;
+	document.querySelector('.code128').innerHTML = event.code;
+	document.querySelector('.altKey128').innerHTML = event.altKey;
+	document.querySelector('.ctrlKey128').innerHTML = event.ctrlKey;
+	document.querySelector('.shiftKey128').innerHTML = event.shiftKey;
+	document.querySelector('.metaKey128').innerHTML = event.metaKey;
+	document.querySelector('.repeat128').innerHTML = event.repeat;
+	document.querySelector('.isComposing128').innerHTML = event.isComposing;
+
+	//キーコードで判定
+	const keyCode = event.keyCode;
+	if (keyCode === 37) {
+		arrow128.innerHTML = '左';
+	}
+	if (keyCode === 38) {
+		arrow128.innerHTML = '上';
+	}
+	if (keyCode === 39) {
+		arrow128.innerHTML = '右';
+	}
+	if (keyCode === 40) {
+		arrow128.innerHTML = '下';
+	}
+}</code></pre>
+<textarea class="text128" cols="50" rows="5"></textarea>
+<div style="display: inline-block; margin-left: 20px;">
+	<p>.key「<span class="key128"></span>」</p>
+	<p>.code「<span class="code128"></span>」</p>
+	<p>.altKey「<span class="altKey128"></span>」</p>
+	<p>.ctrlkey「<span class="ctrlKey128"></span>」</p>
+	<p>.shiftkey「<span class="shiftKey128"></span>」</p>
+	<p>.metakey「<span class="metaKey128"></span>」</p>
+	<p>.repeat「<span class="repeat128"></span>」</p>
+	<p>.isComposing「<span class="isComposing128"></span>」</p>
+</div>
+<div>
+	<p>上下左右の「<span class="arrow128"></span>」キーが押されました」</p>
+</div>
+</section><!-- section -->
+
+<section>
+<h2><b>129</b></h2>
 <pre><code></code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
+<h2><b>130</b></h2>
 <pre><code></code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
+<h2><b>131</b></h2>
 <pre><code></code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
+<h2><b>132</b></h2>
 <pre><code></code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
+<h2><b>133</b></h2>
 <pre><code></code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>114</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>114</b></h2>
+<h2><b>134</b></h2>
 <pre><code></code></pre>
 </section><!-- section -->
 

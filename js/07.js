@@ -237,3 +237,66 @@ function sec126() {
 		logBox2.innerHTML = `${touch[0].pageX.toFixed(2)}<br>${touch[0].pageY.toFixed(2)}`;
 	});
 } sec126();
+
+
+/* ------------------------------------
+sec127 キー入力
+-------------------------------------*/
+
+function sec127() {
+	const text127 = document.querySelector('.text127');
+	let result127 = document.querySelector('.result127');
+	let num127 = document.querySelector('.num127');
+
+	text127.addEventListener('keydown', () => {
+		result127.innerHTML = 'キーが押された';
+	});
+	text127.addEventListener('keypress', () => {
+		result127.innerHTML = '文字が入力された';
+	});
+	text127.addEventListener('keyup', onKeyUp);
+
+	function onKeyUp() {
+		result127.innerHTML = 'キーが離された';
+		const inputText = text127.value;
+		num127.innerText = inputText.length;
+	}
+} sec127();
+
+
+/* ------------------------------------
+sec128 入力されたキー
+-------------------------------------*/
+
+function sec128() {
+	const text128 = document.querySelector('.text128');
+	const arrow128 = document.querySelector('.arrow128');
+
+	text128.addEventListener('keydown', handleKeydown);
+
+	function handleKeydown() {
+		document.querySelector('.key128').innerHTML = event.key;
+		document.querySelector('.code128').innerHTML = event.code;
+		document.querySelector('.altKey128').innerHTML = event.altKey;
+		document.querySelector('.ctrlKey128').innerHTML = event.ctrlKey;
+		document.querySelector('.shiftKey128').innerHTML = event.shiftKey;
+		document.querySelector('.metaKey128').innerHTML = event.metaKey;
+		document.querySelector('.repeat128').innerHTML = event.repeat;
+		document.querySelector('.isComposing128').innerHTML = event.isComposing;
+
+		//キーコードで判定
+		const keyCode = event.keyCode;
+		if (keyCode === 37) {
+			arrow128.innerHTML = '左';
+		}
+		if (keyCode === 38) {
+			arrow128.innerHTML = '上';
+		}
+		if (keyCode === 39) {
+			arrow128.innerHTML = '右';
+		}
+		if (keyCode === 40) {
+			arrow128.innerHTML = '下';
+		}
+	}
+} sec128();
