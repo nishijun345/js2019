@@ -300,3 +300,44 @@ function sec128() {
 		}
 	}
 } sec128();
+
+
+/* ------------------------------------
+sec129 ブラウザのタブの表示状態を出力
+-------------------------------------*/
+
+function sec129() {
+	document.addEventListener('visibilitychange', () => {
+		if (document.visibilityState === 'visible') {
+			console.log('コンテンツが表示されました');
+			return;
+		}
+		if (document.visibilityState === 'hidden') {
+			console.log('コンテンツがバックグラウンドになりました');
+		}
+	});
+} sec129();
+
+
+/* ------------------------------------
+sec133 デフォルトのイベントをキャンセルする
+-------------------------------------*/
+
+function sec133() {
+	//マウスホイールの無効・有効
+	let enableMouseWheel = true;
+
+	document.querySelector('#mouseWheelToggle').addEventListener('click', (event) => {
+		//チェックボックスに値が入っていたら無効化
+		enableMouseWheel = event.target.checked === false;
+	});
+
+	document.querySelector('.scrollable-element').addEventListener('wheel', (event) => {
+		//有効な場合、処理を抜ける
+		if (enableMouseWheel === true) {
+			return;
+		}
+		//無効な場合、event.preventDefault()を実行
+		event.preventDefault();
+	});
+} sec133();

@@ -229,6 +229,12 @@ window.addEventListener('load', () => {
 	alert('ボタンがクリックされました');
 })</code></pre>
 <p class="btn" id="btn118">SAMPLE #118</p>
+<h3>click()メソッドでクリックイベントを発火させる</h3>
+<ul>
+	<li>HTML要素のclick()を使う</li>
+	<li>HTML要素.イベント名()という書き方で、click以外の任意のイベントを発火できるわけではない</li>
+</ul>
+<pre><code>element.click();</code></pre>
 </section><!-- section -->
 
 <section>
@@ -764,37 +770,281 @@ function handleKeydown() {
 	<p>.isComposing「<span class="isComposing128"></span>」</p>
 </div>
 <div>
-	<p>上下左右の「<span class="arrow128"></span>」キーが押されました」</p>
+	<p>上下左右の「<span class="arrow128"></span>」キーが押されました</p>
 </div>
 </section><!-- section -->
 
 <section>
-<h2><b>129</b></h2>
+<h2><b>129</b>タブがバックグラウンドになったときに処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>visibilitychange</td>
+		<td>ブラウザのタブの表示状態が変わったとき</td>
+	</tr>
+</table>
+<ul>
+	<li>document要素に対してイベントを設定する</li>
+	<li>ドキュメントの表示状態を示すdocument.visibilityStateと組み合わせて、表示・非表示状態での処理を振り分ける</li>
+</ul>
+<h4>SAMPLE #129<b>ブラウザのタブの表示状態を出力</b></h4>
+<pre><code>document.addEventListener('visibilitychange', () => {
+	if (document.visibilityState === 'visible') {
+		console.log('コンテンツが表示されました');
+		return;
+	}
+	if (document.visibilityState === 'hidden') {
+		console.log('コンテンツがバックグラウンドになりました');
+	}
+});</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>130</b>画面サイズが変更になったときに処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>resize</td>
+		<td>ブラウザのウィンドウサイズが変わったとき</td>
+	</tr>
+</table>
+<pre><code>window.addEventListener('resize', () => {
+	console.log('ブラウザがリサイズされました');
+});</code></pre>
+<h3>リサイズイベントの負荷軽減</b></h3>
+<ul>
+	<li>resizeはウィンドウサイズが1pxでも変わると発火するため負荷があがる</li>
+	<li>対策としてリサイズが完了したら処理を実行する</li>
+</ul>
+<pre><code>//1秒後にリサイズ処理を実行するタイマー
+let resizeTimer;
+
+window.addEventListener('resize', () => {
+	//resizeTimerがあればタイマーを解除
+	if (resizeTimer != null) {
+		clearTimeout(resizeTimer);
+	}
+	//1000ミリ秒後にonResize()を実行
+	resizeTimer = setTimeout(() => {
+		onResize();
+	}, 1000);
+});
+
+//リサイズ時の処理
+function onResize() {}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>131</b>画面サイズがブレークポイントを超えた時に処理をする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>matchMedia(メディアクエリ)</td>
+		<td>メディアクエリの情報</td>
+		<td>オブジェクト（MediaQueryList）</td>
+	</tr>
+	<tr>
+		<td>matchMedia(メディアクエリ).addListener(処理)</td>
+		<td>メディアクエリに一致したときに処理を実行する</td>
+		<td>なし</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>内容</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>matchMedia(メディアクエリ).matches</td>
+		<td>メディアクエリに一致するかどうか</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<ul>
+	<li>matchMedia()は引数に応じたメディアクエリの情報を返す</li>
+	<li>matchesプロパティはメディアクエリに一致するかの真偽値</li>
+	<li>mediaプロパティはブラウザが評価したクエリ文字列</li>
+	<li>resizeイベントと違い、matchMedia()を使う場合一度だけ実行されるので処理の軽減が期待できる</li>
+</ul>
+<pre><code>const mediaQueryList = matchMedia('(min-width: 500px)');
+console.log(mediaQueryList);
+//出力結果
+{
+	matches: true, //ウィンドウサイズが500px以上のとき
+	media: '(min-width: 500px)'
+}</code></pre>
+<h3>metchプロパティを用いてウィンドウサイズがメディアクエリと一致するか調べる</h3>
+<pre><code>metchMedia('(max-width: 300px)').matches;    //300px以下ならtrue
+matchMedia('(min-width: 100px) and (max-width: 700px)').matches;    //100px以上700px以下ならtrue</code></pre>
+<h3>スマホの縦向き・横向き変更を検知してコールバック処理を設定</h3>
+<pre><code>const mediaQueryList = matchMedia('(orientation: portrait)');    //portraitは横持ち
+mediaQueryList.addListener(() => {
+	console.log('デバイスの向きが変更された');
+});</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>132</b>イベントを発火させる</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>イベントターゲット.dispatchEvent(イベント)</td>
+		<td>イベントを発火させる</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>new Event('イベント名', [{detail: 値}※省略可])</td>
+		<td>イベントを生成する</td>
+		<td>イベント</td>
+	</tr>
+</table>
+<ul>
+	<li>dispatchEvent()は、イベントターゲットに対して任意のイベントを発生させる</li>
+	<li>イベントはnew Event('イベント名')で生成する</li>
+</ul>
+<h3>1秒後に#myBox要素のクリックイベントを発生させる</h3>
+<pre><code>const boxElement =  document.querySelector('#myBox');
+
+boxElement.addEventListener('click', () => {
+	boxElement.innerHTML = 'クリックされました';
+});
+setTimeout(() => {
+	boxElement.dispatchEvent(new Event('click'));
+}, 1000);
+</code></pre>
 <pre><code></code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>130</b></h2>
-<pre><code></code></pre>
+<h2><b>133</b>デフォルトのイベントをキャンセルする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>イベント.preventDefault()</td>
+		<td>イベントのデフォルトの挙動をキャンセルする</td>
+		<td>なし</td>
+	</tr>
+</table>
+<h4>SAMPLE #133<b>チェックボックスに応じてマウスホイールを無効化する</b></h4>
+<p><input type="checkbox" id="mouseWheelToggle" style="margin-top: 30px">マウスホイールを無効化</p>
+<ul class="scrollable-element" style="overflow-y: scroll; width: 100px; height: 100px; border: solid 1px #fff; margin-top: 10px;">
+	<li>あ</li>
+	<li>い</li>
+	<li>う</li>
+	<li>え</li>
+	<li>お</li>
+	<li>か</li>
+	<li>き</li>
+	<li>く</li>
+	<li>け</li>
+	<li>こ</li>
+</ul>
+<pre><code>//マウスホイールの無効・有効
+let enableMouseWheel = true;
+
+document.querySelector('#mouseWheelToggle').addEventListener('click', (event) => {
+	//チェックボックスに値が入っていたら無効化
+	enableMouseWheel = event.target.checked === false;
+});
+
+document.querySelector('.scrollable-element').addEventListener('wheel', (event) => {
+	//有効な場合、処理を抜ける
+	if (enableMouseWheel === true) {
+		return;
+	}
+	//無効な場合、event.preventDefault()を実行
+	event.preventDefault();
+});</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>131</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
+<h2><b>134</b>ドラッグ&ドロップを取り扱う</h2>
+<h3>ドラッグしている要素で発生するイベント</h3>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>dragstart</td>
+		<td>要素のドラッグを開始したとき</td>
+	</tr>
+	<tr>
+		<td>drag</td>
+		<td>ドラッグしているとき</td>
+	</tr>
+	<tr>
+		<td>dragend</td>
+		<td>ドラッグを終了したとき</td>
+	</tr>
+</table>
 
-<section>
-<h2><b>132</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
+<h3>ドラッグ要素を受け入れる要素で発生するイベント</h3>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>発生タイミング</th>
+	</tr>
+	<tr>
+		<td>dragenter</td>
+		<td>ドラッグ中にマウスポインタが要素上に乗ったとき</td>
+	</tr>
+	<tr>
+		<td>dragover</td>
+		<td>ドラッグ中にマウスポインタが要素に存在するとき</td>
+	</tr>
+	<tr>
+		<td>dragleave</td>
+		<td>ドラッグ中にマウスポインタが要素上から離れたとき</td>
+	</tr>
+	<tr>
+		<td>drop</td>
+		<td>要素をドロップしたとき</td>
+	</tr>
+</table>
 
-<section>
-<h2><b>133</b></h2>
-<pre><code></code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>134</b></h2>
+<h3>ドラッグにおけるイベント情報</h3>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>event.dataTransfer.files</td>
+		<td>ドロップされたファイル情報</td>
+		<td>オブジェクト（FileListオブジェクト）</td>
+	</tr>
+</table>
+<ul>
+	<li>Drag and Drop APIを使うと、HTMLの任意の要素にドラッグしたファイルを取り扱うことができる</li>
+	<li>ドラッグ可能な要素を示すには、draggable属性をtrueにする</li>
+</ul>
+<h4>SAMPLE #134<b>画像ファイルをドラッグし表示する</b></h4>
+<div class="file-zone">画像ファイルを<br>ドロップしてください</div>
+<div class="file-preview-area">
+	<h1>アップロードした画像ファイル</h1>
+	<div class="image-list"></div>
+</div>
 <pre><code></code></pre>
 </section><!-- section -->
 
