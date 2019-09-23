@@ -341,3 +341,64 @@ function sec133() {
 		event.preventDefault();
 	});
 } sec133();
+
+
+/* ------------------------------------
+sec134 画像ファイルをドラッグし表示する
+-------------------------------------*/
+
+function sec134() {
+	const fileZone = document.querySelector('.file-zone');
+	const className = 'on';
+
+	//dragover（要素が重なったとき）
+	fileZone.addEventListener('dragover', (event) => {
+		event.preventDefault();
+		fileZone.classList.add(className);
+	});
+
+	//dragleave（要素が離れたとき）
+	fileZone.addEventListener('dragleave', () => {
+		event.preventDefault();
+		fileZone.classList.remove(className);
+	});
+
+	//drop
+	fileZone.addEventListener('drop', (event) => {
+		event.preventDefault();
+		fileZone.classList.remove(className);
+		//Fileオブジェクトを参照
+		const transferdFiles = event.dataTransfer.files;
+		//画像を表示する
+		displayImages(transferdFiles);
+	});
+
+	//画像表示処理
+	function displayImages(transferdFiles) {
+		//画像の格納配列
+		const imageFileList = [];
+		//ファイル数
+		const fileNum = transferdFiles.length;
+		//画像ファイルのみ配列に格納
+		for (let i = 0; i < fileNum; i++) {
+			if (transferdFiles[i].type.match('image.*') === false) {
+				return;
+			}
+			imageFileList.push(transferdFiles[i]);
+		}
+		//画像表示エリア
+		const imagePreviewArea = document.querySelector('.image-list');
+		//各画像ファイルの処理
+		for (const imageFile of imageFileList) {
+			//画像ファイルの読み込み
+			const fileReader = new FileReader();
+			fileReader.readAsDataURL(imageFile);
+			fileReader.addEventListener('load', (event) => {
+				const image = new Image();
+				image.src = event.target.result;
+				//表示エリアの先頭にファイルを表示
+				imagePreviewArea.insertBefore(image, imagePreviewArea.firstChild);
+			});
+		}
+	}
+} sec134();

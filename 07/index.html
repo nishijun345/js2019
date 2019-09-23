@@ -23,6 +23,44 @@
 		#balloon.on {
 			opacity: 1;
 		}
+		/* 134 */
+		.file-zone {
+			background: rgba(255,255,255,0.5);
+			box-sizing: border-box;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 100%;
+			padding: 30px;
+			transition: 100ms all ease-out;
+			margin-top: 60px;
+		}
+		.file-zone.on {
+			background-color: #faff68;
+			color: #11131a;
+		}
+		.file-preview-area {
+			width: 100%;
+			background-color: #11131a;
+			padding: 30px;
+		}
+		.file-preview-area p {
+			text-align: center;
+			padding: 15px 0;
+		}
+		.file-preview-area .image-list {
+			display: grid;
+			overflow: scroll;
+			gap: 10px;
+			grid-template-columns: repeat(3, 1fr);
+			grid-auto-rows: 250px;
+		}
+		.file-preview-area .image-list > img {
+			width: 100%;
+			height: 100%;
+			display: block;
+			object-fit: cover;
+		}
 	</style>
 	<!--js-->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -1039,13 +1077,55 @@ document.querySelector('.scrollable-element').addEventListener('wheel', (event) 
 	<li>Drag and Drop APIを使うと、HTMLの任意の要素にドラッグしたファイルを取り扱うことができる</li>
 	<li>ドラッグ可能な要素を示すには、draggable属性をtrueにする</li>
 </ul>
-<h4>SAMPLE #134<b>画像ファイルをドラッグし表示する</b></h4>
-<div class="file-zone">画像ファイルを<br>ドロップしてください</div>
+<h3>ドラッグイベントを取り扱う例</h3>
+<pre><code>chara.addEventListener('dragstart', () => {
+	console.log('dragstartイベント');
+});
+chara.addEventListener('drag', () => {
+	console.log('dragイベント');
+});
+chara.addEventListener('dragend', () => {
+	console.log('dragendイベント');
+});</code></pre>
+<ul>
+	<li>dragイベントはドラッグ中ずっと発生する</li>
+</ul>
+<h3>ドラッグを受け入れる例</h3>
+<pre><code>box.addEventListener('dragenter', () => {
+	console.log('dragenterイベント');
+});
+box.addEventListener('dragover', () => {
+	console.log('dragoverイベント');
+});
+box.addEventListener('dragleave', () => {
+	console.log('dragleaveイベント');
+});</code></pre>
+<ul>
+	<li>dragoverイベントは要素が重なっている間ずっと発生する</li>
+</ul>
+<h3>ドロップを受け付けるdropイベントの例</h3>
+<pre><code>box.addEventListener('dragover', (event) => {
+	event.preventDefault();
+});
+box.addEventListener('drop', () => {
+	console.log('dropイベント');
+})</code></pre>
+<ul>
+	<li>マウスを離しドロップしたときdropイベントが発生</li>
+	<li>ブラウザにファイルがD&Dされるとページ遷移する</li>
+	<li>その挙動をキャンセルするためdragoverイベントでevent.preventDefault()を実行する必要がある</li>
+</ul>
+<h4>SAMPLE #134<b>画像ファイルをドラッグし表示するサンプル</b></h4>
+<div class="file-zone">画像ファイルをドロップしてください</div>
 <div class="file-preview-area">
-	<h1>アップロードした画像ファイル</h1>
+	<p>アップロードした画像ファイル</p>
 	<div class="image-list"></div>
 </div>
-<pre><code></code></pre>
+<ul>
+	<li>ドラッグを受け入れるイベントは、ブラウザ外からのドラッグに対しても有効</li>
+	<li>dropイベントの発生時、event.dataTransfer.filesプロパティよりドロップされたファイルリストにアクセスできる</li>
+	<li>event.Transfer.filesには{0:Fileオブジェクト, 1:Fileオブジェクト,...}という形でファイル情報が格納されている</li>
+</ul>
 </section><!-- section -->
 
 
