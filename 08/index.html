@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_08】HTML要素の操作方法</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter8】HTML要素の操作方法【135〜160】</h1>
+<section>
+<h2><b>135</b>JavaScriptでの要素の取り扱い方を知る</h2>
+<ul>
+	<li>JavaScriptでHTML上の要素へアクセスする仕組みは、DOM（Document Object Model）というインターフェースで定義されている</li>
+	<li>DOMではHTML文書をツリー構造として扱う</li>
+	<li>ツリーの各構成要素はNodeといい、Nodeオブジェクトとして扱える</li>
+	<li>HTML全体はdocumentで取得でき、それ自体が一つの大きなNodeオブジェクトとなっている</li>
+</ul>
+<h3>ノードの種類</h3>
+<table>
+	<tr>
+		<th>ノード</th>
+		<th>例</th>
+	</tr>
+	<tr>
+		<td>要素ノード</td>
+		<td>&lt;p class="box"&gt;こんにちは&lt;/p&gt;</td>
+	</tr>
+	<tr>
+		<td>属性ノード</td>
+		<td>class="box"こんにちは</td>
+	</tr>
+	<tr>
+		<td>テキストノード</td>
+		<td>こんにちは</td>
+	</tr>
+</table>
+<ul>
+	<li>要素ノードはElementオブジェクトとして扱う</li>
+	<li>ElementオブジェクトはNodeオブジェクトを継承している</li>
+	<li>ElementオブジェクトはNodeオブジェクトの各プロパティやメソッドを取り扱え、さらに自身のプロパティやメソッドを持っている</li>
+</ul>
+</section><!-- section -->
+
+<section>
+<h2><b>136</b>セレクター名に一致する要素をひとつ取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>document.querySelector(セレクタ名)</td>
+		<td>セレクタ名に一致する要素を取得する</td>
+		<td>要素（Element）</td>
+	</tr>
+</table>
+<ul>
+	<li>合致する要素が複数ある場合、最初の要素が返る</li>
+</ul>
+<pre><code>document.querySelector('.box');</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>137</b>ID名に一致する要素を取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>document.getElementById(ID名)</td>
+		<td>ID名に一致する要素を取得する</td>
+		<td>要素（HTMLElement）</td>
+	</tr>
+</table>
+<pre><code>document.getElementById('box');</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>138</b>セレクター名に一致する要素をまとめて取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>document.querySelectorAll(セレクタ名)</td>
+		<td>セレクタ名に一致する要素をすべて取得する</td>
+		<td>要素の配列（NodeList）</td>
+	</tr>
+</table>
+<ul>
+	<li>複数の要素をひとまとめにしたオブジェクト（NodeListオブジェクト）が返ってくる</li>
+	<li>ひとつひとつに対して処理するにはforEach()メソッドを使う</li>
+	<li>コールバック関数を受け取り各要素に対して処理が可能</li>
+</ul>
+<h4 style="margin-bottom: 10px;">SAMPLE #138<b>クリックしたboxの名前をアラートで出すサンプル</b></h4>
+<div class="box138" style="background: #faff68; color: #11131a; padding: 10px; display:  inline-block; font-weight: bold; cursor: pointer;">ボックス1</div>
+<div class="box138" style="background: #faff68; color: #11131a; padding: 10px; display:  inline-block; font-weight: bold; cursor: pointer;">ボックス2</div>
+<div class="box138" style="background: #faff68; color: #11131a; padding: 10px; display:  inline-block; font-weight: bold; cursor: pointer;">ボックス3</div>
+<pre><code>document.querySelectorAll('.box138').forEach((targetBox) => {
+	targetBox.addEventListener('click', () => {
+		alert(`${targetBox.textContent}がクリックされました`);
+	});
+});</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>139</b>クラス名に一致する要素をすべて取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>document.getElementByClassName(クラス名)</td>
+		<td>暮らす名に一致する要素をすべて取得する</td>
+		<td>要素の配列（HTMLCollection）</td>
+	</tr>
+</table>
+<ul>
+	<li>各要素を処理するにはfor文を使う（forEach()メソッドは存在しない）</li>
+</ul>
+<pre><code>const boxList = document.getElementByClassName('box');
+const boxLength = boxList.length;
+
+for(let i = 0; i < boxLength; i++) {
+	console.log(boxList[i]);
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>140</b>html要素やbody要素を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>document.documentElement</td>
+		<td>ルート要素</td>
+		<td>html要素</td>
+	</tr>
+	<tr>
+		<td>document.head</td>
+		<td>head要素</td>
+		<td>head要素</td>
+	</tr>
+	<tr>
+		<td>document.body</td>
+		<td>body要素</td>
+		<td>body要素</td>
+	</tr>
+</table>
+<ul>
+	<li>document.documentElementとはドキュメントのルート要素。HTML文書においてはhtml要素</li>
+</ul>
+</section><!-- section -->
+
+<section>
+<h2><b>141</b>子要素・前後要素・親要素を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>親ノード.children</td>
+		<td>子ノード</td>
+		<td>要素郡（HTMLCollection）</td>
+	</tr>
+	<tr>
+		<td>親ノード.firstElementChild</td>
+		<td>最初の子ノード</td>
+		<td>要素（Element）</td>
+	</tr>
+	<tr>
+		<td>親ノード.lastElementChild</td>
+		<td>最後の子ノード</td>
+		<td>要素（Element）</td>
+	</tr>
+	<tr>
+		<td>親ノード.nextElementSibling</td>
+		<td>次のノード</td>
+		<td>要素（Element）</td>
+	</tr>
+	<tr>
+		<td>親ノード.previousElementSibling</td>
+		<td>前のノード</td>
+		<td>要素（Element）</td>
+	</tr>
+	<tr>
+		<td>親ノード.parentNode</td>
+		<td>親のノード</td>
+		<td>ノード（Node）</td>
+	</tr>
+</table>
+<pre><code>const parentElement = documen.querySelector('#parent');
+console.log(parentElement.children);   //子ノード（HTMLCollection）
+
+const firstElementChild = parentElement.firstElementChild;
+console.log(firstElementChild.nextElementSibling);   //最初の子ノードの次のノード
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>142</b>親要素の末尾に要素を追加する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>親ノード.appendChild(子ノード)</td>
+		<td>親ノード内の末尾に子ノードを追加する</td>
+		<td>要素（Element）</td>
+	</tr>
+</table>
+<pre><code>const container = document.querySelector('.container');   //親
+const box = document.querySelector('.box');   //子
+//boxをcontainerの末尾に追加する
+container.appendChild(box);</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>143</b>指定要素の直前に要素を追加する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>親ノード.insertBefore(子ノード, 直前のノード)</td>
+		<td>親ノード内に子ノードを追加する</td>
+		<td>要素（Element）</td>
+	</tr>
+</table>
+<pre><code>const container = document.querySelector('.container');   //親
+const box1 = document.querySelector('.box1');   //子1
+const box2 = document.querySelector('.box2');   //子2
+const box3 = document.querySelector('.box3');   //子3
+//box3をbox2の前に追加する
+container.insertBefore(box3, box2);</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>144</b>要素の前後に別の要素を追加する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>ノード1.before(ノード2)</td>
+		<td>ノード1の前にノード2を追加する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>ノード1.after(ノード2)</td>
+		<td>ノード1の後にノード2を追加する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>親ノードhasChild(子ノード)</td>
+		<td>親ノードに子ノードが存在するかを確認する</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<pre><code>const container = document.querySelector('.container'); //親
+const box1 = document.querySelector('.box1'); //子1
+const box2 = document.querySelector('.box2'); //子2
+//box2をbox1の後に追加する
+box1.after(box2);</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>145</b>HTMLコードを要素として挿入する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>親要素.insertAdjacentHTML(挿入位置, 文字列)</td>
+		<td>文字列をHTMLとして挿入する</td>
+		<td>要素（Element）</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>挿入位置</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>'beforebegin'</td>
+		<td>親要素の直前</td>
+	</tr>
+	<tr>
+		<td>'afterbegin'</td>
+		<td>親要素内の先頭</td>
+	</tr>
+	<tr>
+		<td>'beforeend'</td>
+		<td>親要素内の末尾</td>
+	</tr>
+	<tr>
+		<td>'afterend'</td>
+		<td>親要素の直後</td>
+	</tr>
+</table>
+<ul>
+	<li>insertAdjacentHTML()メソッドは第一引数の位置に第二引数の文字列をHTMLとして挿入するメソッド</li>
+	<li>挿入先の要素は破壊されない</li>
+	<li>類似メソッドとして位置と要素（Element）を指定して追加するinsertAdjacentElement()もある</li>
+</ul>
+<h4 style="margin-bottom: 60px">SAMPLE #145<b>insertAdjacentHTML()</b></h4>
+<div class="container145" style="padding: 10px; border: solid 1px;">
+	<p class="box145">子要素</p>
+</div>
+<p class="btn beforebegin">beforebegin</p>
+<p class="btn afterbegin">afterbegin</p>
+<p class="btn beforeend">beforeend</p>
+<p class="btn afterend">afterend</p>
+<pre><code>const container145 = document.querySelector('.container145');
+const btnBeforebegin = document.querySelector('.btn.beforebegin');
+btnBeforebegin.addEventListener('click', function () {
+	container145.insertAdjacentHTML('beforebegin', '&lt;p&gt;beforebegin&lt;/p&gt;');
+});</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>146</b>要素を動的に削除する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>ノード.removeChild(子ノード)</td>
+		<td>親要素の子要素を取り除く</td>
+		<td>取り除かれた要素（Element）</td>
+	</tr>
+</table>
+<pre><code>const parent = document.querySelector('#parent');
+const child = document.querySelector('#child');
+parentElement.removeChild(child);</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>147</b>自分自身の要素を削除する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>ノード.remove()</td>
+		<td>要素を取り除く</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>removeChild()と異なり、親要素ではなく削除したい要素そのものに対して処理を行う</li>
+</ul>
+<pre><code>const child = document.querySelector('#child');
+parentElement.remove(child);</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>148</b>要素を生成する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>documentent.createElement('タグ名', オプション)</td>
+		<td>タグ名の要素を作成する</td>
+		<td>要素</td>
+	</tr>
+</table>
+<ul>
+	<li>createElement()で生成しただけでは画面上に変化はない</li>
+	<li>appendChild()などを使って追加することでDOM上の要素として扱える</li>
+	<li>innerHTMLで中身のHTMLを追加や、classListでクラスを操作したりできる</li>
+</ul>
+
+</section><!-- section -->
+
+<section>
+<h2><b>149</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>150</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>151</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>152</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>153</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>154</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>155</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>156</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>157</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>158</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>159</b>タイトル</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>160</b>タイトル</h2>
+</section><!-- section -->
+
+
+	<script src="../js/08.js"></script>
+</body>
+
+</html>
