@@ -41,6 +41,7 @@
 		}
 		.file-preview-area {
 			width: 100%;
+			box-sizing: border-box;
 			background-color: #11131a;
 			padding: 30px;
 		}
@@ -50,7 +51,7 @@
 		}
 		.file-preview-area .image-list {
 			display: grid;
-			overflow: scroll;
+			overflow: auto;
 			gap: 10px;
 			grid-template-columns: repeat(3, 1fr);
 			grid-auto-rows: 250px;
@@ -965,7 +966,6 @@ setTimeout(() => {
 	boxElement.dispatchEvent(new Event('click'));
 }, 1000);
 </code></pre>
-<pre><code></code></pre>
 </section><!-- section -->
 
 <section>

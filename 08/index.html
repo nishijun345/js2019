@@ -9,6 +9,36 @@
 	<title>【js_08】HTML要素の操作方法</title>
 	<!--css-->
 	<link rel="stylesheet" href="../css/base.css" media="all">
+	<style>
+	.modal {
+		background: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+	.modal .inner {
+		padding: 50px;
+		width: 400px;
+		cursor: pointer;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		background: #fff;
+		color: #11131a;
+		box-sizing: border-box;
+		transform: translate(-50%, -50%);
+		text-align: center;
+		z-index: 10;
+	}
+	.btn158 {
+		background: #a7a7a7;
+	}
+	.btn158.on {
+		background: #faff68;
+	}
+	</style>
 	<!--js-->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
@@ -405,56 +435,353 @@ parentElement.remove(child);</code></pre>
 	<li>createElement()で生成しただけでは画面上に変化はない</li>
 	<li>appendChild()などを使って追加することでDOM上の要素として扱える</li>
 	<li>innerHTMLで中身のHTMLを追加や、classListでクラスを操作したりできる</li>
+	<li>属性を生成するcreateAttribute()や、コメントを生成するcreateComment()もある</li>
 </ul>
-
+<pre><code>const divElement = document.createElement('div');    //div要素の生成
+divElement.innerHTML = 'テキスト';    //innerHTMLで内容の生成
+document.body.appendChild(divElement);    //bodyの末尾に追加</code></pre>
+<h4 style="margin-bottom: 5px">SAMPLE #148<b>モーダルを追加するサンプル</b></h4>
+<p class="btn modal148">モーダルOPEN</p>
 </section><!-- section -->
 
 <section>
-<h2><b>149</b>タイトル</h2>
+<h2><b>149</b>要素を複製する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>ノード.cloneNode([真偽値※省略可])</td>
+		<td>ノードを複製する</td>
+		<td>ノード（Node）</td>
+	</tr>
+</table>
+<ul>
+	<li>引数にtrueを渡すと、子ノードも複製する</li>
+	<li>引数にfalseを渡すと、子ノードは複製しない（引数を省略しても同様）</li>
+	<li>appendChild()などを使って追加することでDOM上の要素として扱える</li>
+</ul>
+<h4 style="margin-bottom: 5px">SAMPLE #149<b>cloneNode()</b></h4>
+<div class="cloneWrap">
+	<p class="btn true149" style="margin: 0 5px;">true</p>
+	<p class="btn false149" style="margin: 0 5px;">false</p>
+</div>
+<pre><code>const cloneWrap = document.querySelector('.cloneWrap');
+const cloneTrueBtn = document.querySelector('.true149');
+const cloneFalseBtn = document.querySelector('.false149');
+cloneTrueBtn.addEventListener('click', cloneTrue);
+cloneFalseBtn.addEventListener('click', cloneFalse);
+
+function cloneTrue() {
+	const cloneTrueElement = cloneTrueBtn.cloneNode(true);
+	cloneWrap.appendChild(cloneTrueElement);
+}
+function cloneFalse() {
+	const cloneFalseElement = cloneFalseBtn.cloneNode();
+	cloneWrap.appendChild(cloneFalseElement);
+}</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>150</b>タイトル</h2>
+<h2><b>150</b>要素を他の要素で置き換える</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>親ノード.replaceChild(新ノード, 旧ノード)</td>
+		<td>新ノードと子ノードを置き換える</td>
+		<td>置き換えられたノード</td>
+	</tr>
+</table>
+<ul>
+	<li>既存のノードを入れ替える際に用いるメソッド</li>
+	<li>入れ替えられたノードはDOMツリーから取り除かれ、replaceChild()の戻り値となる</li>
+	<li>入れ替え対象が子ノードでない場合エラーになる</li>
+</ul>
+<h4 style="margin-bottom: 5px">SAMPLE #150<b>oldを生成したnewで置き換える</b></h4>
+<div class="replaceChildWrap">
+	<p class="old150">old</p>
+	<p class="new150">new</p>
+</div>
+<p class="btn replaceChild">replaceChild()</p>
+<pre><code>const replaceChildWrap = document.querySelector('.replaceChildWrap');
+const old150 = document.querySelector('.old150');
+const new150 = document.createElement('p');
+new150.innerHTML = '新しいnew';
+document.querySelector('.btn.replaceChild').addEventListener('click', () => {
+	replaceChildWrap.replaceChild(new150, old150);
+});</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>151</b>タイトル</h2>
+<h2><b>151</b>新ノードと旧ノードを入れ替える</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>旧ノード.replaceWith(新ノード)</td>
+		<td>旧ノードを新ノードで置き換える</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>replaceChild()と同様に、入れ替えられたノードはDOMツリーから取り除かれる</li>
+	<li>replaceChild()と異なり、戻り値はない</li>
+</ul>
+<h4 style="margin-bottom: 5px">SAMPLE #151<b>oldを生成したnewで置き換える</b></h4>
+<div class="replaceWithWrap">
+	<p class="old151">old</p>
+	<p class="new151">new</p>
+</div>
+<p class="btn replaceWith">replaceWith()</p>
 </section><!-- section -->
 
 <section>
-<h2><b>152</b>タイトル</h2>
+<h2><b>152</b>要素内のテキストを取得したり書き換えたりする</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>ノード.textContent</td>
+		<td>ノード内のテキスト</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>テキストを取得する際、HTMLタグは無視される</li>
+	<li>HTMLタグを含んだ文字列を渡しても文字列としか扱われない</li>
+</ul>
+<pre><code>const box = document.querySelector('.box');
+//文字列の取得
+box.textContent
+//文字列の書き換え
+box.textContent = '書き換えるテキスト'</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>153</b>タイトル</h2>
+<h2><b>153</b>要素内のHTMLを取得したり書き換えたりする</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>要素.innerHTML</td>
+		<td>要素内のHTML文字列</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>ノード.textContentと異なり、NodeオブジェクトではなくElementオブジェクトのプロパティ</li>
+	<li>テキストだけでなくタグも書き換えるときに使う</li>
+</ul>
+<pre><code>const box = document.querySelector('.box');
+//文字列の取得
+box.innerHTML
+//文字列の書き換え
+box.innerHTML = '書き換えるテキスト&lt;b&gt;太字&lt;/b&gt;書き換えるテキスト'</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>154</b>タイトル</h2>
+<h2><b>154</b>要素（自分自身含む）のHTMLを取得したり書き換えたりする</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>要素.outerHTML</td>
+		<td>要素のHTML文字列</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>innerHTMLと異なり、自身も対象に含まれる</li>
+</ul>
+<pre><code>const box = document.querySelector('.box');
+//文字列の取得
+box.outerHTML
+//文字列の書き換え
+box.outerHTML = '&lt;b&gt;書き換えるテキスト&lt;/b&gt;'</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>155</b>タイトル</h2>
+<h2><b>155</b>要素の属性を取得したり書き換えたりする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>要素.setAttribute(属性名, 値)</td>
+		<td>要素の属性を設定する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>要素.getAttribute(属性名)</td>
+		<td>要素の属性を取得する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>要素.hasAttribute(属性名)</td>
+		<td>要素の属性があるかどうか</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<pre><code>&lt;img id="image" src="foo.png"/&gt;
+
+const image = document.querySelector('#image');
+//取得
+image.getAttribute('src');
+//書き換え
+image.setAttribute('src', 'bar.png');</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>156</b>タイトル</h2>
+<h2><b>156</b>ページ内のaタグで_blankになってるものにrel="noopener"を付与する</h2>
+<ul>
+	<li>_blank設定のaタグでウィンドウを開くと、開いた先からwindow.openerを用いて元のウィンドウを操作できる</li>
+	<li>それを防ぐためrel="noopener"を設定するのが有効</li>
+</ul>
+<h3>_blankのaタグに自動的に付与するサンプル</h3>
+<pre><code>//aを一括取得
+const aElementList = document.querySelectorAll('a');
+//各aについて処理
+aElementList.forEach((element) => {
+	//aにtarget属性が存在しない場合return
+	if (element.hasAttribute('target') === false) {
+		return;
+	}
+	//target属性が_blankでない場合return
+	if (element.getAttribute('target') !== '_blank') {
+		return;
+	}
+	//rel属性にnoopenerを付与
+	element.setAttribute('rel', 'noopener');
+});</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>157</b>タイトル</h2>
+<h2><b>157</b>要素のクラス属性の追加や削除をする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>要素.classList.add(クラス1, クラス2, ...)</td>
+		<td>クラスを追加する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>要素.classList.remove(クラス1, クラス2, ...)</td>
+		<td>クラスを削除する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>要素.classList.contains(クラス)</td>
+		<td>クラスが存在するかどうか</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<ul>
+	<li>複数クラスの一括追加・削除も可能</li>
+</ul>
+<pre><code>box.classList.add('blue', 'red');    //追加
+box.classList.remove('blue');    //削除
+box.classList.contains('red');    //存在するかどうか
+</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>158</b>タイトル</h2>
+<h2><b>158</b>要素のクラスの有無を切り替える</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>要素.classList.toggle(クラス)</td>
+		<td>クラスを切り替える</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>クラスが設定されていれば追加し、なければ削除する</li>
+</ul>
+<h4 style="margin-bottom: 5px">SAMPLE #158<b>classList.toggle</b></h4>
+<p class="btn btn158">ON / OFF</p>
+<pre><code>const btn158 = document.querySelector('.btn158');
+btn158.addEventListener('click', () => {
+	btn158.classList.toggle('on');
+});</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>159</b>タイトル</h2>
+<h2><b>159</b>スタイルを変更する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>要素.style.プロパティ名</td>
+		<td>スタイルの値</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>プロパティはキャメルケース記法であることに注意</li>
+</ul>
+<pre><code>box.style.color = 'white';
+box.style.fontSize = '16px';
+
+const mainColor = '#000';
+box.border = `solid 2px ${mainColor}`;
+</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>160</b>タイトル</h2>
+<h2><b>160</b>スタイルを取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>getComputedStyle(要素).プロパティ名</td>
+		<td>スタイルの値を取得する</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>要素.style.プロパティ名でもスタイルを取得できるが、インラインスタイルのみ取得可能</li>
+	<li>CSSで設定されたスタイルを取得する場合はgetComputedStyle()を使う</li>
+</ul>
+<h4 style="margin-bottom: 5px">SAMPLE #160<b>getComputedStyle</b></h4>
+<p class="btn btn160">bodyのbackground-colorを取得</p>
+<pre><code>const btn160 = document.querySelector('.btn160');
+btn160.addEventListener('click', () => {
+	alert(getComputedStyle(document.body).backgroundColor);
+});</code></pre>
 </section><!-- section -->
 
 
