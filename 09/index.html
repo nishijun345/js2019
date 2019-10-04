@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_09】フォーム要素の操作方法</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter9】フォーム要素の操作方法【161〜179】</h1>
+<section>
+<h2><b>161</b>テキストボックスの情報を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>インプット要素.value</td>
+		<td>入力欄の文字列</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>valueプロパティでアクセス</li>
+	<li>valueプロパティは文字列（String型）</li>
+</ul>
+<h4>SAMPLE #161<b>テキストボックスの値を取得</b></h4>
+<form action="">
+	<input type="text" placeholder="テキストを入力" id="input161">
+</form>
+<p class="btn" onclick="sec161()">SAMPLE #161</p>
+<pre><code>const value161 = document.querySelector('#input161').value;
+if (value161) {
+	alert(value161);
+} else {
+	alert('テキストを入力してください');
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>162</b>テキストボックスの変更を検知する</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>change</td>
+		<td>input要素の変更時のイベント</td>
+	</tr>
+	<tr>
+		<td>input</td>
+		<td>input要素のキー入力時のイベント</td>
+	</tr>
+</table>
+<ul>
+	<li>値の変化を検知するにはchangeイベント、inputイベントを監視する</li>
+	<li>要素を参照し、addEventListener()でイベントハンドラーを設定する</li>
+	<li>inputはキー入力と同時にイベント発生</li>
+	<li>changeはEnterを押したときやフォーカスが外れたときにイベント発生</li>
+</ul>
+<h4>SAMPLE #162<b>テキストボックスの変更を検知</b></h4>
+<form action="" id="form162">
+	<input type="text" placeholder="テキストを入力" id="input162">
+</form>
+<div class="result162i" style="margin-top: 10px;">入力されたテキストが表示されます（input）</div>
+<div class="result162c" style="margin-top: 10px;">入力されたテキストが表示されます（change）</div>
+<pre><code>const form162 = document.querySelector('#form162');
+const input162 = document.querySelector('#input162');
+const result162i = document.querySelector('.result162i');
+const result162c = document.querySelector('.result162c');
+
+input162.addEventListener('input', handleInput);
+input162.addEventListener('change', handleChange);
+
+function handleInput(event) {
+	const value162 = event.target.value;
+	result162i.innerHTML = value162;
+}
+function handleChange(event) {
+	const value162 = event.target.value;
+	result162c.innerHTML = value162;
+}
+//enterで遷移させない
+form162.addEventListener('submit', (e) => {
+	if (e.target.type !== "submit") {
+		e.preventDefault();
+	}
+});</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>163</b>テキストエリアの情報を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>テキストエリア要素.value</td>
+		<td>入力欄の文字列</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>valueプロパティでアクセス</li>
+	<li>valueプロパティは文字列（String型）</li>
+</ul>
+<h4>SAMPLE #163<b>テキストエリアの値を取得</b></h4>
+<form action="">
+	<textarea placeholder="テキストを入力" id="input163" cols="30" rows="10"></textarea>
+</form>
+<p class="btn" onclick="sec163()">SAMPLE #163</p>
+<pre><code>const value163 = document.querySelector('#input163').value;
+if (value163) {
+	alert(value163);
+} else {
+	alert('テキストを入力してください');
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>164</b>テキストエリアの変更を検知する</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>change</td>
+		<td>textarea要素の変更時のイベント</td>
+	</tr>
+	<tr>
+		<td>input</td>
+		<td>textarea要素のキー入力時のイベント</td>
+	</tr>
+</table>
+<ul>
+	<li>inputはキー入力と同時にイベント発生</li>
+	<li>changeはEnterを押したときやフォーカスが外れたときにイベント発生</li>
+</ul>
+<h4>SAMPLE #164<b>テキストエリアの変更を検知</b></h4>
+<form action="" id="form164">
+	<textarea placeholder="テキストを入力" id="input164" cols="30" rows="10"></textarea>
+</form>
+<div class="result164i" style="margin-top: 10px;">入力されたテキストが表示されます（input 改行変換あり）</div>
+<div class="result164c" style="margin-top: 10px;">入力されたテキストが表示されます（change 改行変換なし）</div>
+<pre><code>const input164 = document.querySelector('#input164');
+const result164i = document.querySelector('.result164i');
+const result164c = document.querySelector('.result164c');
+input164.addEventListener('input', handleInput);
+input164.addEventListener('change', handleChange);
+function handleInput(event) {
+	const value164 = event.target.value;
+	const htmlstr = value164.split('\n').join('<br>');
+	result164i.innerHTML = htmlstr;
+}
+function handleChange(event) {
+	const value164 = event.target.value;
+	result164c.innerHTML = value164;
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>165</b>チェックボックスの情報を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>インプット要素.checked</td>
+		<td>選択状態であるか</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<ul>
+	<li>checkedプロパティでアクセス</li>
+	<li>checkedプロパティでは真偽値（Boolean型）</li>
+</ul>
+<h4>SAMPLE #165<b>チェックボックスの情報を取得</b></h4>
+<form action="" id="form164">
+	<label for="checkA" style="margin-right: 20px;">
+		<input type="checkbox" id="checkA" value="A" class="check165">
+		checkboxA
+	</label>
+	<label for="checkB" style="margin-right: 20px;">
+		<input type="checkbox" id="checkB" value="B" class="check165">
+		checkboxB
+	</label>
+	<label for="checkC" style="margin-right: 20px;">
+		<input type="checkbox" id="checkC" value="C" class="check165">
+		checkboxC
+	</label>
+</form>
+<ul>
+	<li>checkboxA : <span class="checkA">false</span></li>
+	<li>checkboxB : <span class="checkB">false</span></li>
+	<li>checkboxC : <span class="checkC">false</span></li>
+</ul>
+</section><!-- section -->
+
+<section>
+<h2><b>166</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>167</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>168</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>169</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>170</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>171</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>172</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>173</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>174</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>175</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>176</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>177</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>178</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<section>
+<h2><b>179</b>テキストボックスの情報を取得する</h2>
+</section><!-- section -->
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/09.js"></script>
+</body>
+
+</html>

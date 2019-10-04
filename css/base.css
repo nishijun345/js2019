@@ -154,3 +154,18 @@ section > table td + td {
 section > table tr + tr {
 	border-top: solid 1px #fff;
 }
+#top {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	padding: 10px 15px;
+	background: #fff;
+}
+#top a {
+	color: #11131a;
+	font-weight: bold;
+	text-decoration: none;
+}
+#top:hover {
+	opacity: 0.7;
+}
