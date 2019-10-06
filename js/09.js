@@ -73,21 +73,63 @@ function sec164() {
 } sec164();
 
 /* ------------------------------------
-sec165 チェックボックスの情報を取得
+sec166 チェックボックスの情報を取得
 -------------------------------------*/
 
-function sec165() {
-	document.querySelectorAll('.check165').forEach(function (checkBtn) {
-		checkBtn.addEventListener('click', () => {
-			checkChange();
+function sec166() {
+	const checkedA = document.querySelector('#checkA');
+	const checkedB = document.querySelector('#checkB');
+	const checkedC = document.querySelector('#checkC');
+	document.querySelectorAll('.check166').forEach(function (checkBtn) {
+		checkBtn.addEventListener('change', () => {
+			checkResult();
 		});
 	});
-	function checkChange() {
-		const checkedA = document.querySelector('#checkA').checked;
-		const checkedB = document.querySelector('#checkB').checked;
-		const checkedC = document.querySelector('#checkC').checked;
-		document.querySelector('.checkA').innerHTML = checkedA;
-		document.querySelector('.checkB').innerHTML = checkedB;
-		document.querySelector('.checkC').innerHTML = checkedC;
+	document.querySelector('#checkAll').addEventListener('click', (e) => {
+		if (e.target.checked == true) {
+			checkedA.checked = checkedB.checked = checkedC.checked = true;
+		} else {
+			checkedA.checked = checkedB.checked = checkedC.checked = false;
+		}
+		checkResult();
+	});
+	function checkResult() {
+		document.querySelector('.checkA').innerHTML = checkedA.checked;
+		document.querySelector('.checkB').innerHTML = checkedB.checked;
+		document.querySelector('.checkC').innerHTML = checkedC.checked;
 	}
-} sec165();
+} sec166();
+
+/* ------------------------------------
+sec167 ローカルファイルの情報を取得
+-------------------------------------*/
+
+function sec167() {
+	const input167 = document.querySelector('#input167');
+	input167.addEventListener('change', (e) => {
+		const files = e.target.files;    //ファイルの配列
+		const file = files[0];
+		alert(`${file.name}が選択されました`);
+	});
+} sec167();
+
+/* ------------------------------------
+sec168 ローカルファイルをテキストとして読み込む
+-------------------------------------*/
+
+function sec168() {
+	const input168 = document.querySelector('#input168');
+	const log  = document.querySelector('.log')
+	input168.addEventListener('input', (e) => {
+		const files = e.target.files;
+		const file = files[0];
+		//FileReaderのインスタンス作成
+		const reader = new FileReader();
+		reader.addEventListener('load', () => {
+			//load後resultを.logに出力
+			log.textContent = 'aa';
+		});
+		//テキストファイルとして読み込む
+		reader.readAsText(file);
+	});
+} sec168();

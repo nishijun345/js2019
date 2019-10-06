@@ -189,19 +189,37 @@ function handleChange(event) {
 	<li>checkedプロパティでアクセス</li>
 	<li>checkedプロパティでは真偽値（Boolean型）</li>
 </ul>
-<h4>SAMPLE #165<b>チェックボックスの情報を取得</b></h4>
-<form action="" id="form164">
+</section><!-- section -->
+
+<section>
+<h2><b>166</b>テキストボックスの変更を検知する</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>change</td>
+		<td>input要素の変更時のイベント</td>
+	</tr>
+</table>
+<h4>SAMPLE #166<b>チェックボックスの情報を取得</b></h4>
+<form action="" id="form166">
 	<label for="checkA" style="margin-right: 20px;">
-		<input type="checkbox" id="checkA" value="A" class="check165">
+		<input type="checkbox" id="checkA" class="check166">
 		checkboxA
 	</label>
 	<label for="checkB" style="margin-right: 20px;">
-		<input type="checkbox" id="checkB" value="B" class="check165">
+		<input type="checkbox" id="checkB" class="check166">
 		checkboxB
 	</label>
 	<label for="checkC" style="margin-right: 20px;">
-		<input type="checkbox" id="checkC" value="C" class="check165">
+		<input type="checkbox" id="checkC" class="check166">
 		checkboxC
+	</label>
+	<label for="checkAll" style="margin-right: 20px;">
+		<input type="checkbox" id="checkAll" value="All">
+		すべて選択する
 	</label>
 </form>
 <ul>
@@ -209,18 +227,89 @@ function handleChange(event) {
 	<li>checkboxB : <span class="checkB">false</span></li>
 	<li>checkboxC : <span class="checkC">false</span></li>
 </ul>
+<pre><code>const checkedA = document.querySelector('#checkA');
+const checkedB = document.querySelector('#checkB');
+const checkedC = document.querySelector('#checkC');
+
+//各ボタン
+document.querySelectorAll('.check166').forEach(function (checkBtn) {
+	checkBtn.addEventListener('change', () => {
+		checkResult();
+	});
+});
+
+//すべて選択ボタン
+document.querySelector('#checkAll').addEventListener('click', (e) => {
+	if (e.target.checked == true) {
+		checkedA.checked = checkedB.checked = checkedC.checked = true;
+	} else {
+		checkedA.checked = checkedB.checked = checkedC.checked = false;
+	}
+	checkResult();
+});
+
+function checkResult() {
+	document.querySelector('.checkA').innerHTML = checkedA.checked;
+	document.querySelector('.checkB').innerHTML = checkedB.checked;
+	document.querySelector('.checkC').innerHTML = checkedC.checked;
+}</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>166</b>テキストボックスの情報を取得する</h2>
+<h2><b>167</b>ローカルファイルの情報を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>インプット要素.files</td>
+		<td>選択されたファイルの配列</td>
+		<td>配列</td>
+	</tr>
+</table>
+<ul>
+	<li>changeイベントが発生したときに発行されるイベントでevent.target.filesプロパティを参照することで、inputに指定されたファイルリストを取得できる</li>
+	<li>multiple属性を指定すると複数ファイルのアップロードができる</li>
+</ul>
+<h4>SAMPLE #167<b>ローカルファイルの情報を取得</b></h4>
+<form action="">
+	<input type="file" id="input167">
+</form>
+<pre><code>const input167 = document.querySelector('#input167');
+input167.addEventListener('change', (e) => {
+	const files = e.target.files;    //ファイルの配列
+	const file = files[0];
+	alert(`${file.name}が選択されました`);
+});</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>167</b>テキストボックスの情報を取得する</h2>
-</section><!-- section -->
-
-<section>
-<h2><b>168</b>テキストボックスの情報を取得する</h2>
+<h2><b>168</b>ローカルファイルをテキストとして読み込む</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>readAsText(ファイル)</td>
+		<td>テキストとして読み込む</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>選択したファイルのデータにアクセスするには、FileReaderオブジェクトを使う</li>
+	<li>FileReaderオブジェクトのreadAsText()を使うとテキストファイルとして読み込める</li>
+	<li>読み込みは非同期のためloadイベントを監視する</li>
+	<li>loadイベント完了後、FileReaderオブジェクトのresultプロパティでデータへのアクセスが可能</li>
+</ul>
+<h4>SAMPLE #168<b>ローカルファイルをテキストとして読み込む</b></h4>
+<form action="">
+	<input type="file" id="input168">
+	<p class="log"></p>
+</form>
 </section><!-- section -->
 
 <section>
