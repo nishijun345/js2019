@@ -307,45 +307,281 @@ input167.addEventListener('change', (e) => {
 </ul>
 <h4>SAMPLE #168<b>ローカルファイルをテキストとして読み込む</b></h4>
 <form action="">
-	<input type="file" id="input168">
-	<p class="log"></p>
+	<input type="file" id="input168" accept=".txt">
+	<p class="log168">テキストの内容を表示</p>
+</form>
+<pre><code>const input168 = document.querySelector('#input168');
+const log  = document.querySelector('.log')
+input168.addEventListener('input', (e) => {
+	const files = e.target.files;
+	const file = files[0];
+	//FileReaderのインスタンス作成
+	const reader = new FileReader();
+	reader.addEventListener('load', () => {
+		//load後resultを.logに出力
+		log.textContent = reader.result;
+	});
+	//テキストファイルとして読み込む
+	reader.readAsText(file);
+});</code></pre>
+<a href="http://catprogram.hatenablog.com/entry/2015/04/23/171157" target="_blank" style="display: inline-block">File API参考（文字コード判定とか）</a>
+</section><!-- section -->
+
+<section>
+<h2><b>169</b>ローカルファイルをDataURLデータとして読み込む</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>readAsDataURL(ファイル)</td>
+		<td>DataURLとして読み込む</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>選択したファイルのデータにアクセスするには、FileReaderオブジェクトを使う</li>
+	<li>FileReaderオブジェクトのreadAsDataURL()を使うとDataURLとして読み込める</li>
+	<li>読み込みは非同期のためloadイベントを監視する</li>
+	<li>loadイベント完了後、FileReaderオブジェクトのresultプロパティでデータへのアクセスが可能</li>
+</ul>
+<h4>SAMPLE #169<b>ローカルファイルをDataURLとして読み込む</b></h4>
+<form action="">
+	<input type="file" id="input169" accept=".png, .jpg">
+	<p class="log169">ファイルの内容を表示<img /></p>
+</form>
+<pre><code>const input169 = document.querySelector('#input169');
+const log = document.querySelector('.log169 img');
+input169.addEventListener('input', (e) => {
+	const files = e.target.files;
+	const file = files[0];
+	//FileReaderのインスタンス作成
+	const reader = new FileReader();
+	reader.addEventListener('load', () => {
+		//load後resultを.logに出力
+		log.src = reader.result;
+	});
+	//テキストファイルとして読み込む
+	reader.readAsDataURL(file);
+});</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>170</b>ラジオボタンの情報を取得する</h2>
+<table>
+	<tbody><tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>フォーム要素[キー名]</td>
+		<td>ラジオボタンの値</td>
+		<td>文字列</td>
+	</tr>
+</tbody></table>
+<ul>
+	<li>複数のラジオボタンはname属性でグループ化される</li>
+	<li>form要素の中にname属性で定義したラジオボタンのグループが登録されている</li>
+	<li>これらのvalue値を確認する</li>
+</ul>
+<pre><code>const element = document.querySelector('form');    //form
+const drinkValue = element.drink.value;    //name属性がdrinkのグループのvalue
+
+console.log(`drinkの値は${drinkValue}です`);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>171</b>ラジオボタンの変更を検知する</h2>
+<table>
+	<tbody><tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>change</td>
+		<td>form要素の変更時のイベント</td>
+	</tr>
+</tbody></table>
+<ul>
+	<li>form要素に対してchangeイベントを監視する</li>
+</ul>
+<h4>SAMPLE #171<b>ラジオボタンの変更を検知</b></h4>
+<form action="" id="form171">
+	<div style="padding-top: 10px">
+		<label><input type="radio" name="color" value="red">red</label>
+		<label><input type="radio" name="color" value="blue">blue</label>
+		<label><input type="radio" name="color" value="yellow">yellow</label>
+		<p class="color171">colorの値は<span style="color: #faff68;"></span></p>
+	</div>
+	<div style="margin-top: 20px">
+		<label><input type="radio" name="food" value="kome">kome</label>
+		<label><input type="radio" name="food" value="pan">pan</label>
+		<label><input type="radio" name="food" value="men">men</label>
+		<p class="food171">foodの値は<span style="color: #faff68;"></span></p>
+	</div>
+</form>
+<pre><code>const form171 = document.querySelector('#form171');
+const color171 = document.querySelector('.color171 span');
+const food171 = document.querySelector('.food171 span');
+form171.addEventListener('change', handleChange);
+
+function handleChange(e) {
+	const colorValue = form171.color.value;
+	const foodValue = form171.food.value;
+	color171.innerHTML = colorValue;
+	food171.innerHTML = foodValue;
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>172</b>ドロップダウンメニューの情報を取得する</h2>
+<table>
+	<tbody><tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>セレクト要素.value</td>
+		<td>選択された項目の値</td>
+		<td>文字列</td>
+	</tr>
+</tbody></table>
+<ul>
+	<li>select要素とoptionで作成されたドロップダウンメニューを調べる</li>
+	<li>select要素を参照しvalueを調べる</li>
+	<li>select要素の値を変更するにはvalueに値を代入する</li>
+</ul>
+<pre><code>conse element = document.querySelector('select');    //select
+const value = element.value;    //valueの取得
+console.log(`選択されているのは${value}です`);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>173</b>ドロップダウンメニューの変更を検知する</h2>
+<table>
+	<tbody><tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>change</td>
+		<td>select要素の変更時のイベント</td>
+	</tr>
+</tbody></table>
+<ul>
+	<li>select要素に対してchangeイベントを監視する</li>
+</ul>
+<h4>SAMPLE #173<b>ドロップダウンメニューの変更を検知</b></h4>
+<form action="">
+	<select id="select173">
+		<option value="kome">kome</option>
+		<option value="pan">pan</option>
+		<option value="men">men</option>
+	</select>
+	<p class="result173">選択されているのは<span style="color: #faff68;">kome</span>です</p>
 </form>
 </section><!-- section -->
 
 <section>
-<h2><b>169</b>テキストボックスの情報を取得する</h2>
+<h2><b>174</b>スライダーの情報を取得する</h2>
+<table>
+	<tbody><tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>インプット要素.value　※input type="range"</td>
+		<td>スライダーの現在値</td>
+		<td>文字列</td>
+	</tr>
+</tbody></table>
+<ul>
+	<li>スライダーはmin属性とmax属性の範囲で値をユーザーが設定できる</li>
+	<li>input要素を参照しvalueを調べる</li>
+	<li>valueは数値ではなく、文字列（String型）なので注意</li>
+</ul>
+<h4>SAMPLE #174<b>スライダーの情報を取得</b></h4>
+<form action="">
+	<div style="display: inline-block">0<input type="range" id="range174" min="0" max="100" value="0">100</div>
+	<p class="result174" style="color: #faff68; display: inline-block; padding-left: 20px">0</p>
+</form>
+<p class="btn" id="btn174" onclick="sec174()">値を取得</p>
+<pre><code>const range174 = document.querySelector('#range174');
+const result174 = document.querySelector('.result174');
+const value174 = range174.value;
+result174.innerHTML = value174;</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>170</b>テキストボックスの情報を取得する</h2>
+<h2><b>175</b>スライダーの変更を検知する</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>input</td>
+		<td>input要素の変更時のイベント</td>
+	</tr>
+	<tr>
+		<td>change</td>
+		<td>input要素の変更時のイベント</td>
+	</tr>
+</table>
+<ul>
+	<li>inputイベントは、スライダーを動かしている最中も発生</li>
+	<li>changeイベントは、スライダーを動かし終わると発生</li>
+</ul>
+<h4>SAMPLE #175<b>スライダーの変更を検知</b></h4>
+<form action="">
+	<div style="display: inline-block">0<input type="range" id="range175" min="0" max="100" value="0">100</div>
+	<p class="result175i" style="color: #faff68; display: inline-block; padding-left: 20px">0</p>
+	<p class="result175c" style="color: #faff68; display: inline-block; padding-left: 20px">0</p>
+</form>
+<pre><code>const range175 = document.querySelector('#range175');
+const result175i = document.querySelector('.result175i');
+const result175c = document.querySelector('.result175c');
+range175.addEventListener('input', handleInput);
+range175.addEventListener('change', handleChange);
+function handleInput(e) {
+	const value175 = e.target.value;
+	result175i.innerHTML = value175;
+}
+function handleChange(e) {
+	const value175 = e.target.value;
+	result175c.innerHTML = value175;
+}</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>171</b>テキストボックスの情報を取得する</h2>
+<h2><b>176</b>カラーピッカーの情報を取得する</h2>
+<table>
+	<tbody><tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>インプット要素.value　※input type="color"</td>
+		<td>カラーピッカーで選択された色</td>
+		<td>文字列</td>
+	</tr>
+</tbody></table>
+<ul>
+	<li>input要素を参照しvalueを調べる</li>
+	<li>valueは文字列（String型）</li>
+</ul>
 </section><!-- section -->
 
 <section>
-<h2><b>172</b>テキストボックスの情報を取得する</h2>
-</section><!-- section -->
-
-<section>
-<h2><b>173</b>テキストボックスの情報を取得する</h2>
-</section><!-- section -->
-
-<section>
-<h2><b>174</b>テキストボックスの情報を取得する</h2>
-</section><!-- section -->
-
-<section>
-<h2><b>175</b>テキストボックスの情報を取得する</h2>
-</section><!-- section -->
-
-<section>
-<h2><b>176</b>テキストボックスの情報を取得する</h2>
-</section><!-- section -->
-
-<section>
-<h2><b>177</b>テキストボックスの情報を取得する</h2>
+<h2><b>177</b>カラーピッカーの変更を検知する</h2>
 </section><!-- section -->
 
 <section>
