@@ -578,14 +578,52 @@ function handleChange(e) {
 	<li>input要素を参照しvalueを調べる</li>
 	<li>valueは文字列（String型）</li>
 </ul>
+<p><a href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/Input/color" target="_blank">※カラーピッカーに対応していないブラウザあり</a></p>
+<h4>SAMPLE #176<b>カラーピッカーの情報を取得</b></h4>
+<form action="">
+	<input type="color" id="color176">
+</form>
+<p class="btn" id="btn176" onclick="sec176()">値を取得</p>
+<pre><code>const color176 = document.querySelector('#color176');
+const value176 = color176.value;
+alert(value176);</code></pre>
 </section><!-- section -->
 
 <section>
 <h2><b>177</b>カラーピッカーの変更を検知する</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>change</td>
+		<td>input要素の変更時のイベント</td>
+	</tr>
+</table>
+<h4>SAMPLE #177<b>カラーピッカーの変更を検知</b></h4>
+<form action="">
+	<input type="color" id="color177">
+	<p class="result177" style="display: inline-block; padding-left: 20px; width: 100px;">色を表示</p>
+</form>
+<pre><code>const color177 = document.querySelector('#color177');
+const result177 = document.querySelector('.result177');
+color177.addEventListener('change', (e) => {
+	const value177 = e.target.value;
+	result177.innerHTML = value177;
+	result177.style.backgroundColor = value177;
+});</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>178</b>テキストボックスの情報を取得する</h2>
+<h2><b>178</b>都道府県のプルダウンをつくる</h2>
+<ul>
+	<li>JISコードで都道府県のIDが定められている</li>
+	<li>動的にoption要素を作成する</li>
+</ul>
+<h4>SAMPLE #178<b>都道府県のプルダウンをつくる</b></h4>
+<select id="pref"></select>
+<p class="log178"></p>
 </section><!-- section -->
 
 <section>
