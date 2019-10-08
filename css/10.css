@@ -1,0 +1,52 @@
+/* 180 */
+.btn180 {
+	margin-top: 30px;
+}
+.btn180.on {
+	background: #68ffff;
+}
+
+/* 181 */
+.btn181 {
+	margin-top: 30px;
+	transition: 0.5s;
+	width: 100px;
+	text-align: center;
+}
+.btn181:hover {
+	width: 300px;
+}
+
+/* 182 */
+.circle182,
+.circle182_i {
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background: #ff0000;
+	font-size: 12px;
+	line-height: 50px;
+	text-align: center;
+	cursor: pointer;
+}
+.circle182.on {
+	animation: circle 3s linear;
+}
+.circle182_i.on {
+	animation: circle 3s linear infinite;
+}
+@keyframes circle {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(500px);
+	}
+}
+
+/* 183 */
+.square183 {
+	width: 50px;
+	height: 50px;
+	background: #ff0000;
+}

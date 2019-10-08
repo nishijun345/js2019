@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_10】アニメーションの作成</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<link rel="stylesheet" href="../css/10.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter10】アニメーションの作成【180〜190】</h1>
+<section>
+<h2><b>180</b>CSS Transitions・CSS Animationsを使う</h2>
+<ul>
+	<li>CSS Transitions・CSS Animationsはセレクターの状態に応じて発生する</li>
+</ul>
+<a href="https://developer.mozilla.org/ja/docs/Web/API/Element/classList" target="_blank">classListドキュメント</a>
+<h4>SAMPLE #180<b>クラスの切り替え</b></h4>
+<p class="btn btn180">クリック</p>
+<pre><code>const btn180 = document.querySelector('.btn180');
+btn180.addEventListener('click', handleClick);
+
+function handleClick() {
+	if (btn180.classList.contains('on') === false) {
+		btn180.classList.add('on');
+	} else {
+		btn180.classList.remove('on');
+	}
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>181</b>CSS Transitionsの終了時に処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>transitionend</td>
+		<td>トランジションが完了したときのイベント</td>
+	</tr>
+</table>
+<ul>
+	<li>transitionendイベントを監視するとアニメーションの完了を検知できる</li>
+</ul>
+<h4>SAMPLE #181<b>transitionendイベント</b></h4>
+<p class="btn btn181">ホバー</p>
+</section><!-- section -->
+
+<section>
+<h2><b>182</b>CSS Animationsの終了時に処理をする</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>animationstart</td>
+		<td>アニメーションが開始したときのイベント</td>
+	</tr>
+	<tr>
+		<td>animationiteration</td>
+		<td>アニメーションで繰り返しが発生したときのイベント</td>
+	</tr>
+	<tr>
+		<td>animationend</td>
+		<td>アニメーションが完了したときのイベント</td>
+	</tr>
+</table>
+<h4>SAMPLE #182<b>CSS Animationsのイベント</b></h4>
+<p class="circle182">クリック</p>
+<p class="circle182_i">クリック</p>
+<pre><code>circle182.addEventListener('click', handleClick);
+circle182.addEventListener('animationstart', (e) => {
+	e.target.innerHTML = '開始';
+});
+circle182.addEventListener('animationend', (e) => {
+	e.target.innerHTML = '終了';
+});
+circle182.addEventListener('animationiteration', (e) => {
+	e.target.innerHTML = '繰り返す';
+});
+function handleClick(e) {
+	if (e.target.classList.contains('on') === false) {
+		e.target.classList.add('on');
+	}
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>183</b>Web Animations APIを使う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>要素.animate(オブジェクト, オブジェクト)</td>
+		<td>アニメーションする</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>第一引数には開始値と終了値を含むオブジェクトを指定</li>
+	<li>第二引数にはアニメーションの属性を含むオブジェクトを指定</li>
+	<li>Edgeは未サポート</li>
+</ul>
+<h4>SAMPLE #183<b>Web Animations API</b></h4>
+<p class="square183"></p>
+<pre><code>const square183 = document.querySelector('.square183');
+square183.animate(
+	{
+		transform: [
+			'translateX(0px) rotate(0deg)',
+			'translateX(500px) rotate(360deg)'
+		]
+	},
+	{
+		duration: 3000,
+		iterations: Infinity,
+		direction: 'normal',
+		easing: 'ease'
+	}
+);</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>184</b></h2>
+</section><!-- section -->
+
+<section>
+<h2><b>185</b></h2>
+</section><!-- section -->
+
+<section>
+<h2><b>186</b></h2>
+</section><!-- section -->
+
+<section>
+<h2><b>187</b></h2>
+</section><!-- section -->
+
+<section>
+<h2><b>188</b></h2>
+</section><!-- section -->
+
+<section>
+<h2><b>189</b></h2>
+</section><!-- section -->
+
+<section>
+<h2><b>190</b></h2>
+</section><!-- section -->
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/10.js"></script>
+</body>
+
+</html>
