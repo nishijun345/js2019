@@ -312,9 +312,27 @@ function sec178() {
 	//変更時のイベント
 	selectElement.addEventListener('change', (e) => {
 		//現在の値
-		const value178 = e.target.value;
+		const index = e.target.selectedIndex;
+		const value178 = e.target.options[index].text;
+		console.log(value178);
 		//メッセージ作成（三項演算子）
 		const message = value178 === '' ? '選択されていません' : `選択されているのは${value178}です`;
 		document.querySelector('.log178').innerHTML = message;
 	});
 } sec178();
+
+/* ------------------------------------
+sec179 フォームの送信時に処理を行う
+-------------------------------------*/
+
+function sec179() {
+	const form179 = document.querySelector('#form179');
+	form179.addEventListener('submit', handleSubmit);
+
+	function handleSubmit(e) {
+		const isYes = confirm('この内容で送信していいです？');
+		if (isYes === false) {
+			e.preventDefault();
+		}
+	}
+} sec179();

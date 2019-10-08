@@ -624,10 +624,62 @@ color177.addEventListener('change', (e) => {
 <h4>SAMPLE #178<b>都道府県のプルダウンをつくる</b></h4>
 <select id="pref"></select>
 <p class="log178"></p>
+<pre><code>//JISコードに対応した都道府県の連想配列
+const prefList = [
+	{ value: 1, name: '北海道' },
+	{ value: 2, name: '青森県' },
+	{ value: 3, name: '岩手県' },
+	{ value: 4, name: '宮城県' },
+	//省略
+	{ value: 47, name: '沖縄県' }
+];
+//select
+const selectElement = document.querySelector('#pref');
+//option初期表示
+let optionString = '&lt;option value=""&gt;選択ください&lt;/option&gt;';
+//optionを配列から作成
+prefList.forEach((item) => {
+	//都道府県ごとにvalueとnameを反映
+	optionString += `&lt;option value="${item.value}"&gt;${item.name}&lt;/option&gt;`;
+});
+//optionをselectに追加
+selectElement.innerHTML = optionString;
+//変更時のイベント
+selectElement.addEventListener('change', (e) => {
+	//現在の値
+	const index = e.target.selectedIndex;
+	const value178 = e.target.options[index].text;
+	console.log(value178);
+	//メッセージ作成（三項演算子）
+	const message = value178 === '' ? '選択されていません' : `選択されているのは${value178}です`;
+	document.querySelector('.log178').innerHTML = message;
+});</code></pre>
+<a href="http://hensa40.cutegirl.jp/archives/380" target="_blank">valueじゃなくnameのテキストを出力したい（載ってない）参考</a>
 </section><!-- section -->
 
 <section>
-<h2><b>179</b>テキストボックスの情報を取得する</h2>
+<h2><b>179</b>フォームの送信時に処理を行う</h2>
+<table>
+	<tr>
+		<th>イベント名</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>submit</td>
+		<td>フォーム送信時のイベント</td>
+	</tr>
+</table>
+<ul>
+	<li>form要素のsubmitイベントを監視しることで、送信前に処理を挟める</li>
+	<li>送信前にデータを加工したり、ユーザーに再確認を促したりできる</li>
+	<li>送信をキャンセルして再入力させる場合、event.preventDefault()でイベントをキャンセルする</li>
+</ul>
+<h4>SAMPLE #179<b>フォームの送信時に処理を行う</b></h4>
+<form action="" id="form179">
+	<label for="txt">テキストを入力</label>
+	<input type="text" name="txt" id="txt179">
+	<button>送信する</button>
+</form>
 </section><!-- section -->
 
 <p id="top"><a href="../index.html">TOPに戻る</a></p>
