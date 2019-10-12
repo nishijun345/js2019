@@ -113,7 +113,7 @@ function handleClick(e) {
 <ul>
 	<li>第一引数には開始値と終了値を含むオブジェクトを指定</li>
 	<li>第二引数にはアニメーションの属性を含むオブジェクトを指定</li>
-	<li>Edgeは未サポート</li>
+	<li>Edgeは未サポート（Safariもなぜか動かない）</li>
 </ul>
 <h4>SAMPLE #183<b>Web Animations API</b></h4>
 <p class="square183"></p>
@@ -135,31 +135,168 @@ square183.animate(
 </section><!-- section -->
 
 <section>
-<h2><b>184</b></h2>
+<h2><b>184</b>要素の大きさを変える</h2>
+<h4>SAMPLE #184<b>scale</b></h4>
+<p class="square184"></p>
+<p class="btn" onclick="sec184()">大きさを変える</p>
+<pre><code>const square184 = document.querySelector('.square184');
+square184.animate(
+	{
+		transform: [
+			'scale(1)',
+			'scale(3)'
+		]
+	},
+	{
+		duration: 3000,
+		fill: 'forwards',
+		easing: 'ease'
+	}
+);</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>185</b></h2>
+<h2><b>185</b>要素を移動させる</h2>
+<h4>SAMPLE #185<b>translate</b></h4>
+<p class="square185"></p>
+<p class="btn" onclick="sec185()">移動させる</p>
+<pre><code>const square185 = document.querySelector('.square185');
+square185.animate(
+	{
+		transform: [
+			'translate(0px)',
+			'translate(600px)'
+		]
+	},
+	{
+		duration: 3000,
+		fill: 'forwards',
+		easing: 'ease'
+	}
+);</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>186</b></h2>
+<h2><b>186</b>要素の透明度を変える</h2>
+<h4>SAMPLE #186<b>opacity</b></h4>
+<p class="square186"></p>
+<p class="btn" onclick="sec186()">透明度を変える</p>
+<pre><code>const square186 = document.querySelector('.square186');
+square186.animate(
+	{
+		opacity: [
+			'1.0',
+			'0.2'
+		]
+	},
+	{
+		duration: 1000,
+		fill: 'forwards',
+		easing: 'ease'
+	}
+);</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>187</b></h2>
+<h2><b>187</b>要素の明度を変える</h2>
+<ul>
+	<li>CSSのfilterプロパティにbrightness()メソッドを使う</li>
+</ul>
+<h4>SAMPLE #187<b>filterのbrightness()</b></h4>
+<p class="square187"><img src="../img/land.jpeg" alt=""></p>
+<p class="btn" onclick="sec187()">明度を変える</p>
 </section><!-- section -->
 
 <section>
-<h2><b>188</b></h2>
+<h2><b>188</b>要素の鮮度を変える</h2>
+<ul>
+	<li>CSSのfilterプロパティにgrayscale()メソッドを使う</li>
+</ul>
+<h4>SAMPLE #188<b>filterのgrayscale()</b></h4>
+<p class="square188"><img src="../img/land.jpeg" alt=""></p>
+<p class="btn" onclick="sec188()">彩度を変える</p>
 </section><!-- section -->
 
 <section>
-<h2><b>189</b></h2>
+<h2><b>189</b>requestAnimationFrame()を使う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>requestAnimationFrame(関数)</td>
+		<td>時間経過で呼び出したい関数を登録する</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>時間経過で変化し続けるにはrequestAnimationFrame()を利用する</li>
+	<li>再描画の前に関数の呼び出しを要求する命令</li>
+	<li>一般的なディスプレイの場合、1秒間に60回画面更新される（約16ミリ秒）</li>
+	<li>setTimeout()やsetInterval()でこれより少ない時間を指定しても、画面に表示されない無駄な処理となる</li>
+	<li>requestAnimationFrame()は一度しか呼び出されない</li>
+	<li>連続して呼び出す必要があるため、関数の中で自身の関数を呼び出すように予約する</li>
+	<li>requestAnimationFrame()は主にWebGLやHTML Canvasなどを利用する場面で使用する</li>
+</ul>
+<pre><code>tick();
+function tick() {
+	if(条件文) {
+		requestAnimationFreame(tick);
+	}
+	//アニメーション処理
+}
+</code></pre>
+<ul>
+	<li>関数を止める場合「requestFrame()の呼び出しをしない」「cancelAnimationFrameを使う」方法がある</li>
+	<li>戻り値としてrequestIDと呼ばれるID（数値）が発行される</li>
+	<li>requestIDを保存しておき、任意のタイミングでcancelAnimationFrame()に引数として与えることでアニメーションのリクエストをキャンセルできる</li>
+</ul>
+<pre><code>tick();
+let requestID;
+function tick() {
+	requestID = requestAnimationFreame(tick);
+	//アニメーション処理
+}
+
+cancelAnimationFrame(requestID);</code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>190</b></h2>
+<h2><b>190</b>requestAnimationFrame()でHTML要素を動かす</h2>
+<ul>
+	<li>要素のstyle属性の値を使う</li>
+</ul>
+<h4>SAMPLE #190<b>requestAnimationFrame()</b></h4>
+<p class="stoker"><img src="../img/chara.png" alt=""></p>
+<p class="btn" onclick="sec190()" style="margin-top: 40px;">マウスストーカー</p>
+<pre><code>const el = document.querySelector('.stoker');
+el.classList.add('on');
+
+//マウス座標
+let mouseX = 0;
+let mouseY = 0;
+//ストーカー座標
+let currentX = 0;
+let currentY = 0;
+//マウス移動時
+document.body.addEventListener('mousemove', (e) => {
+	//マウス座標を保存
+	mouseX = e.clientX;
+	mouseY = e.clientY;
+});
+
+tick();
+function tick() {
+	//アニメーションフレームを指定
+	requestAnimationFrame(tick);
+	//マウス座標を遅延してストーカー座標へ反映
+	currentX += (mouseX - currentX) * 0.1;
+	currentY += (mouseY - currentY) * 0.1;
+	//ストーカーへ反映
+	el.style.transform = `translate(${currentX}px, ${currentY}px)`;
+}</code></pre>
 </section><!-- section -->
 
 <p id="top"><a href="../index.html">TOPに戻る</a></p>

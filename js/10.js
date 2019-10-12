@@ -72,3 +72,135 @@ function sec183() {
 		}
 	);
 } sec183();
+
+/* ------------------------------------
+sec184 scale
+-------------------------------------*/
+function sec184() {
+	const square184 = document.querySelector('.square184');
+	square184.animate(
+		{
+			transform: [
+				'scale(1)',
+				'scale(3)'
+			]
+		},
+		{
+			duration: 3000,
+			fill: 'forwards',
+			easing: 'ease'
+		}
+	);
+}
+
+/* ------------------------------------
+sec185 scale
+-------------------------------------*/
+function sec185() {
+	const square185 = document.querySelector('.square185');
+	square185.animate(
+		{
+			transform: [
+				'translate(0px)',
+				'translate(600px)'
+			]
+		},
+		{
+			duration: 3000,
+			fill: 'forwards',
+			easing: 'ease'
+		}
+	);
+}
+
+/* ------------------------------------
+sec186 scale
+-------------------------------------*/
+function sec186() {
+	const square186 = document.querySelector('.square186');
+	square186.animate(
+		{
+			opacity: [
+				'1.0',
+				'0.2'
+			]
+		},
+		{
+			duration: 1000,
+			fill: 'forwards',
+			easing: 'ease'
+		}
+	);
+}
+
+/* ------------------------------------
+sec187 brightness
+-------------------------------------*/
+function sec187() {
+	const square187 = document.querySelector('.square187');
+	square187.animate(
+		{
+			filter: [
+				'brightness(100%)',
+				'brightness(300%)'
+			]
+		},
+		{
+			duration: 3000,
+			fill: 'forwards',
+			easing: 'ease'
+		}
+	);
+}
+
+/* ------------------------------------
+sec188 grayscale
+-------------------------------------*/
+function sec188() {
+	const square188 = document.querySelector('.square188');
+	square188.animate(
+		{
+			filter: [
+				'grayscale(0%)',
+				'grayscale(100%)'
+			]
+		},
+		{
+			duration: 3000,
+			fill: 'forwards',
+			easing: 'ease'
+		}
+	);
+}
+
+/* ------------------------------------
+sec190 grayscale
+-------------------------------------*/
+function sec190() {
+	const el = document.querySelector('.stoker');
+	el.classList.add('on');
+
+	//マウス座標
+	let mouseX = 0;
+	let mouseY = 0;
+	//ストーカー座標
+	let currentX = 0;
+	let currentY = 0;
+	//マウス移動時
+	document.body.addEventListener('mousemove', (e) => {
+		//マウス座標を保存
+		mouseX = e.clientX;
+		mouseY = e.clientY;
+	});
+
+	tick();
+	function tick() {
+		//アニメーションフレームを指定
+		requestAnimationFrame(tick);
+		//マウス座標を遅延してストーカー座標へ反映
+		currentX += (mouseX - currentX) * 0.1;
+		currentY += (mouseY - currentY) * 0.1;
+		//ストーカーへ反映
+		el.style.transform = `translate(${currentX}px, ${currentY}px)`;
+	}
+}
