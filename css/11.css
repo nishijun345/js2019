@@ -1,0 +1,8 @@
+/* 192 */
+.figure192 {
+	background: url(../img/loading.gif) no-repeat center;
+	display: inline-block;
+}
+#photo192.loading {
+	opacity: 0;
+}

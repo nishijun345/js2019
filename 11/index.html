@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_11】画像・音声・動画の取扱い</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<link rel="stylesheet" href="../css/11.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter11】画像・音声・動画の取扱い【191〜203】</h1>
+<section>
+<h2><b>191</b>画像をスクリプトで読み込む</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>src</td>
+		<td>リソースを指定する</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>imgのsrc属性に文字列を代入する</li>
+</ul>
+<h4>SAMPLE #191<b>画像をスクリプトで読み込む</b></h4>
+<figure><img id="photo191" alt="photo191"></figure>
+<p class="btn btn191">画像を読み込む</p>
+<pre><code>const btn191 = document.querySelector('.btn191');
+btn191.addEventListener('click', imgShow);
+
+function imgShow() {
+	const photo191 = document.querySelector('#photo191');
+	photo191.src = '../img/land.jpeg'
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>192</b>画像の読み込み完了時に処理をする</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>onload</td>
+		<td>読み込み完了時の処理を指定する</td>
+	</tr>
+</table>
+<ul>
+	<li>onloadイベントを使う</li>
+</ul>
+<h4>SAMPLE #192<b>画像の読み込み完了時に処理をする</b></h4>
+<figure class="figure192"><img id="photo192" alt="photo192"></figure>
+<pre><code>const photo192 = document.querySelector('#photo192');
+photo192.src = '../img/okura_anime.png';
+photo192.classList.add('loading');
+photo192.onload = () => {
+	photo192.classList.remove('loading');
+};</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>193</b>画像を遅延読み込みさせる</h2>
+<ul>
+	<li>data-src属性を用意してパスを入れておく</li>
+	<li>DOMContentLoadedイベント発生時にdata-src属性の値をMapオブジェクトに保存</li>
+	<li>必要なタイミングでMapからsrc属性に戻す</li>
+</ul>
+<h4>SAMPLE #193<b>画像を遅延読み込みさせる</b></h4>
+<figure><img class="photo193" alt="chara" data-src="../img/chara.png"></figure>
+<figure><img class="photo193" alt="land" data-src="../img/land.jpeg"></figure>
+<p class="btn btn193">画像を読み込む</p>
+<pre><code>const srcMap = new Map();
+window.addEventListener('DOMContentLoaded', () => {
+	//画像をすべて参照
+	const photo193 = document.querySelectorAll('.photo193');
+	photo193.forEach((img) => {
+		//各imgのdata-srcをMapに保存
+		srcMap.set(img, img.dataset.src);
+	});
+});
+
+const btn193 = document.querySelector('.btn193');
+btn193.addEventListener('click', () => {
+	const photo193 = document.querySelectorAll('.photo193');
+	photo193.forEach((img) => {
+		//保存していたMapからsrcを割り当てる
+		const source = srcMap.get(img);
+		img.src = source;
+	});
+});</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>194</b>Base64の画像を表示する</h2>
+<ul>
+	<li>jpgやpngはバイナリファイルであり、テキストエディタでは開けない</li>
+	<li>Base64で画像を用意すれば文字列として画像を管理できる</li>
+	<li>srcに文字列を代入する</li>
+	<li>Base64文字列は先頭が「data:image/jpeg;base64」や「data:image/png;base64」となっている</li>
+</ul>
+<h4>SAMPLE #194<b>Base64の画像を表示する</b></h4>
+<figure><img class="photo194" alt="Base64"></figure>
+<p class="btn btn194" onclick="sec194();">画像を読み込む</p>
+<pre><code>const photo194 = document.querySelector('.photo194');
+photo194.src = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD//gAcY2（省略）</code></pre>
+</section><!-- section -->
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/11.js"></script>
+<script src="../js/194.js"></script>
+</body>
+
+</html>
