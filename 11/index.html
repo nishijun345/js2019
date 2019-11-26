@@ -117,6 +117,186 @@ btn193.addEventListener('click', () => {
 photo194.src = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD//gAcY2（省略）</code></pre>
 </section><!-- section -->
 
+<section>
+<h2><b>195</b>スクリプトからimg要素を追加する</h2>
+<ul>
+	<li>Imageオブジェクトを使って、img要素のインスタンスを作成できる</li>
+	<li>document.createElement('img')でも同じ</li>
+	<li>appendChild()メソッドでDOMツリーに追加</li>
+</ul>
+<h4>SAMPLE #195<b></b></h4>
+<div class="photo195"></div>
+<p class="btn btn195" onclick="sec195();">imgを追加</p>
+<pre><code>const photo195 = document.querySelector('.photo195');
+for (let i = 0; i &lt; 10; i++) {
+	//Imageオブジェクト作成
+	const img = new Image();
+	img.src = `../img/photo-${i}.jpg`;
+	photo195.appendChild(img);
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>196</b>音声を使う</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>src</td>
+		<td>リソースを指定</td>
+		<td>文字列</td>
+	</tr>
+	<tr>
+		<td>controls</td>
+		<td>コントロールバーを表示</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>loop</td>
+		<td>ループを指定</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>preload</td>
+		<td>プリロードの種類を指定</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>audioタグは音声ファイルを再生できる</li>
+	<li>controlsなしの場合画面に何も表示されない</li>
+	<li>preloadの値はauto、metadata（メタデータのみ読込）、none</li>
+</ul>
+</section><!-- section -->
+
+<section>
+<h2><b>197</b>音声をスクリプトで制御する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>play()</td>
+		<td>再生</td>
+		<td>Promise</td>
+	</tr>
+	<tr>
+		<td>pause()</td>
+		<td>一時停止</td>
+		<td>なし</td>
+	</tr>
+</table>
+<h4>SAMPLE #197<b>音声をスクリプトで制御する</b></h4>
+<div>
+	<audio id="audio197" src="../img/music.mp3" controls></audio>
+</div>
+<button id="audio197Play">再生</button>
+<button id="audio197Pause">停止</button>
+<pre><code>const audio197 = document.querySelector('#audio197');
+document.querySelector('#audio197Play').addEventListener('click', function () {
+	audio197.play();
+});
+document.querySelector('#audio197Pause').addEventListener('click', function () {
+	audio197.pause();
+});
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>198</b>音声の再生位置を変更する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #198<b></b></h4>
+<pre><code>
+
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>199</b>音声のボリュームを変更する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #199<b></b></h4>
+<pre><code>
+
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>200</b></h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #200<b></b></h4>
+<pre><code>
+
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>201</b></h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #201<b></b></h4>
+<pre><code>
+
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>202</b></h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #202<b></b></h4>
+<pre><code>
+
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>203</b></h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #203<b></b></h4>
+<pre><code>
+
+</code></pre>
+</section><!-- section -->
+
 
 <p id="top"><a href="../index.html">TOPに戻る</a></p>
 <script src="../js/11.js"></script>

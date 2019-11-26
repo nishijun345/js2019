@@ -55,3 +55,31 @@ function sec193() {
 sec194 Base64の画像を表示する
 -------------------------------------*/
 //194.jsに記述
+
+/* ------------------------------------
+sec195 スクリプトからimg要素を追加する
+-------------------------------------*/
+
+function sec195() {
+	const photo195 = document.querySelector('.photo195');
+	for (let i = 0; i < 10; i++) {
+		//Imageオブジェクト作成
+		const img = new Image();
+		img.src = `../img/photo-${i}.jpg`;
+		photo195.appendChild(img);
+	}
+};
+
+/* ------------------------------------
+sec197 音声をスクリプトで制御する
+-------------------------------------*/
+
+function sec197() {
+	const audio197 = document.querySelector('#audio197');
+	document.querySelector('#audio197Play').addEventListener('click', function () {
+		audio197.play();
+	});
+	document.querySelector('#audio197Pause').addEventListener('click', function () {
+		audio197.pause();
+	});
+} sec197();
