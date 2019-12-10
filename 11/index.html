@@ -216,17 +216,37 @@ document.querySelector('#audio197Pause').addEventListener('click', function () {
 		<th>型</th>
 	</tr>
 	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>currentTime</td>
+		<td>再生ヘッドの値（秒）読み書きに対応</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>duration</td>
+		<td>音声の長さ（秒）読み取り専用</td>
+		<td>数値</td>
 	</tr>
 </table>
 <ul>
-	<li></li>
+	<li>currentTimeプロパティを使うと現在の再生位置（秒）を確認・設定できる</li>
+	<li>durationよりも小さな値を設定する</li>
+	<li>durationプロパティを使うと音声の長さを調べることができる</li>
+	<li>メタ情報の読み込み完了するまで長さは取得できない</li>
+	<li>loadedmetadataイベント（メタ情報の読み込み完了を示す）の発生を監視する必要がある</li>
 </ul>
-<h4>SAMPLE #198<b></b></h4>
-<pre><code>
-
+<h4>SAMPLE #198<b>音声の再生位置を変更する</b></h4>
+<div>
+	<audio id="audio198" src="../img/music.mp3" controls></audio>
+</div>
+<div class="duration198"></div>
+<p class="btn btn198">3秒スキップする</p>
+<pre><code>const audio198 = document.querySelector('#audio198');
+const btn198 = document.querySelector('.btn198');
+audio198.addEventListener('loadedmetadata', () => {
+	document.querySelector('.duration198').innerHTML = `この音声のdurationは「${audio198.duration}」秒`;
+});
+btn198.addEventListener('click', () => {
+	audio198.currentTime += 3.0;
+});
 </code></pre>
 </section><!-- section -->
 
@@ -239,61 +259,206 @@ document.querySelector('#audio197Pause').addEventListener('click', function () {
 		<th>型</th>
 	</tr>
 	<tr>
-		<td></td>
-		<td></td>
-		<td></td>
+		<td>volume</td>
+		<td>ボリュームの値</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>muted</td>
+		<td>ミュートであるかの状態</td>
+		<td>真偽値</td>
 	</tr>
 </table>
 <ul>
-	<li></li>
+	<li>volumeプロパティを使うと音量の確認・設定ができる</li>
+	<li>音量の範囲は0.0（消音）〜1.0（最大）</li>
+	<li>mutedプロパティでも消音状態を確認・設定できる</li>
+	<li>volumeで0.0にしてもmutedはtrueにならない</li>
 </ul>
-<h4>SAMPLE #199<b></b></h4>
-<pre><code>
-
+<h4>SAMPLE #199<b>音声のボリュームを変更する</b></h4>
+<div>
+	<audio id="audio199" src="../img/music.mp3" controls></audio>
+</div>
+<p class="btn volumeMin199">volumeを0.0（消音）に</p>
+<p class="btn volumeMax199">volumeを1.0（最大）に</p>
+<p class="btn mutedTrue199">ミュートする</p>
+<p class="btn mutedFalse199">ミュート解除</p>
+<pre><code>function isMuted() {
+	alert(`mutedは${audio199.muted}、volumeは${audio199.volume}`);
+};
+volumeMax199.addEventListener('click', () => {
+	audio199.volume = 1;
+	isMuted();
+});
+volumeMin199.addEventListener('click', () => {
+	audio199.volume = 0;
+	isMuted();
+});
+mutedTrue199.addEventListener('click', () => {
+	audio199.muted = true;
+	isMuted();
+});
+mutedFalse199.addEventListener('click', () => {
+	audio199.muted = false;
+	isMuted();
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>200</b></h2>
+<h2><b>200</b>音声を読み込む（Web Audio API）</h2>
 <ul>
-	<li></li>
+	<li>Web Audio APIはaudio要素よりできることが多いが上級者向けの機能</li>
+	<li>音声波形のデータの取得や、同時に複数再生など</li>
 </ul>
-<h4>SAMPLE #200<b></b></h4>
-<pre><code>
-
+<h4>SAMPLE #200<b>サウンドファイルを読み込み再生する</b></h4>
+<button onclick="loadAndPlay200()">再生する</button>
+<button onclick="stop200()">停止する</button>
+<pre><code>let source200;
+async function loadAndPlay200() {
+	const context = new AudioContext();
+	//ファイル読み込み
+	const data = await fetch('../img/music.mp3');
+	//ArrayBufferとして扱う
+	const buffer = await data.arrayBuffer();
+	//オーディオデータとして変換
+	const decodedBuffer = await context.decodeAudioData(buffer);
+	//ソース作成
+	source200 = context.createBufferSource();
+	//ソースにオーディオデータを割り当てる
+	source200.buffer = decodedBuffer;
+	//スピーカーをつなげる
+	source200.connect(context.destination);
+	//再生を開始
+	source200.start(0);
+}
+function stop200() {
+	source200.stop();
+}
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>201</b></h2>
+<h2><b>201</b>動画を読み込む</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>src</td>
+		<td>リソースを指定</td>
+		<td>文字列</td>
+	</tr>
+	<tr>
+		<td>controls</td>
+		<td>コントロールバーを表示</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>autoplay</td>
+		<td>自動再生</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>loop</td>
+		<td>ループを指定</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>preload</td>
+		<td>プリロードの種類を指定</td>
+		<td>文字列</td>
+	</tr>
+	<tr>
+		<td>playsinline</td>
+		<td>インライン再生を指定</td>
+		<td>なし</td>
+	</tr>
+</table>
 <ul>
-	<li></li>
+	<li>video要素を配置しsrc属性にファイルのパスを指定する</li>
 </ul>
-<h4>SAMPLE #201<b></b></h4>
-<pre><code>
+</section><!-- section -->
 
+<section>
+<h2><b>202</b>動画をスクリプトで制御する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>play()</td>
+		<td>再生</td>
+		<td>Promise</td>
+	</tr>
+	<tr>
+		<td>pause()</td>
+		<td>一時停止</td>
+		<td>なし</td>
+	</tr>
+</table>
+<h4>SAMPLE #202<b>動画をスクリプトで制御する</b></h4>
+<div>
+	<video id="video202" src="../img/sample.mp4" controls></audio>
+</div>
+<button id="video202Play">再生</button>
+<button id="video202Pause">停止</button>
+<pre><code>const video202 = document.querySelector('#video202');
+document.querySelector('#video202Play').addEventListener('click', function () {
+	video202.play();
+});
+document.querySelector('#video202Pause').addEventListener('click', function () {
+	video202.pause();
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>202</b></h2>
+<h2><b>203</b>カメラを使う</h2>
 <ul>
-	<li></li>
+	<li>getUserMedia()メソッドでウェブカメラを利用できる</li>
+	<li>video要素のsrcObject属性にカメラのストリームを指定することで表示される</li>
+	<li>autoplay属性も指定する（ブラウザによって画面描画が遅延する）</li>
 </ul>
-<h4>SAMPLE #202<b></b></h4>
-<pre><code>
-
-</code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>203</b></h2>
-<ul>
-	<li></li>
-</ul>
-<h4>SAMPLE #203<b></b></h4>
-<pre><code>
-
+<h4>SAMPLE #203<b>カメラを使う</b></h4>
+<button onclick="loadAndPlay203()">カメラを使用する</button>
+<button onclick="stop203()">停止する</button>
+<div>
+	<video id="video203" width="640" height="480" autoplay></video>
+</div>
+<pre><code>let stream;
+//loadAndPlay
+async function loadAndPlay203() {
+	const video203 = document.getElementById('video203');
+	stream = await getDeviceStream({
+		video: { width: 640, height: 320 },
+		audio: false
+	});
+	video203.srcObject = stream;
+}
+//stop
+function stop203() {
+	const video203 = document.getElementById('video203');
+	const tracks = stream.getTracks();
+	tracks.forEach((track) => {
+		track.stop();
+	});
+	video203.srcObject = null;
+}
+//getDeviceStream
+function getDeviceStream(option) {
+	if ('getUserMedia' in navigator.mediaDevices) {
+		return navigator.mediaDevices.getUserMedia(option);
+	} else {
+		return new Promise(function (resolve, reject) {
+			navigator.getUserMedia(option, resolve, reject);
+		});
+	}
+}
 </code></pre>
 </section><!-- section -->
 

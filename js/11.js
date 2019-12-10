@@ -83,3 +83,122 @@ function sec197() {
 		audio197.pause();
 	});
 } sec197();
+
+/* ------------------------------------
+sec198 音声をスクリプトで制御する
+-------------------------------------*/
+
+function sec198() {
+	const audio198 = document.querySelector('#audio198');
+	const btn198 = document.querySelector('.btn198');
+	audio198.addEventListener('loadedmetadata', () => {
+		document.querySelector('.duration198').innerHTML = `この音声のdurationは「${audio198.duration}」秒`;
+	});
+	btn198.addEventListener('click', () => {
+		audio198.currentTime += 3.0;
+	});
+} sec198();
+
+/* ------------------------------------
+sec199 音声のボリュームを変更する
+-------------------------------------*/
+
+function sec199() {
+	const audio199 = document.querySelector('#audio199');
+	const volumeMin199 = document.querySelector('.volumeMin199');
+	const volumeMax199 = document.querySelector('.volumeMax199');
+	const mutedTrue199 = document.querySelector('.mutedTrue199');
+	const mutedFalse199 = document.querySelector('.mutedFalse199');
+	function isMuted() {
+		alert(`mutedは${audio199.muted}、volumeは${audio199.volume}`);
+	};
+	volumeMax199.addEventListener('click', () => {
+		audio199.volume = 1;
+		isMuted();
+	});
+	volumeMin199.addEventListener('click', () => {
+		audio199.volume = 0;
+		isMuted();
+	});
+	mutedTrue199.addEventListener('click', () => {
+		audio199.muted = true;
+		isMuted();
+	});
+	mutedFalse199.addEventListener('click', () => {
+		audio199.muted = false;
+		isMuted();
+	});
+} sec199();
+
+/* ------------------------------------
+sec200 Web Audio API
+-------------------------------------*/
+let source200;
+async function loadAndPlay200() {
+	const context = new AudioContext();
+	//ファイル読み込み
+	const data = await fetch('../img/music.mp3');
+	//ArrayBufferとして扱う
+	const buffer = await data.arrayBuffer();
+	//オーディオデータとして変換
+	const decodedBuffer = await context.decodeAudioData(buffer);
+	//ソース作成
+	source200 = context.createBufferSource();
+	//ソースにオーディオデータを割り当てる
+	source200.buffer = decodedBuffer;
+	//スピーカーをつなげる
+	source200.connect(context.destination);
+	//再生を開始
+	source200.start(0);
+}
+function stop200() {
+	source200.stop();
+}
+
+/* ------------------------------------
+sec202 動画をスクリプトで制御
+-------------------------------------*/
+
+function sec202() {
+	const video202 = document.querySelector('#video202');
+	document.querySelector('#video202Play').addEventListener('click', function () {
+		video202.play();
+	});
+	document.querySelector('#video202Pause').addEventListener('click', function () {
+		video202.pause();
+	});
+} sec202();
+
+/* ------------------------------------
+sec203 カメラを使う
+-------------------------------------*/
+
+let stream;
+//loadAndPlay
+async function loadAndPlay203() {
+	const video203 = document.getElementById('video203');
+	stream = await getDeviceStream({
+		video: { width: 640, height: 320 },
+		audio: false
+	});
+	video203.srcObject = stream;
+}
+//stop
+function stop203() {
+	const video203 = document.getElementById('video203');
+	const tracks = stream.getTracks();
+	tracks.forEach((track) => {
+		track.stop();
+	});
+	video203.srcObject = null;
+}
+//getDeviceStream
+function getDeviceStream(option) {
+	if ('getUserMedia' in navigator.mediaDevices) {
+		return navigator.mediaDevices.getUserMedia(option);
+	} else {
+		return new Promise(function (resolve, reject) {
+			navigator.getUserMedia(option, resolve, reject);
+		});
+	}
+}
