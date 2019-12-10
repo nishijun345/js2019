@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_12】SVGやcanvasの取扱い</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!-- <link rel="stylesheet" href="../css/12.css" media="all"> -->
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter12】SVGやcanvasの取扱い【204〜218】</h1>
+<section>
+<h2><b>204</b>SVGを使う</h2>
+<ul>
+	<li>SVGはDOMとして操作できるためJavaScriptと組み合わせて使うとインタラクションデザインにも使える</li>
+	<li>SVGは2次元のグラフィックをXMLで記述するための言語</li>
+	<li>viewBox属性は描画領域の定義。X座標・Y座標・幅・高さの4つの値。</li>
+</ul>
+<h4>SAMPLE #204<b>インラインSVG</b></h4>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="250" height="250">
+<circle fill="#fff" stroke="#ff0000" cx="150" cy="150" r="150" />
+</svg>
+</section><!-- section -->
+
+<section>
+<h2><b>205</b>SVGで要素を動的に追加する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>document.createElementNS('http://www.w3c.org/2000/svg', SVG要素名)</td>
+		<td>SVG要素を生成する</td>
+		<td>SVG要素</td>
+	</tr>
+</table>
+<ul>
+	<li>createElement()ではなくcreateElementNS()を使う</li>
+	<li>NS（Name Space：名前空間）がメソッド名の末尾に付いている</li>
+	<li>名前空間（http://www.w3c.org/2000/svg）を指定しないとHTML上のSVGにアクセスできない</li>
+</ul>
+<h4>SAMPLE #205<b>動的に生成するSVG</b></h4>
+<div>
+	<svg viewBox="0 0 600 600" width="300" height="300" class="svg205" style="padding: 10px;"></svg>
+</div>
+<p class="btn btn205">SVGを生成</p>
+<pre><code>function createCircle() {
+	const circle205 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+	circle205.setAttribute('cx', '300');
+	circle205.setAttribute('cy', '300');
+	circle205.setAttribute('r', '300');
+	circle205.setAttribute('fill', '#f9ff68');
+	const svg205 = document.querySelector('.svg205');
+	svg205.appendChild(circle205);
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>206</b>SVGのスタイルを変更する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>要素.setAttribute(属性名, 値)</td>
+		<td>要素の属性を設定する</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>SVGの属性値をsetAttribute()を使うことで変更できる</li>
+</ul>
+<h4>SAMPLE #206<b>SVGのスタイルを変更する</b></h4>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="250" height="250" class="svg206">
+	<circle fill="#fff" stroke="#ff0000" cx="150" cy="150" r="150" />
+</svg>
+<p class="btn btn206">SVGのスタイルを変更する</p>
+<pre><code>function changeStyle() {
+	const circle206 = document.querySelector('.svg206');
+	circle206.setAttribute('fill-opacity', '0.3');
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>207</b>SVG要素をマウス操作する</h2>
+<ul>
+	<li>SVGをマウスで反応させる場合はDOMに対してイベントを仕込む</li>
+</ul>
+<h4>SAMPLE #207<b>SVGクリックでアラート</b></h4>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="150" height="150" class="svg207">
+	<circle fill="#0cc5ca" cx="70" cy="70" r="70" />
+	<circle fill="#fff" cx="70" cy="70" r="30" />
+</svg>
+<pre><code>document.querySelector('.svg207').addEventListener('click', (e) => {
+	alert('SVGがクリックされました！');
+});
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>208</b>SVG要素をアニメーションさせる</h2>
+<ul>
+	<li>一定時間ごとにDOMを操作することでアニメーションできる</li>
+	<li>requestAnimationFrame()を利用する</li>
+</ul>
+<h4>SAMPLE #208<b>SVG要素をアニメーションさせる</b></h4>
+<svg viewBox="0 0 600 600" width="300" height="300" class="svg208" style="padding: 10px;"></svg>
+<p class="btn btn208">アニメーション再生</p>
+<pre><code>let time = 0;
+document.querySelector('.btn208').addEventListener('click', () => {
+	circleAnimate();
+});
+
+function circleAnimate() {
+	//時間で変化
+	time += 0.1;
+	//色を変化
+	svg208.style.fill = `hsl(200, 100%, ${time}%)`;
+	//目標値まで繰り返す
+	if (time &lt; 50) {
+		requestAnimationFrame(circleAnimate);
+	}
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>209</b>SVGで描いたグラフィックをダウンロードさせる</h2>
+<ul>
+	<li>SVGはJavaScriptを使ってファイルとしてダウンロードさせることができる</li>
+	<li>outerHTMLで文字列を得る</li>
+	<li>ブラウザごとに保存方法が異なるのでブラウザごとに適切なデータ形式へ変換する</li>
+</ul>
+<h4>SAMPLE #209<b>SVGで描いたグラフィックをダウンロードさせる</b></h4>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="150" height="150" class="svg209">
+	<circle fill="#0cc5ca" cx="70" cy="70" r="70" />
+	<circle fill="#fff" cx="70" cy="70" r="30" />
+</svg>
+<button id="btnSave">保存する</button>
+<pre><code>function saveFile() {
+	const fileName = `svg209.svg`;
+	//SVG要素を取得
+	const content = document.querySelector('.svg209').outerHTML;
+	//データを準備
+	const dataUrl = 'data:image/svg+xml,\n' + encodeURIComponent(content);
+	//BOMの文字化け対策
+	const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
+	const blob = new Blob([bom, content], { type: 'text/plain' });
+
+	if (window.navigator.msSaveBlob) {
+		//IE
+		window.navigator.msSaveBlob(blob, fileName);
+	} else if (window.URL && window.URL.createObjectURL) {
+		//FF, Chrome, Safari
+		const a = document.createElement('a');
+		a.download = fileName;
+		a.href = window.URL.createObjectURL(blob);
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+	} else {
+		//Safari
+		window.open(dataUrl, '_blank');
+	}
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>204</b>タイトル</h2>
+<h4>SAMPLE #<b>タイトル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/12.js"></script>
+</body>
+
+</html>
