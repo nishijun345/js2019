@@ -180,23 +180,106 @@ function circleAnimate() {
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
+<h2><b>210</b>キャンバス要素を使う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>canvas.getContext('2d')</td>
+		<td>キャンバスから命令軍を取得</td>
+		<td>コンテキスト</td>
+	</tr>
+	<tr>
+		<td>context.fillRect(x, y, 幅, 高さ)</td>
+		<td>矩形領域を塗る</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>canvasはビットマップベースのグラフィックス</li>
+	<li>描画命令を扱うオブジェクト「コンテキスト」を取得する</li>
+	<li>コンテキストのfillRect()で矩形を描ける</li>
+</ul>
+<h4>SAMPLE #210<b>キャンバス要素を使う</b></h4>
+<canvas id="canvas210" width="250" height="250"></canvas>
+<pre><code>const canvas210 = document.querySelector('#canvas210');
+const context = canvas210.getContext('2d');
+context.fillRect(0, 0, 200, 200);
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
+<h2><b>211</b>キャンバスに塗りと線を描く</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>context.fillStyle</td>
+		<td>塗りの色やスタイル</td>
+		<td>文字列</td>
+	</tr>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>context.strokeRect(x, y, 幅, 高さ)</td>
+		<td>矩形領域の境界線を描く</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>fillRect()を実行する前にfillStyleプロパティを設定する必要がある</li>
+</ul>
+<h4>SAMPLE #211<b>キャンバスに塗りと線を描く</b></h4>
+<canvas id="canvas211" width="250" height="250"></canvas>
+<pre><code>context.fillStyle = 'red';
+context.fillRect(0, 0, 200, 200);
+//線の幅
+context.lineWidth = 6;
+//線の色
+context.strokeStyle = '#fff';
+context.strokeRect(23, 23, 100, 100);
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
+<h2><b>212</b>キャンバスに画像を貼り付ける</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>context.drawImage(image, dx, dy);</td>
+		<td>canvas要素に画像を描く</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>canvasで画像を組み込むためにdrawImage()を使う</li>
+	<li>drawImage()の第二・第三引数は配置したい座標</li>
+	<li>画像はImageオブジェクトを使う</li>
+	<li>Imageオブジェクトの読み込み完了後でないとcanvas要素には描けない</li>
+</ul>
+<h4>SAMPLE #212<b>キャンバスに画像を貼り付ける</b></h4>
+<canvas id="canvas212" width="500" height="300"></canvas>
+<pre><code>//Imageインスタンス
+const img = new Image();
+//画像読み込み後の処理
+img.onload = () => {
+	context.drawImage(img, 0, 0);
+}
+//画像読み込みを開始
+img.src = '../img/land.jpeg';
 </code></pre>
 </section><!-- section -->
 

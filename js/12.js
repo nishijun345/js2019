@@ -104,3 +104,46 @@ function sec209() {
 		}
 	}
 } sec209();
+
+/* ------------------------------------
+sec210 キャンバス要素を使う
+-------------------------------------*/
+
+function sec210() {
+	const canvas210 = document.querySelector('#canvas210');
+	const context = canvas210.getContext('2d');
+	context.fillRect(0, 0, 200, 200);
+} sec210();
+
+/* ------------------------------------
+sec211 キャンバスに塗りと線を描く
+-------------------------------------*/
+
+function sec211() {
+	const canvas211 = document.querySelector('#canvas211');
+	const context = canvas211.getContext('2d');
+	context.fillStyle = 'red';
+	context.fillRect(0, 0, 200, 200);
+	//線の幅
+	context.lineWidth = 6;
+	//線の色
+	context.strokeStyle = '#fff';
+	context.strokeRect(23, 23, 100, 100);
+} sec211();
+
+/* ------------------------------------
+sec212 キャンバスに画像を貼り付ける
+-------------------------------------*/
+
+function sec212() {
+	const canvas212 = document.querySelector('#canvas212');
+	const context = canvas212.getContext('2d');
+	//Imageインスタンス
+	const img = new Image();
+	//画像読み込み後の処理
+	img.onload = () => {
+		context.drawImage(img, 0, 0);
+	}
+	//画像読み込みを開始
+	img.src = '../img/land.jpeg';
+} sec212();
