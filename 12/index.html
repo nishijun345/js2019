@@ -284,61 +284,213 @@ img.src = '../img/land.jpeg';
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
+<h2><b>213</b>キャンバスの画素情報を使う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>context.getImageData(dx, dy, width, height)</td>
+		<td>指定した領域のピクセル情報を取得する</td>
+		<td>ImageDataオブジェクト</td>
+	</tr>
+</table>
+<ul>
+	<li>canvasコンテキストのピクセルデータを取得するにはgetImageData()を使用する</li>
+	<li>戻り値はImageDataオブジェクト</li>
+</ul>
+<h4>SAMPLE #213<b>キャンバスの画素情報を使う</b></h4>
+<canvas id="canvas213" width="200" height="200"></canvas>
+<div>
+	<p class="btn btn213">画素配列の情報を出力</p>
+	<p class="data213" style="word-break: break-all; padding: 10px 0 0;"></p>
+</div>
+<ul>
+	<li>配列は連続する4要素を1セットとして画素数の数だけある</li>
+	<li>一画素ごとにRGBAの順で並んでいる</li>
+	<li>画素は左上座標を起点として右へ進む</li>
+</ul>
+<pre><code>const imageData = context.getImageData(0, 0, 10, 10);
+document.querySelector('.btn213').addEventListener('click', () => {
+	document.querySelector('.data213').innerHTML = imageData.data;
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
+<h2><b>214</b>画像のRGBA値を調べる</h2>
+<ul>
+	<li>マウスカーソルの下にある色を表示するにはgetImageData()を使う</li>
+	<li>mousemoveイベントを監視</li>
+	<li>カーソル座標をlayerX layerYで取得</li>
+	<li>getImageDataの第一・第二引数にカーソル座標を割り当てる</li>
+	<li>ピクセル情報をCSSのrgba()に調整して表示</li>
+</ul>
+<h4>SAMPLE #214<b>画像のRGBA値を調べる</b></h4>
+<canvas id="canvas214" width="500" height="300"></canvas>
+<p class="color214" style="padding:10px; text-align: center; width: 480px;"></p>
+<pre><code>//mouseEvent
+canvas214.addEventListener('mousemove', (e) => {
+	const x = e.layerX;
+	const y = e.layerY;
+	//ImageData
+	const imageData = context.getImageData(x, y, 1, 1);
+	//画素配列を取得
+	const data = imageData.data;
+	const r = data[0];
+	const g = data[1];
+	const b = data[2];
+	const a = data[3];
+	//文字列として色情報を扱う
+	const color = `rgba(${r},${g},${b},${a})`;
+	const color214 = document.querySelector('.color214');
+	color214.style.background = color;
+	color214.textContent = color;
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
+<h2><b>215</b>キャンバスの画像を加工する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>context.putImageData(イメージデータ)</td>
+		<td>イメージデータを入力する</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>画像をコンテキストに代入するにはputImageData()を使う</li>
+</ul>
+<h4>SAMPLE #215<b>モノクロ加工する</b></h4>
+<canvas id="canvas215" width="500" height="300"></canvas>
+<canvas id="canvasMono" width="500" height="300"></canvas>
+<pre><code>//Imageインスタンス
+const img = new Image();
+//画像読み込み後の処理
+img.onload = () => {
+	//original
+	context.drawImage(img, 0, 0);
+	const imageData = context.getImageData(0, 0, 500, 300);
+	const data = imageData.data;
+
+	//mono
+	const monoImageData = new ImageData(500, 300);
+	const monoArr = monoImageData.data;
+	for (let i = 0; i &lt; data.length / 4; i++) {
+		const r = data[i * 4 + 0];
+		const g = data[i * 4 + 1];
+		const b = data[i * 4 + 2];
+		const a = data[i * 4 + 3];
+		//平均値
+		const color = (r + g + b) / 3;
+		//新しい配列に色を指定
+		monoArr[i * 4 + 0] = color;
+		monoArr[i * 4 + 1] = color;
+		monoArr[i * 4 + 2] = color;
+		monoArr[i * 4 + 3] = a;
+	}
+	const canvasMono = document.querySelector('#canvasMono');
+	const contextMono = canvasMono.getContext('2d');
+	contextMono.putImageData(monoImageData, 0, 0);
+};
+//画像読み込みを開始
+img.src = '../img/land.jpeg';
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
+<h2><b>216</b>キャンバスの画像をDataURLで取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>canvas.toDataURL()</td>
+		<td>DataURL形式で出力する</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>文字列としてサーバーに保存したり、imgに複製できる</li>
+</ul>
+<h4>SAMPLE #216<b>キャンバスの画像をDataURLで取得する</b></h4>
+<canvas id="canvas216" width="200" height="200"></canvas>
+<div>
+	<p class="btn btn216">imgに複製</p>
+</div>
+<img id="img216">
+<pre><code>//Base64
+const data = canvas216.toDataURL();
+//imgに代入
+const btn216 = document.querySelector('.btn216');
+const img216 = document.querySelector('#img216');
+btn216.addEventListener('click', () => {
+	img216.src = data;
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
+<h2><b>217</b>PNG / JPEGなど異なる形式のDataURLを取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>canvas.toDataURL(形式)</td>
+		<td>DataURL形式で出力する</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>canvas.toDataURL()は引数を与えることで指定した形式のDataURLを取得できる</li>
+</ul>
+<h4>SAMPLE #217<b>PNG / JPEGへ変換</b></h4>
+<canvas id="canvas217" width="300" height="300"></canvas>
+<div>
+	<p class="btn btnJpeg">JPEGに変換</p>
+	<p class="btn btnPng">PNGに変換</p>
+</div>
+<img id="img217">
+<pre><code>// JPEG 画像を取得
+const btnJpeg = document.querySelector('.btnJpeg');
+btnJpeg.addEventListener('click', () => {
+	const data = canvas.toDataURL('image/jpeg');
+	cloneToImage(data);
+});
+
+// PNG 画像を取得
+const btnPng = document.querySelector('.btnPng');
+btnPng.addEventListener('click', () => {
+	const data = canvas.toDataURL('image/png');
+	cloneToImage(data);
+});
+
+// img要素にDataURLの文字列を代入
+function cloneToImage(data) {
+	document.querySelector('#img217').src = data;
+}
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>204</b>タイトル</h2>
+<h2><b>218</b>タイトル</h2>
 <h4>SAMPLE #<b>タイトル</b></h4>
 <pre><code>
 </code></pre>
 </section><!-- section -->
-
-<section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
-</code></pre>
-</section><!-- section -->
-
-<section>
-<h2><b>204</b>タイトル</h2>
-<h4>SAMPLE #<b>タイトル</b></h4>
-<pre><code>
-</code></pre>
-</section><!-- section -->
-
 
 
 
