@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_13】処理の実行タイミングを制御する</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter13】処理の実行タイミングを制御する【219〜227】</h1>
+<section>
+<h2><b>219</b>一定時間後に処理を行う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>setTimeout(関数, ミリ秒)</td>
+		<td>指定時間に関数を呼び出す</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>setTimeout()で指定ミリ秒数後に関数を実行できる</li>
+	<li>setTimeout()は一度しか関数が呼ばれない</li>
+	<li>第一引数に関数、第二引数にミリ秒を数値で指定</li>
+	<li>第一引数の関数は無名関数を使える</li>
+</ul>
+<pre><code>setTimeout(function() {
+	//任意の処理
+	console.log(this);  //windowオブジェクト
+}, 1000);</code></pre>
+<ul>
+	<li>setTimeout()とfunctionを使うとthisのスコープが変わる場合もあるためプロパティの参照がうまくいかないことがある</li>
+	<li>thisのスコープがはずれないアロー関数と組み合わせて使うと良い</li>
+</ul>
+<pre><code>setTimeout(() => {
+	//任意の処理
+	console.log(this);  //このオブジェクト
+}, 1000);</code></pre>
+<h4>SAMPLE #219<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
+<p id="time219"></p>
+<p class="btn" onclick="sec219()">現在時刻を表示する</p>
+<pre><code>let time219 = document.querySelector('#time219');
+time219.innerHTML = '起動時の時刻' + new Date().toLocaleTimeString();
+setTimeout(() => {
+	time219.innerHTML = 'setTimeout後の時刻' + new Date().toLocaleTimeString();
+}, 2000);</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>220</b>一定時間後の処理を解除する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>clearTimeout(タイマーID)</td>
+		<td>setTimeout()で登録した呼び出しをキャンセルする</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>setTimeoutの戻り値はタイマーIDと呼ばれる数値</li>
+	<li>キャンセルしたいタイミングでclearTimeout()にタイマーIDを渡すことで解除できる</li>
+</ul>
+<pre><code>const timerId = setTimeout(timer1, 2000);
+function timer1() {
+	//任意の処理
+}
+clearTimeout(timerId);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>221</b>一定時間ごとに処理を行う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>setInterval(関数, ミリ秒)</td>
+		<td>指定時間間隔で連続で関数を呼び出す</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>setTimeout()は一度きりしか呼ばれない</li>
+	<li>setInterval()はウェブページを開いている間、指定時間の間隔で常に実行される</li>
+</ul>
+<h4>SAMPLE #221<b>現在時刻とsetInterval後の時刻を表示するサンプル</b></h4>
+<p id="time221"></p>
+<p class="btn" onclick="sec221()">現在時刻を表示する</p>
+<pre><code>let time221 = document.querySelector('#time221');
+time221.innerHTML = '起動時の時刻' + new Date().toLocaleTimeString();
+setInterval(() => {
+	time221.innerHTML = 'setInterval後の時刻' + new Date().toLocaleTimeString();
+}, 1000);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>222</b>一定時間ごとの処理を解除する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>clearInterval(インターバルID)</td>
+		<td>setInterval()で登録した呼び出しをキャンセルする</td>
+		<td>なし</td>
+	</tr>
+</table>
+<h4>SAMPLE #222<b>現在時刻の表示を5秒後に解除するサンプル</b></h4>
+<p id="time222"></p>
+<p class="btn" onclick="sec222()">現在時刻を表示する</p>
+<pre><code>let count = 0;
+let time222 = document.querySelector('#time222');
+time222.innerHTML = '起動時の時刻' + new Date().toLocaleTimeString();
+const intervalId = setInterval(timer222, 1000);
+function timer222() {
+	count += 1;
+	time222.innerHTML = 'setInterval後の時刻' + new Date().toLocaleTimeString();
+	if (count === 5) {
+		clearInterval(intervalId);
+	}
+};
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>223</b>一定時間後に処理を行う</h2>
+<h4>SAMPLE #223<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>224</b>一定時間後に処理を行う</h2>
+<h4>SAMPLE #224<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>225</b>一定時間後に処理を行う</h2>
+<h4>SAMPLE #225<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>226</b>一定時間後に処理を行う</h2>
+<h4>SAMPLE #226<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>227</b>一定時間後に処理を行う</h2>
+<h4>SAMPLE #227<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/13.js"></script>
+</body>
+
+</html>
