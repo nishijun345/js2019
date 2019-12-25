@@ -327,4 +327,76 @@ sec218 キャンバスで描いたグラフィックをダウンロードする
 -------------------------------------*/
 
 function sec218() {
+	const canvas1 = document.querySelector('#canvas-original');
+	const context1 = canvas1.getContext('2d');
+	//imageインスタンス
+	const img = new Image();
+	//画像読み込み後の処理
+	img.onload = () => {
+		//original
+		context1.drawImage(img, 0, 0);
+		const imageData = context1.getImageData(0, 0, 500, 300);
+		const data = imageData.data;
+
+		//mono
+		const monoImageData = new ImageData(500, 300);
+		const monoArr = monoImageData.data;
+		for (let i = 0; i < data.length / 4; i++) {
+			const r = data[i * 4 + 0];
+			const g = data[i * 4 + 1];
+			const b = data[i * 4 + 2];
+			const a = data[i * 4 + 3];
+			//平均値
+			const color = (r + g + b) / 3;
+			//新しい配列に色を指定
+			monoArr[i * 4 + 0] = color;
+			monoArr[i * 4 + 1] = color;
+			monoArr[i * 4 + 2] = color;
+			monoArr[i * 4 + 3] = a;
+		}
+
+		//新しいcanvas
+		const canvas2 = document.querySelector('#canvas-effected');
+		const context2 = canvas2.getContext('2d');
+		context2.putImageData(monoImageData, 0, 0);
+	};
+	// 画像を読み込みを開始
+	img.src = '../img/land.jpeg';
+
+	//画像ダウンロード処理
+	const btn218 = document.querySelector('#btn218');
+	btn218.addEventListener('click', () => {
+		const canvas2 = document.querySelector('#canvas-effected');
+		//ファイルの種類とファイル名を指定
+		const mimeType = 'image/png';
+		const fileName = 'canvasMono.png';
+		//Base64文字列を取得・Uint8Arrayに変換
+		const base64 = canvas2.toDataURL(mimeType);
+		const bin = atob(base64.replace(/^.*,/, ''));
+		const buffer = new Uint8Array(bin.length);
+		for (let i = 0; i < bin.length; i++) {
+			buffer[i] = bin.charCodeAt(i);
+		}
+		//Blobを作成
+		const blob = new Blob([buffer.buffer], {
+			type: mimeType
+		});
+		//画像をダウンロード
+		if (window.navigator.msSaveBlob) {
+			//IE
+			window.navigator.msSaveBlob(blob, fileName);
+		} else if (window.URL && window.URL.createObjectURL) {
+			//FF, Chrome, Safari
+			const a = document.createElement('a');
+			a.download = fileName;
+			a.href = window.URL.createObjectURL(blob);
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+		} else {
+			//Safari
+			window.open(base64, '_blank');
+		}
+	});
+
 } sec218();
