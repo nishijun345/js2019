@@ -144,37 +144,227 @@ function timer222() {
 </section><!-- section -->
 
 <section>
-<h2><b>223</b>一定時間後に処理を行う</h2>
-<h4>SAMPLE #223<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
-<pre><code>
+<h2><b>223</b>非同期処理を行えるPromiseを使う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>new Promise(関数)</td>
+		<td>プロミスを作成する</td>
+		<td>Promiseインスタンス</td>
+	</tr>
+	<tr>
+		<td>Promiseインスタンス.then(関数)</td>
+		<td>成功した時のコールバック関数を呼び出す</td>
+		<td>Promise</td>
+	</tr>
+</table>
+<ul>
+	<li>Promiseオブジェクトは非同期処理を扱える機能</li>
+	<li>fetch()メソッドをはじめブラウザ標準の機能にもPromiseを使うものが増えている</li>
+	<li>await・asyncのような記述方法の基本となっている</li>
+	<li>Promiseのコンストラクター引数には非同期処理を行う関数を指定する</li>
+	<li>この関数の中では非同期処理の完了としてのresolve()が呼ばれるのを待機する</li>
+	<li>then()を使うとresolve()が実行されたあとに続けたい処理を記述できる</li>
+	<li>resolve()の引数には任意の値が設定でき、then()内の処理で使用できる</li>
+</ul>
+<h4>SAMPLE #223<b>1秒後に続く処理をPromiseを使って実行</b></h4>
+<div>
+	<p class="btn" onclick="sec223()">Promiseを実行</p>
+</div>
+<pre><code>const promise = new Promise((resolve) => {
+	setTimeout(() => {
+		//resolve()を呼び出すとPromiseの処理が完了
+		resolve('次の処理');
+	}, 1000);
+});
+//then()で続く処理を記述
+promise.then((value) => {
+	alert(value);
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>224</b>一定時間後に処理を行う</h2>
-<h4>SAMPLE #224<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
-<pre><code>
+<h2><b>224</b>Promiseで処理の成功時・失敗時の処理を行う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>Promiseインスタンス.catch(関数)</td>
+		<td>失敗したときのコールバック関数を呼び出す</td>
+		<td>Promise</td>
+	</tr>
+</table>
+<ul>
+	<li>失敗時の処理を行うとき、コンストラクタの引数にrejectを含む関数を指定する</li>
+	<li>rejectは処理が失敗したことを示す処理を割り当てる</li>
+	<li>rejectが実行されると、catch()が呼ばれる</li>
+</ul>
+<h4>SAMPLE #224<b>Promiseで処理の成功時・失敗時の処理を行う</b></h4>
+<div>
+	<p class="btn resolve">成功</p>
+	<p class="btn reject">失敗</p>
+</div>
+<pre><code>new Promise((resolve, reject) => {
+	if (flag === true) {
+	resolve('成功');
+	} else {
+	reject('失敗');
+	}
+})
+.then((value) => {
+	alert(value);
+})
+.catch((value) => {
+	alert(value);
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>225</b>一定時間後に処理を行う</h2>
+<h2><b>225</b>Promiseで並列処理をする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>Promise.all(配列)</td>
+		<td>複数のPromiseを並列に実行する</td>
+		<td>Promise</td>
+	</tr>
+</table>
+<ul>
+	<li>複数の処理を同時に実行させ、すべて完了したとき次の処理につなげるにはPromise.all()を利用する</li>
+	<li>Promiseインスタンスを含む配列を作成し、Promise.all()の引数として割り当てる</li>
+	<li>Promiseですべての処理が完了したときに、then()で指定した関数が呼ばれる</li>
+	<li>並列処理の場合、配列の順番通りに処理が終わるわけではない</li>
+</ul>
 <h4>SAMPLE #225<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
-<pre><code>
+<div>
+	<p class="btn btn225" onclick="sec225()">並列処理を開始</p>
+	<div class="log225" style="margin-top: 15px;"></div>
+</div>
+<pre><code>//非同期処理を行う関数の配列を作成
+const arrFunc = [];
+const log225 = document.querySelector('.log225');
+for (let i = 0; i &lt; 5; i++) {
+	//非同期処理を行う関数
+	const func=(resolve)=> {
+		log225.insertAdjacentHTML('beforeend', `処理${i}を開始、`);
+		//0〜3秒で遅延
+		const delayMsec = 3000 * Math.random();
+		//遅延処理
+		setTimeout(() => {
+			log225.insertAdjacentHTML('beforeend', `&lt;p&gt;処理${i}が完了&lt;/p&gt;`);
+			resolve();
+		}, delayMsec);
+	};
+	//配列に保存
+	arrFunc.push(func);
+}
+//上の配列をPromiseの配列に変換
+const arrPromise = arrFunc.map((func) => new Promise(func));
+//並列処理を実行
+Promise.all(arrPromise).then(() => {
+	alert('すべての処理が完了しました');
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>226</b>一定時間後に処理を行う</h2>
+<h2><b>226</b>Promiseで直列処理をする</h2>
+<ul>
+	<li>処理が終わった後に次の処理を繋げていく書き方</li>
+	<li>Promiseのみで実装する方法と、await・asyncを使った方法</li>
+	<li>直列処理の場合はawait・asyncのほうが簡潔に書ける</li>
+</ul>
 <h4>SAMPLE #226<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
-<pre><code>
+<div>
+	<p class="btn promise226">直列処理を開始（Promiseのみ）</p>
+	<p class="btn async226">直列処理を開始（await・async）</p>
+</div>
+<pre><code>//Promiseのみ
+function promise226() {
+	Promise.resolve()
+		.then(
+			() => new Promise((resolve) => {
+				setTimeout(() => {
+					alert('1つ目のPromise（Promiseのみ）');
+					resolve();
+				}, 1000);
+			})
+		)
+		.then(
+			() => new Promise((resolve) => {
+				setTimeout(() => {
+					alert('2つ目のPromise（Promiseのみ）');
+					resolve();
+				}, 1000);
+			})
+		);
+}
+//await・async
+async function async226() {
+	await new Promise((resolve) => {
+		setTimeout(() => {
+			alert('1つ目のPromise（await・async）');
+			resolve();
+		}, 1000);
+	});
+	await new Promise((resolve) => {
+		setTimeout(() => {
+			alert('2つ目のPromise（await・async）');
+			resolve();
+		}, 1000);
+	});
+}
 </code></pre>
 </section><!-- section -->
 
 <section>
-<h2><b>227</b>一定時間後に処理を行う</h2>
+<h2><b>227</b>Promiseで動的に直列処理をする</h2>
+<ul>
+	<li>Promiseの数が動的に変わる場合、226の方法では実現できない</li>
+	<li>非同期処理を行う関数を配列に保存しておき、ループ文の中でPromiseとawaitを使って処理をつなげる</li>
+	<li>Promiseはインスタンス化した瞬間に関数が実行されるため、実行の直前までインスタンス化しない</li>
+	<li>ループ文の中のawaitはPromiseの完了を待つので、配列の非同期処理を順番に行う</li>
+</ul>
 <h4>SAMPLE #227<b>現在時刻とsetTimeout後の時刻を表示するサンプル</b></h4>
-<pre><code>
+<div>
+	<p class="btn btn227">直列処理を開始</p>
+	<div class="log227" style="margin-top: 15px;"></div>
+</div>
+<pre><code>//配列を作成
+const listFuctions = [];
+//動的に関数を追加
+for (let i = 0; i &lt; 5; i++) {
+	//1秒後に処理をする非同期関数を作成
+	const func = (resolve) => {
+		setTimeout(() => {
+			log227.insertAdjacentHTML('beforeend', `処理${i}が完了、`);
+			resolve(); //Promiseを完了
+		}, 1000);
+	};
+	//配列に保存
+	listFuctions.push(func);
+}
+//execute()
+async function execute() {
+	//非同期処理を順番に実行
+	for (let i = 0; i &lt; listFuctions.length; i++) {
+		const func = listFuctions[i];
+		await new Promise(func);
+	}
+}
 </code></pre>
 </section><!-- section -->
 
