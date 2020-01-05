@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_14】さまざまなデータの送受信方法</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<style>
+		.log239 img,
+		.log240 img {
+			width: 100%;
+		}
+		.bar {
+			margin-top: 15px;
+			width: 0;
+			height: 10px;
+			background-color: red;
+		}
+	</style>
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter14】さまざまなデータの送受信方法【228〜243】</h1>
+<section>
+<h2><b>228</b>JSONの概要を知る</h2>
+<ul>
+	<li>JSONとは汎用的なデータ形式</li>
+	<li>サーバーとの通信に使ったり、外部ファイルとしてデータを保存したりする場合に使う</li>
+	<li>JavaScriptの読み込みが簡単</li>
+</ul>
+<h4>JSONのデータフォーマット例<b>（4年C組は生徒が40人いるという情報）</b></h4>
+<pre><code>{
+	"students": 40,
+	"grade": 4,
+	"name": "C組"
+}
+</code></pre>
+<ul>
+	<li>JSONデータはキーと値を組み合わせて定義する</li>
+	<li>キーは文字列のみで必ずダブルクォーテーションで囲む</li>
+	<li>基本的にJavaScriptの文法がそのまま使える</li>
+	<li>値は数値、文字列、真偽値、配列、オブジェクト型が使える</li>
+	<li>配列とオブジェクトを使うと構造化された情報を定義できる</li>
+</ul>
+<h4>配列とオブジェクトを使った例<b>（〇〇学校の中に4年C組と3年A組があるという情報）</b></h4>
+<pre><code>{
+	"name": "〇〇学校",
+	"classes": [
+		{
+			"students": 40,
+			"grade": 4,
+			"name": "C組"
+		},
+		{
+			"students": 20,
+			"grade": 3,
+			"name": "A組"
+		}
+	]
+}
+</code></pre>
+<ul>
+	<li>JSONではオブジェクト・配列の最後のカンマは文法エラーとなる</li>
+	<li>文字列の定義はダブルクォーテーション（シングルクォーテーションやダブルクォーテーション無しは文法エラー）</li>
+</ul>
+<h4>JSONの文法エラーの例</h4>
+<pre><code>//OK
+{
+	"name": [1, 2, 3, 4]
+}
+
+//NG
+{
+	'name': [1, 2, 3, 4,]
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>229</b>JSONをパースする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>JSON.parse(文字列)</td>
+		<td>JSON形式の文字列を、JSONオブジェクトに変換</td>
+		<td>オブジェクト</td>
+	</tr>
+</table>
+<ul>
+	<li>JSON.parse()を使うと文字列をJSONとして解析し、JavaScriptの値やオブジェクトに変換する</li>
+	<li>JSON.parse()で展開した文字列はドットでキーを参照できる</li>
+</ul>
+<pre><code>//JSON文字列
+const jsonStrings = `{"students":40,"grade":4,"name":"C組"}`;
+//文字列をJavaScriptのオブジェクトに変換
+const data = JSON.parse(jsonStrings);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>230</b>オブジェクトをJSONに変換する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>JSON.stringify(obj)</td>
+		<td>JavaScriptオブジェクトをJSON文字列に変換</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>JSON.stringify()を使うと、オブジェクトをwoJSON文字列に変換できる</li>
+	<li>引数にオブジェクトを指定する</li>
+</ul>
+<pre><code>const data = {a: 1000, b:'こんにちは'};
+const str = JSON.stringify(data);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>231</b>JSONの変換時にインデントをつける</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>JSON.stringify(obj, null, '')</td>
+		<td>オブジェクトをインデント付きでJSON文字列に変換</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>JSON.stringify()の第三引数は改行とインデントを挿入するために使う</li>
+	<li>インデントとして利用したい文字列を指定する（空白文字やタブ）</li>
+	<li>数値を指定した場合はスペースの数になる</li>
+</ul>
+<pre><code>const data231 = { a: 1000, b: 'こんにちは' };
+//タブ
+let str231 = JSON.stringify(data231, null, '\t');
+//スペース
+str231 = JSON.stringify(data231, null, ' ');
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>232</b>JSONの変換ルールをカスタマイズする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>JSON.stringify(obj, replacer)</td>
+		<td>オブジェクトを一部のデータを変換してJSON文字列に変換</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>JSON.stringify()の第二引数はリプレイサーと呼ばれる関数を指定する</li>
+	<li>JSONへ変換するときに独自のルールを設定できる</li>
+</ul>
+<h4>SAMPLE #232<b>JSONの変換時に数値の場合無効化し、文字列だけを変換する</b></h4>
+<div>
+	<p class="btn" onclick="sec232()">変換</p>
+</div>
+<pre><code>const replacer = (key, value) => {
+	//数値だったら無視する
+	if (typeof value === 'number') {
+		return undefined;
+	}
+	return value;
+};
+const obj232 = {
+	pref: 'tokyo',
+	orange: 100,
+	pref2: 'osaka',
+	apple: 200
+};
+const str232 = JSON.stringify(obj232, replacer, ' ');
+alert(str232);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>233</b>fetch()メソッドでテキストを読み込む</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>fetch(URL)</td>
+		<td>URLからデータを取得</td>
+		<td>Promise</td>
+	</tr>
+</table>
+<ul>
+	<li>fetch()を使うと外部ファイルを簡単に受信できる</li>
+	<li>プログラム上からはデータのダウンロード完了までの時間がわからないため、非同期処理として実装する</li>
+	<li>具体的にPromiseのthen()を利用する</li>
+	<li>fetch()でデータを得た後にthen()が呼び出される</li>
+	<li>目的とするデータ形式として解析する必要がある</li>
+	<li>テキストの場合、データにtext()を実行する</li>
+</ul>
+<h4>SAMPLE #233<b>fetch()メソッドでテキストを読み込む</b></h4>
+<div>
+	<p class="btn" onclick="sec233()">テキストファイルを読み込む</p>
+	<p class="log233" style="margin-top: 15px;"></p>
+</div>
+<pre><code>//Promiseのみ
+fetch('sample.txt')
+	.then((data) => data.text())
+	.then((text) => {
+		console.log(text);
+	});
+
+//await・async
+async function load() {
+	const data = await fetch('sample.txt');
+	const text = await data.text();
+	log233.innerHTML = text;
+}
+load();
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>234</b>fetch()メソッドでJSONを読み込む</h2>
+<ul>
+	<li>fetch()でデータを読み込む</li>
+	<li>次にjson()を実行することでJSONとして扱える</li>
+</ul>
+<h4>SAMPLE #234<b>fetch()メソッドでJSONを読み込む</b></h4>
+<div>
+	<p class="btn" onclick="sec234()">JSONファイルを読み込む</p>
+	<pre class="log234" style="margin-top: 15px;"></pre>
+</div>
+<pre><code>//Promiseのみ
+fetch('sample.json')
+	.then((data) => data.json())
+	.then((obj) => {
+		console.log(obj);
+	});
+//await・async
+async function load() {
+	//データ読み込み
+	const data = await fetch('sample.json');
+	//JSONとして解析
+	const obj = await data.json();
+	//テキストとして出力
+	log234.innerHTML = JSON.stringify(obj, null, ' ');
+}
+load();
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>235</b>fetch()メソッドでXMLを読み込む</h2>
+<ul>
+	<li>XMLは主にサーバー間のデータやりとりに使われる</li>
+	<li>HTMLのように開始タグ・終了タグで値を定義し、属性値で補助的な情報を付与する</li>
+	<li>XMLはデータを読み込んだあと、参照するのに手間がかかる</li>
+	<li>JSONは読み込んだ段階でJavaScriptのデータ型に展開されるためコード量も少なくなる</li>
+</ul>
+<h4>SAMPLE #235<b>fetch()メソッドでXMLを読み込む</b></h4>
+<div>
+	<p class="btn" onclick="sec235()">XMLファイルを読み込む</p>
+	<pre class="log235" style="margin-top: 15px;"></pre>
+</div>
+<pre><code>//Promiseのみ
+fetch('sample.xml')
+	.then((response) => response.text())
+	.then((str) => new DOMParser().parseFromString(str, 'application/xml'))
+	.then((xml) => {
+		console.log(xml);
+		console.log(xml.querySelector('orange').innerHTML);
+	});
+//await・async
+async function load() {
+	//ファイル読み込み
+	const response = await fetch('sample.xml');
+	//テキストとして解析
+	const text = await response.text();
+	//XMLとして解析
+	const xml = new DOMParser().parseFromString(text, 'application/xml');
+	console.log(xml);
+	//テキストを出力
+	log235.textContent = text;
+}
+load();
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>236</b>fetch()メソッドでバイナリを読み込む</h2>
+<ul>
+	<li>画像や3Dデータなどの多くはテキストではないフォーマットで保存されている（バイナリ形式）</li>
+	<li>バイナリ形式で読み込むにはblob()で展開する</li>
+</ul>
+<h4>SAMPLE #236<b>fetch()メソッドでバイナリを読み込む</b></h4>
+<div>
+	<p class="btn" onclick="sec236()">バイナリファイルを読み込む</p>
+	<pre class="log236" style="margin-top: 15px;"></pre>
+</div>
+<pre><code>//Promiseのみ
+fetch('../img/chara.png')
+	.then((response) => response.blob())
+	.then((blob) => {
+		const image = new Image();
+		image.src = URL.createObjectURL(blob);
+		log236.appendChild(image);
+	});
+//await・async
+async function load() {
+	//データ読み込み
+	const response = await fetch('../img/chara.png');
+	//blobとして解析
+	const blob = await response.blob();
+	//img要素作成
+	const image = new Image();
+	//blobをsrc属性に代入
+	image.src = URL.createObjectURL(blob);
+	//画面に表示
+	log236.appendChild(image);
+}
+load();
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>237</b>fetch()メソッドでデータを送信する</h2>
+<ul>
+	<li>サーバーのプログラムにデータを渡すときもfetch()を利用できる</li>
+	<li>データ送信方法はGETとPOSTの2種類がある</li>
+	<li>GETはURLに?key=valueのようなパラメータを付与する方法</li>
+	<li>GETは送信データが見えてログも残るためプライバシーに関することはGETのパラメータに含めないのが一般的</li>
+	<li>POSTはURLに送信情報が載らないためフォームなどで利用される</li>
+	<li>POSTはHTTPSで通信している限り中身は第三者が見れないため安心</li>
+	<li>POSTで送信する場合はメソッド、ヘッダー、ボディー情報を指定する</li>
+</ul>
+<h3>JSONフォーマットで送る場合（application/json方式）</h3>
+<ul>
+	<li>fetch()の第二引数にオプションを指定する</li>
+	<li>通信が成功したか確認するためにサーバーからのレスポンスを受け取る</li>
+	<li>PHPではfile_get_contents('php:/input')を使って入力値を受け取る</li>
+	<li>この段階では文字列なのでjson_decode()で変換する</li>
+</ul>
+<pre><code>const obj  = {hello: 'world'};
+const data = {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json'
+	},
+	body: JSON.stringify(obj)
+};
+fetch('./new', data)
+	.then((res) => res.text())
+	.then(console.log);
+
+//PHP
+&lt;?php
+$json_string = file_get_contents('php://input');
+$obj = json_decode($json_string);
+echo $obj->{"hello"};
+</code></pre>
+<h3>フォーム形式で送る場合（multipart/form-data方式）</h3>
+<ul>
+	<li>フォーム形式はPHP側で値を受け取りやすい</li>
+	<li>JavaScriptでFormDataオブジェクトを利用するとキー・バリューの組み合わせで送信データを定義できる</li>
+	<li>multipart/form-dataは主に画像や添付ファイルをアップロードするときに使用されるフォーマット</li>
+	<li>Content-Typeの値は自動的に設定されるので指定しない</li>
+	<li>PHPは$_POST連想配列の中に値が保存されているので、キーを指定し値を出力する</li>
+</ul>
+<pre><code>const body = new FormData();
+const data = {
+	method: 'POST',
+	body: body
+};
+fetch('./new', data)
+	.then((res) => res.text())
+	.then(console.log);
+
+//PHP
+&lt;?php
+echo $_POST{"hello"};
+</code></pre>
+<h3>フォーム形式で送る場合（application/x-www-form-urlencoded方式）</h3>
+<ul>
+	<li>[キー1=値1&キー2=値2&...]という形でキーと値のペアをサーバーに送信するフォーマット</li>
+	<li>日本語などのマルチバイト文字は使用できないのでURLエンコードをして送信する</li>
+	<li>URLSearchParamsのインスタンスを作成しset()でキーと値を設定する</li>
+	<li>Content-Typeはapplication/x-www-form-urlencoded; charset=utf-8を指定する</li>
+</ul>
+<pre><code>const params = new URLSearchParams();
+params.set('hello', 'world');
+const data = {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+	},
+	body: params
+};
+fetch('./form_xform.php', data)
+	.then((res) => res.text())
+	.then(console.log);
+
+//PHP
+&lt;?php
+echo $_POST{"hello"};
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>238</b>XMLHttpRequestでテキストを読み込む</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>new XMLHttpRequest()</td>
+		<td>インスタンスを生成する</td>
+		<td>XMLHttpRequest</td>
+	</tr>
+	<tr>
+		<td>open(メソッド, url)</td>
+		<td>リクエストを初期化する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>send()</td>
+		<td>リクエストを送信する</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>XMLHttpRequestはfetch()よりも昔から存在するJavaScriptの機能</li>
+	<li>fetch()より冗長な制御が必要だが、低レベルの制御ができたり古いブラウザでも利用できるという利点がある</li>
+	<li>XMLHttpRequestオブジェクトのインスタンスの読み込みが完了したことを示すloadイベントを監視する</li>
+	<li>イベントハンドラーではresponseTextプロパティを参照することで通信で取得した文字列を参照できる</li>
+</ul>
+<h4>SAMPLE #238<b>XMLHttpRequestでテキストを読み込む</b></h4>
+<div>
+	<p class="btn" onclick="sec238()">テキストファイルを読み込む</p>
+	<pre class="log238" style="margin-top: 15px;"></pre>
+</div>
+<pre><code>//XHRを作成
+const req = new XMLHttpRequest();
+//読み込み完了時のイベント
+req.addEventListener('load', (event) => {
+	//レスポンスを受け取る
+	const text = event.target.responseText;
+	//テキストを出力
+	log238.innerHTML = text;
+});
+//ファイル指定
+req.open('GET', 'sample.txt');
+//読み込み開始
+req.send();
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>239</b>XMLHttpRequestでデータの読み込み状況を取得する</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>event.loaded</td>
+		<td>現在の読み込み量</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.total</td>
+		<td>総容量</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>XMLHttpRequestオブジェクトのインスタンスの読み込みが進行したことを示すprogressイベントを監視する</li>
+	<li>イベントハンドラはtotalが総容量、loadedが現在の読み込み量を示す</li>
+	<li>loadedとtotalの割合を計算すると何パーセントのデータが読み込まれたかわかる</li>
+</ul>
+<h4>SAMPLE #239<b>XMLHttpRequestでデータの読み込み状況を取得する</b></h4>
+<div>
+	<p class="btn" onclick="sec239()">データを読み込む</p>
+	<p class="bar"></p>
+	<p class="percent"></p>
+	<p class="log239" style="margin-top: 15px;"></p>
+</div>
+<pre><code>const log239 = document.querySelector('.log239');
+const bar = document.querySelector('.bar');
+const percent = document.querySelector('.percent');
+const req = new XMLHttpRequest();
+//データの種類を設定
+req.responseType = 'blob';
+//読み込み進行時のイベント
+req.addEventListener('progress', (event) => {
+	//読み込みの割合を算出（0〜1）
+	const rate = event.loaded / event.total;
+	bar.style.width = `${rate * 100}%`;
+	percent.innerHTML = `${Math.floor(rate * 100)}%`;
+});
+//読み込み完了時のイベント
+req.addEventListener('load', (event) => {
+	//レスポンスを受け取る
+	const data = event.target.response;
+	//画像データに変換
+	const source = URL.createObjectURL(data);
+	//画像作成
+	const image = new Image();
+	image.src = source;
+	//画像を出力
+	log239.appendChild(image);
+});
+req.open('GET', '../img/landscape.jpg');
+req.send();
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>240</b>XMLHttpRequestで読み込み中の通信をキャンセルする</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>abort()</td>
+		<td>通信を中断する</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>XMLHttpRequestオブジェクトのインスタンスのabort()を使うと通信を中断できる</li>
+	<li>中断するとabortイベントが発生し、loadイベントは発生しない</li>
+</ul>
+<h4>SAMPLE #240<b>50%の確率で読み込みを失敗するサンプル</b></h4>
+<div>
+	<p class="btn" onclick="sec240()">データを読み込む</p>
+	<p class="percent240"></p>
+	<p class="log240" style="margin-top: 15px;"></p>
+</div>
+<pre><code>//読み込み失敗時のイベント
+req.addEventListener('abort', (event) => {
+	percent.innerHTML = '読み込みに失敗しました';
+});
+if (Math.random() > 0.5) {
+	req.abort();
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>241</b>バックグラウンドでスクリプトを実行する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>new Worker(ファイルパス)</td>
+		<td>Web Workerのインスタンスを作成する</td>
+		<td>インスタンス</td>
+	</tr>
+</table>
+<ul>
+	<li>JavaScriptはメインスレッドで動作するが、負荷が高いとUIを担当するメインスレッドを止めてしまうため、その最中は操作不能になる</li>
+	<li>解決手段の一つにWeb Workerという仕様がある</li>
+	<li>Web WorkerはメインスレッドのJavaScriptと分離して処理される</li>
+	<li>Web Workerで負荷の高い処理を実行する場合に役立つ</li>
+	<li>Web Workerはメインのスクリプトとスレッドが異なるためDOM操作ができない</li>
+	<li>Web Workerはページが開いているときのみ実行される</li>
+	<li>Web Workerとメインスレッドでデータをやりとりするには、postMessage()を使って送信し、onmessageイベントハンドラーで返信する</li>
+	<li>メッセージはonmessageイベントのdata属性に格納される</li>
+</ul>
+<h4>SAMPLE #241<b>Web Workerのサンプル</b></h4>
+<div class="wrap241">
+	<input type="number" value="1" id="numA"> + <input type="number" value="2" id="numB"> = <span class="result241"></span>
+</div>
+<p class="btn btn241">計算する</p>
+<p>▼メインスクリプト側</p>
+<pre><code>//参照を取得
+const numA = document.querySelector('#numA');
+const numB = document.querySelector('#numB');
+const result241 = document.querySelector('.result241');
+const btn = document.querySelector('.btn241');
+//ワーカーを作成
+const worker = new Worker('../js/worker.js');
+//クリックイベント
+btn.addEventListener('click', () => {
+	worker.postMessage([Number(numA.value), Number(numB.value)]);
+	console.log('[メインスクリプト]ワーカーへメッセージを送信');
+});
+//ワーカーから受信したとき
+worker.onmessage = function (e) {
+	//結果を画面に表示
+	result241.textContent = e.data;
+	console.log('[メインスクリプト]ワーカーへメッセージを受信');
+}
+</code></pre>
+<p>▼ワーカー側</p>
+<pre><code>onmessage = (e) => {
+	console.log('[ワーカー]メインスクリプトからメッセージを受信');
+	//足し算を実行
+	const result = e.data[0] + e.data[1];
+	console.log('[ワーカー]メインスクリプトにメッセージを送信');
+	postMessage(result);
+};
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>242</b>バックグラウンドでサービスワーカーを実行する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>navigator.serviceWorker.register()</td>
+		<td>サービスワーカーを登録する</td>
+		<td>Promise</td>
+	</tr>
+</table>
+<ul>
+	<li>サービスワーカーは開いているページの裏で常に起動するスクリプト</li>
+	<li>Web Workerはページが開いているときのみ実行されるのに対して、サービスワーカーはブラウザを閉じても実行できる</li>
+	<li>プッシュ通知やキャッシュ機能を利用するのに役立つ</li>
+</ul>
+<h4>SAMPLE #242<b>ServiceWorkerのサンプル</b></h4>
+<p>▼メインスクリプト側</p>
+<pre><code>if ('serviceWorker' in navigator) {
+	navigator.serviceWorker
+		.register('../js/worker.js')
+		.then((registration) => {
+			//登録成功
+			console.log('ServiceWorkerの登録に成功');
+		})
+		.catch((error) => {
+			//登録失敗
+			console.log('ServiceWorkerの登録に失敗', error);
+		});
+}
+</code></pre>
+<p>▼ワーカー側</p>
+<pre><code>self.addEventListener('fetch', (event) => {
+	console.log('通信が発生', event.request);
+});
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>243</b>プッシュ通知を実行させる</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>Notification.permission</td>
+		<td>ブラウザが通知を許可しているか</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>NotificationAPIを仕様することでウェブサイトからプッシュ通知を送ることができる</li>
+	<li>ページを開いているときのみプッシュできる</li>
+	<li>ページを開いていないときにプッシュするにはサービスワーカーを使う</li>
+	<li>通知はブラウザ側への許可制</li>
+	<li>Notification.permissionで許可しているかを確認</li>
+	<li>値がdefaultの場合、Notification.requestPermission()を実行して許可を求める</li>
+	<li>値がgrantedの場合、new Notification("メッセージ")を実行すると通知が表示される</li>
+</ul>
+<h4>SAMPLE #243<b>プッシュ通知を実行させる</b></h4>
+<div>
+	<p class="btn btn243">通知を行う</p>
+</div>
+<pre><code>const btn = document.querySelector('.btn243');
+btn.addEventListener('click', notify);
+//通知を試みる
+function notify() {
+	switch (Notification.permission) {
+		//デフォルト状態なら通知の許可を求める
+		case 'default':
+			Notification.requestPermission();
+			break;
+		//許可されているならNotificationで通知
+		case 'granted':
+			new Notification('Hello');
+			break;
+		//拒否されていればアラート
+		case 'denied':('通知が拒否されています');
+			break
+			alert;
+	}
+};
+</code></pre>
+</section><!-- section -->
+
+
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/14.js"></script>
+</body>
+
+</html>
