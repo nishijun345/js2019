@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_15】ローカルデータの取扱い</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter15】ローカルデータの取扱い【244〜247】</h1>
+<section>
+<h2><b>244</b>localStorageを使ってローカルデータを使いたい</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>localStorage.setItem('myParam', data)</td>
+		<td>ローカルストレージへの書き込み</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>localStorage.getItem('myParam')</td>
+		<td>ローカルストレージからの読み出し</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>localStorageはブラウザ上にデータを保存できる手軽な手段</li>
+	<li>windowオブジェクトにlocalStorageオブジェクトが存在する</li>
+	<li>直接localStorgeと記述すればどこからでも呼び出せる</li>
+	<li>setItem()で保存する</li>
+	<li>第一引数にはキー名、第二引数には任意のデータを指定する</li>
+	<li>さまざまなデータ型を利用できる</li>
+	<li>データの保存期間の制限はない</li>
+	<li>getItem()で読み出しする</li>
+	<li>第一引数に保存時に指定したキー名を指定する</li>
+</ul>
+<h4>SAMPLE #244<b>localStorageの保存・読み出し</b></h4>
+<div class="box244">
+	<input type="text" class="input" placeholder="保存するテキストを入力">
+	<button class="btnSave">保存する</button>
+	<button class="btnRead">読み出す</button>
+</div>
+<pre><code>//保存
+btnSave.addEventListener('click', () => {
+	//文字列取得
+	const data = input.value;
+	//ローカルストレージに保存
+	localStorage.setItem('myKey', data);
+	input.value = '';
+});
+//読み出し
+btnRead.addEventListener('click', () => {
+	//ローカルストレージから読み出し
+	const data = localStorage.getItem('myKey');
+	//文字列に代入
+	input.value = data;
+});
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>245</b>Storage APIからデータを消す</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>localStorage.removeItem(キー名)</td>
+		<td>ローカルストレージからキーを一つ削除する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>localStorage.clear()</td>
+		<td>ローカルストレージをクリアする</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>removeItem()でlocalStorageやsessionStorageから一部のデータを削除する</li>
+	<li>clear()で当該ドメインのストレージオブジェクト全体を空にする</li>
+</ul>
+<h4>SAMPLE #245<b>localStorageの削除</b></h4>
+<div class="box245">
+	<input type="text" class="user" placeholder="ユーザー名"><br>
+	<input type="text" class="pass" placeholder="パスワード" style="margin-top: 10px;"><br>
+	<button class="btnSave" style="margin-top: 10px;">保存する</button>
+	<button class="btnRead">自動入力</button><br>
+	<button class="btnRemove" style="margin-top: 10px;">パスワード保存の削除</button>
+	<button class="btnClear">ユーザー名＆パスワード保存の削除</button>
+</div>
+<pre><code>//保存
+btnSave.addEventListener('click', () => {
+	const dataUser = inputUser.value;
+	const dataPass = inputPass.value;
+	localStorage.setItem('user', dataUser);
+	localStorage.setItem('pass', dataPass);
+});
+//読み出し
+btnRead.addEventListener('click', () => {
+	const dataUser = localStorage.getItem('user');
+	const dataPass = localStorage.getItem('pass');
+	inputUser.value = dataUser;
+	inputPass.value = dataPass;
+});
+//一部削除
+btnRemove.addEventListener('click', () => {
+	localStorage.removeItem('pass');
+});
+//クリア
+btnClear.addEventListener('click', () => {
+	localStorage.clear();
+});
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>246</b>Cookieを使ってローカルデータを使う</h2>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>247</b>Cookieからデータを読みだす</h2>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/15.js"></script>
+</body>
+
+</html>
