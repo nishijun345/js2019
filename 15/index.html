@@ -128,13 +128,86 @@ btnClear.addEventListener('click', () => {
 
 <section>
 <h2><b>246</b>Cookieを使ってローカルデータを使う</h2>
-<pre><code>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>document.cookie</td>
+		<td>Cookieを参照する</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>localStorageはさまざまなデータを保存できるが、Cookieは1次元の文字列しか保存できない</li>
+	<li>Cookieの値はクライアントサイドで利用できるが、サーバーサイドでも共有して読み込み、書き換えできる</li>
+	<li>Cookieの値では＝や;などの特殊記号や日本語文字は、エンコードして記録、読み出し時にデコードする必要がある</li>
+</ul>
+<h3>Cookieの仕様</h3>
+<ul>
+	<li>ブラウザが自動的にサーバーに送る</li>
+	<li>有効期限の設定ができる</li>
+	<li>消さない限りずっと保持</li>
+	<li>ドメイン単位で保持。ただしhttp、httpsだと別領域に保存</li>
+</ul>
+<h4>SAMPLE #246<b>Cookieを使ってローカルデータを使う</b></h4>
+<div class="box246">
+	<input type="text" class="input" placeholder="保存するテキストを入力">
+	<button class="btnSave">保存する</button>
+	<button class="btnRead">読み出す</button>
+</div>
+<pre><code>//保存
+btnSave.addEventListener('click', () => {
+	document.cookie = `input=${encodeURI(input.value)}`;
+});
+//読み出し
+btnRead.addEventListener('click', () => {
+	alert(decodeURI(document.cookie));
+});
 </code></pre>
 </section><!-- section -->
 
 <section>
 <h2><b>247</b>Cookieからデータを読みだす</h2>
-<pre><code>
+<ul>
+	<li>document.cookieの値を読み出しても、キー・バリューがそれぞれ文字列で結合しているため扱いにくい。</li>
+	<li>Cookieの文字列は、連想配列に分解すると使いやすい</li>
+	<li>文字列のセミコロンやイコールを分解して、連想配列としてのObjectへ変換する</li>
+	<li>Cookieの値はすべて文字列となるので注意</li>
+</ul>
+<h4>SAMPLE #247<b>Cookieからデータを読みだす</b></h4>
+<div class="box247">
+	<input type="text" class="input" placeholder="保存するテキストを入力">
+	<button class="btnSave">保存する</button>
+	<button class="btnRead">読み出す</button>
+	<pre class="log"></pre>
+</div>
+<pre><code>//保存
+btnSave.addEventListener('click', () => {
+	document.cookie = `input=${encodeURI(input.value)}`;
+});
+//読み出し
+btnRead.addEventListener('click', () => {
+	const obj = convertCookieToObject(document.cookie);
+	log.innerHTML = JSON.stringify(obj, null, ' ');
+});
+function convertCookieToObject(cookies) {
+	const cookieItems = cookies.split(';');
+	const obj = {};
+	cookieItems.forEach((item) => {
+		//=で分解
+		var elem = item.split('=');
+		//キーを取得
+		const key = elem[0].trim();
+		//バリューを取得
+		const val = decodeURIComponent(elem[1]);
+		//保存
+		obj[key] = val;
+	});
+	return obj;
+}
 </code></pre>
 </section><!-- section -->
 
