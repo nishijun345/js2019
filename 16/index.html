@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_16】スマートフォンのセンサー</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+<h1>【Chapter16】スマートフォンのセンサー【248〜250】</h1>
+<section>
+<h2><b>248</b>位置情報を取得する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>navigator.geolocation.getCurrentPosition(成功時の関数, 失敗時の関数)</td>
+		<td>位置情報を取得する</td>
+		<td>なし</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>position.coords.latitude</td>
+		<td>緯度</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>position.coords.longitube</td>
+		<td>経度</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>position.coords.accuracy</td>
+		<td>緯度経度の誤差</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>GPSはGeolocation APIでアクセスできる</li>
+	<li>navigator.geolocation.getCurrentPosition()で位置情報を取得する</li>
+	<li>position.coords.accuracyは、取得した緯度経度の位置から半径◯ｍ以内に実際の位置があることを表している</li>
+</ul>
+<h4>SAMPLE #248<b>位置情報を取得する</b></h4>
+<div>
+	<p class="btn" onclick="sec248()">位置情報を取得</p>
+</div>
+<pre><code>//現在位置の取得
+navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+//成功
+function geoSuccess(position) {
+	//緯度
+	const lat = position.coords.latitude;
+	//経度
+	const lng = position.coords.longitude;
+	//誤差
+	const accuracy = Math.floor(position.coords.accuracy);
+	alert(`緯度「${lat}」経度「${lng}」誤差「${accuracy}」`);
+}
+//失敗
+function geoError() {
+	alert('取得失敗');
+}
+</code></pre>
+<h3>Google Map</h3>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap" async defer></script>
+<script>
+	var map;
+	function initMap() {
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: { lat: -34.397, lng: 150.644 },
+			zoom: 8
+		});
+	}
+</script> -->
+<div id="map" style="width: 100%; max-width: 600px; height: 400px; padding-top: 20px;"></div>
+<p>APIキーの取得までしたが請求先登録が必要とのことでやめました</p>
+<pre><code>function geoSuccess(position) {
+	setMap(lat, lng);
+}
+function setMap(lat, lng) {
+	//緯度経度の設定
+	const latlng = new google.maps.LatLng(lat, lng);
+	//マーカーを追加
+	const marker = new google.maps.Marker({
+		map: map,
+		draggable: true,
+		animation: google.maps.Animation.DROP,
+		position: latlng
+	});
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>249</b>ジャイロセンサーや加速度センサーを使う</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>event.beta</td>
+		<td>X軸の傾き</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.gamma</td>
+		<td>Y軸の傾き</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.alpha</td>
+		<td>Z軸の傾き</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.acceleration.x</td>
+		<td>X軸の加速度</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.acceleration.y</td>
+		<td>Y軸の加速度</td>
+		<td>数値</td>
+	</tr>
+	<tr>
+		<td>event.acceleration.z</td>
+		<td>Z軸の加速度</td>
+		<td>数値</td>
+	</tr>
+</table>
+<h3>ジャイロセンサー（傾き）</h3>
+<ul>
+	<li>ジャイロセンサーは傾き（回転）を検出するセンサー</li>
+	<li>スマホを縦横どちらで使用しているのか検知してディスプレイの向きを切り替える制御などをするために設置されている</li>
+	<li>Devicerientation Eventでアクセスできる</li>
+	<li>X・Y・Z軸の値を取得するためにはwindowオブジェクトのdeviceorientationイベントを監視する</li>
+</ul>
+<pre><code>//DeviceOrientation Event
+window.addEventListener('deviceorientation', deviceorientationHandler);
+function deviceorientationHandler(event) {
+	const beta = event.beta;
+	const gamma = event.gamma;
+	const alpha = event.alpha;
+	document.querySelector('.result249').innerHTML = `X軸${beta}Y軸${gamma}Z軸${alpha}`;
+}</code></pre>
+<h3>ジャイロセンサー（方角）</h3>
+<ul>
+	<li>Safariではevent.webkitCompassHeadingパラメーターから方角を取得できるが、その他スマホではサポートされていない</li>
+	<li>代用としてジャイロセンサーの値を使用する</li>
+	<li>傾きから方角を算出するロジックを用いる</li>
+	<li>方角を0〜360度の数値で取得する</li>
+	<li>0度は「北」90度は「東」180度は「南」270度は「西」</li>
+</ul>
+<pre><code>
+
+</code></pre>
+<h3>加速度センサー（慣性）</h3>
+<ul>
+	<li>加速度センサーは一定時間で速度がどの方向にどれだけ変化したかを検出するセンサー</li>
+	<li>スマホではXYZの3方向を検出できる3軸加速度センサーが主流</li>
+	<li>スマホが落下して物体に衝突したことなどを検知できる</li>
+	<li>DeviceMotion Eventでアクセスできる</li>
+	<li>XYZ軸の値を取得するにはwindowオブジェクトのdevicemotionイベントを監視する</li>
+</ul>
+<h4>SAMPLE #249<b>ジャイロセンサー</b></h4>
+<div>
+	<p class="result249"></p>
+</div>
+</section><!-- section -->
+
+<section>
+<h2><b>250</b>バイブレーションを使う</h2>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>navigator.vibrate(振動させるミリ秒)</td>
+		<td>デバイスを振動させる</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<ul>
+	<li>Vibration APIでアクセスできる</li>
+	<li>navigator.vibrate()を実行する</li>
+	<li>配列を指定することで、振動パターンを設定できる</li>
+	<li>iOSではサポートされているブラウザはない</li>
+	<li>AndroidではChrome、Firefoxでサポートされている</li>
+</ul>
+<h4>SAMPLE #250<b>バイブレーションを使う</b></h4>
+<div>
+	<p class="btn vibrate01">バイブレーション</p>
+	<p class="btn vibrate02">バイブレーション（パターン）</p>
+</div>
+<pre><code>function vibrate01() {
+	navigator.vibrate(1000);
+}
+function vibrate02() {
+	//500ミリ秒振動、100ミリ秒停止、,500ミリ秒振動
+	navigator.vibrate([500, 100, 500]);
+}
+</code></pre>
+</section><!-- section -->
+
+
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/16.js"></script>
+</body>
+
+</html>
