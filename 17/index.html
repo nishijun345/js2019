@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_17】プログラムのデバッグ</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+</head>
+
+<body>
+<h1>【Chapter17】プログラムのデバッグ【251〜258】</h1>
+<section>
+<h2><b>251</b>情報・エラー・警告を出力する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>console.log(値1、値2, ...)</td>
+		<td>ログを表示する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>console.info(値1、値2, ...)</td>
+		<td>情報を表示する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>console.warn(値1、値2, ...)</td>
+		<td>警告を表示する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>console.error(値1、値2, ...)</td>
+		<td>エラーを表示する</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>コンソールの命令には4種類のレベルがある</li>
+	<li>使い分けの基準として、warn()は非推奨でありことを示したり、error()は意図せぬ動作をしていることを示す</li>
+</ul>
+<h4>SAMPLE #251<b>情報・エラー・警告を出力する</b></h4>
+<div>
+	<p class="btn" onclick="sec251()">consoleを表示</p>
+</div>
+<pre><code>console.log('ログ');
+console.info('情報');
+console.warn('警告');
+console.error('エラー');
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>252</b>オブジェクトの構造を出力する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>console.dir(オブジェクト)</td>
+		<td>オブジェクトの構造を出力する</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>console.table(オブジェクト)</td>
+		<td>オブジェクトの構造を出力する</td>
+		<td>なし</td>
+	</tr>
+</table>
+<ul>
+	<li>オブジェクトや配列で深い階層のデータを扱うときに効率よく出力できる</li>
+	<li>console.dir()はオブジェクトの構造を出力できる</li>
+	<li>console.table()は表組みで出力できる</li>
+</ul>
+<h4>SAMPLE #252<b>オブジェクトの構造を出力する</b></h4>
+<div>
+	<p class="btn dir" onclick="consoleDir()">console.dir()</p>
+	<p class="btn arr" onclick="consoleTable()">console.table()</p>
+</div>
+<pre><code>function consoleDir() {
+	const myObj = {
+		id: 5,
+		name: 'なまえ'
+	};
+	console.dir(myObj);
+}
+function consoleTable() {
+	const myArr = [
+		{id: 100, age: 25, name: 'あか'},
+		{id: 50, age: 5, name: 'くろ'},
+		{id: 1000, age: 88, name: 'みどり'}
+	]
+	console.table(myArr);
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>253</b>エラーの挙動について知る</h2>
+<ul>
+	<li>エラーが発生するとプログラムは中断されそれ以降の処理は実行されない</li>
+</ul>
+<h4>SAMPLE #253<b>エラーを発生させる</b></h4>
+<div>
+	<p class="btn" onclick="sec253()">エラーを発生させる</p>
+</div>
+<pre><code>const a = 10;
+a = 20;
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>254</b>Errorオブジェクトを生成する</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>new Error(エラー内容)</td>
+		<td>Errorインスタンスを生成する</td>
+		<td>Errorオブジェクト</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>Errorインスタンス.message</td>
+		<td>エラー内容</td>
+		<td>文字列</td>
+	</tr>
+</table>
+<ul>
+	<li>エラーは開発者側で発生させることも可能</li>
+	<li>エラーを投げる（throw error）と表現する</li>
+	<li>関数に不正な値が渡された場合や、APIの戻り値が意図せぬ値になった場合などに使用</li>
+	<li>エラー内容はErrorオブジェクトで表現する</li>
+	<li>インスタンス化時の引数にエラー内容を設定できる</li>
+</ul>
+<h4>SAMPLE #254<b>Errorオブジェクトを生成する</b></h4>
+<div>
+	<p class="btn" onclick="sec254()">Errorオブジェクト生成</p>
+</div>
+<pre><code>const error = new Error('エラーが発生しました');
+console.log(error.message);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>255</b>エラーを投げる</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>throw Errorインスタンス</td>
+		<td>エラーを投げる</td>
+	</tr>
+</table>
+<ul>
+	<li>生成したエラーを投げるにはthrowを用いる</li>
+</ul>
+<h4>SAMPLE #255<b>引数が数値でない場合にエラーを投げる</b></h4>
+<div>
+	<input type="text" id="input255" placeholder="数値か文字列を入力">
+	<p class="btn" onclick="sec255()">アラート表示</p>
+</div>
+<pre><code>function myFunc(value) {
+	if (typeof value !== 'number') {
+		const error = new Error(`「${value}」はNumberではありません`);
+		alert(error.message);
+		//エラーを投げる
+		throw error;
+	}
+	alert(`「${value}」はNumberです`);
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>256</b>エラー発生時にエラーを検知する</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>try {} catch(error) {}</td>
+		<td>エラーをキャッチして処理をする</td>
+	</tr>
+</table>
+<ul>
+	<li>try catchは、エラーが発生しても処理を中断せず続けられる</li>
+	<li>try{}でエラーが発生すると、catch(error){}が実行される</li>
+	<li>catch(error)ではErrorオブジェクトを受け取り、エラー内容の表示などが可能</li>
+</ul>
+<h4>SAMPLE #256<b>try catch</b></h4>
+<div>
+	<p class="btn" onclick="sec256()">try catch</p>
+</div>
+<pre><code>const a = 10;
+try {
+	//再代入エラー
+	a = 20;
+} catch(error) {
+	console.log(`エラーが発生しました${error.message}`);
+}
+//中断されることなく実行される
+alert(`定数aの値は${a}です`);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>257</b>エラー発生時にもコードを実行する</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>try {} catch(error) {} finally {}</td>
+		<td>エラーをキャッチして処理をする</td>
+	</tr>
+</table>
+<ul>
+	<li>finally{}は、try{}のエラー発生の有無に関わらず実行される</li>
+	<li>必ず実行したい処理をfinallyに書く</li>
+</ul>
+<h4>SAMPLE #257<b>50%の確率でエラーが発生しtry catch</b></h4>
+<div>
+	<p class="btn" onclick="sec257()">try catch finally</p>
+</div>
+<pre><code>try {
+	//50%の確率でエラーを発生させる
+	if (Math.random() > 0.5) {
+		throw new Error();
+	} else {
+		alert('エラーなし');
+	}
+} catch(error) {
+	alert('エラー発生！！');
+} finally {
+	alert('エラー処理完了（finally）')
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>258</b>位置情報を取得する</h2>
+<h4>SAMPLE #258<b>位置情報を取得する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/17.js"></script>
+</body>
+
+</html>
