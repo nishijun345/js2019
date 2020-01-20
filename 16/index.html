@@ -60,6 +60,7 @@
 <div>
 	<p class="btn" onclick="sec248()">位置情報を取得</p>
 </div>
+<p>※httpsじゃないとエラーが返るとのことでfirstでは確認できず、、</p>
 <pre><code>//現在位置の取得
 navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
 //成功
@@ -89,7 +90,7 @@ function geoError() {
 	}
 </script> -->
 <div id="map" style="width: 100%; max-width: 600px; height: 400px; padding-top: 20px;"></div>
-<p>APIキーの取得までしたが請求先登録が必要とのことでやめました</p>
+<p>※APIキーの取得までしたが請求先登録が必要とのことでやめました</p>
 <pre><code>function geoSuccess(position) {
 	setMap(lat, lng);
 }
@@ -169,8 +170,26 @@ function deviceorientationHandler(event) {
 	<li>方角を0〜360度の数値で取得する</li>
 	<li>0度は「北」90度は「東」180度は「南」270度は「西」</li>
 </ul>
-<pre><code>
-
+<pre><code>function getCompassHeading(alpha, beta, gamma) {
+	const degtorad = Math.PI / 180;
+	const _x = beta ? beta * degtorad : 0;
+	const _y = gamma ? gamma * degtorad : 0;
+	const _z = alpha ? alpha * degtorad : 0;
+	const cY = Math.cos(_y);
+	const cZ = Math.cos(_z);
+	const sX = Math.sin(_x);
+	const sY = Math.sin(_y);
+	const sZ = Math.sin(_z);
+	const Vx = -cZ * sY - sZ * sX * cY;
+	const Vy = -sZ * sY + cZ * sX * cY;
+	let compassHeading = Math.atan(Vx / Vy);
+	if (Vy &lt; 0) {
+		compassHeading += Math.PI;
+	} else if (Vx &lt; 0) {
+		compassHeading += 2 * Math.PI;
+	}
+	return compassHeading * (180 / Math.PI);
+}
 </code></pre>
 <h3>加速度センサー（慣性）</h3>
 <ul>
@@ -180,10 +199,21 @@ function deviceorientationHandler(event) {
 	<li>DeviceMotion Eventでアクセスできる</li>
 	<li>XYZ軸の値を取得するにはwindowオブジェクトのdevicemotionイベントを監視する</li>
 </ul>
+<pre><code>//DeviceMotion Event
+window.addEventListener('devicemotion', devicemotionHandler);
+//加速度が変化
+function devicemotionHandler(event) {
+	//加速度
+	const x = event.acceleration.x;
+	const y = event.acceleration.y;
+	const z = event.acceleration.z;
+}
+</code></pre>
 <h4>SAMPLE #249<b>ジャイロセンサー</b></h4>
 <div>
 	<p class="result249"></p>
 </div>
+<p>※httpsじゃないとエラー＋iOS12.2以降デフォルトでセンサーの値を取得できないとのことで確認できず<a href="https://qiita.com/ikkou/items/5197b78d69fb6198b4d8">https://qiita.com/ikkou/items/5197b78d69fb6198b4d8</a></p>
 </section><!-- section -->
 
 <section>
