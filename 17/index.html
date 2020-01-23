@@ -262,9 +262,45 @@ alert(`定数aの値は${a}です`);
 </section><!-- section -->
 
 <section>
-<h2><b>258</b>位置情報を取得する</h2>
-<h4>SAMPLE #258<b>位置情報を取得する</b></h4>
-<pre><code>
+<h2><b>258</b>エラーの種類について知る</h2>
+<table>
+	<tr>
+		<th>種類</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>RangeError</td>
+		<td>値が許容範囲にない</td>
+	</tr>
+	<tr>
+		<td>ReferenceError</td>
+		<td>宣言されていない変数を読み出そうとした</td>
+	</tr>
+	<tr>
+		<td>SyntaxError</td>
+		<td>言語の構文が不正</td>
+	</tr>
+	<tr>
+		<td>TypeError</td>
+		<td>データ型が不正</td>
+	</tr>
+	<tr>
+		<td>URIError</td>
+		<td>URIが不正</td>
+	</tr>
+</table>
+<ul>
+	<li>Errorオブジェクトには種類がある</li>
+	<li>TypeErrorはnullのオブジェクトに対してアクセスしている箇所がないか調べる</li>
+</ul>
+<h3>TypeErrorの例</h3>
+<pre><code>try {
+	const obj = { a: null };
+	obj.a.myMethod();
+} catch (error) {
+	console.error(error);
+	//TypeError: Cannot read property 'myMethod' of null
+}
 </code></pre>
 </section><!-- section -->
 

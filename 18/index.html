@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_18】関数やクラスについて詳しく知る</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+</head>
+
+<body>
+<h1>【Chapter18】関数やクラスについて詳しく知る【259〜267】</h1>
+<section>
+<h2><b>259</b>関数内で使う定数や変数の影響範囲（スコープ）について知る</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>{}</td>
+		<td>ブロックスコープ</td>
+	</tr>
+</table>
+<ul>
+	<li>変数や定数は{}で囲まれたブロックにて使用できる</li>
+	<li>変数・定数が有効な範囲を「スコープ」、ブロックのスコープを「ブロックスコープ」という</li>
+	<li>すべてのスコープの外側（トップレベル）は「グローバルスコープ」となり、すべてのブロック内で使用可能</li>
+	<li>「var」はブロックスコープに対応できないため、定数・変数のスコープがわかりづらくなりバグの原因になる</li>
+</ul>
+<h3>ブロックの外側だとエラー</h3>
+<pre><code>{
+	{
+		const a = 20;
+	}
+	//Error
+	console.log(a);
+}
+</code></pre>
+<h3>グローバルスコープ</h3>
+<pre><code>const a = 20;
+{
+	//OK
+	console.log(a);
+}
+</code></pre>
+<h3>var宣言（非推奨）</h3>
+<pre><code>{
+	{
+		var a = 20;
+	}
+	//Errorにならない
+	console.log(a);
+}
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>260</b>情報・エラー・警告を出力する</h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #260<b>情報・エラー・警告を出力する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>261</b>情報・エラー・警告を出力する</h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #261<b>情報・エラー・警告を出力する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>262</b>情報・エラー・警告を出力する</h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #262<b>情報・エラー・警告を出力する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>263</b>情報・エラー・警告を出力する</h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #263<b>情報・エラー・警告を出力する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>264</b>情報・エラー・警告を出力する</h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #264<b>情報・エラー・警告を出力する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>265</b>情報・エラー・警告を出力する</h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #265<b>情報・エラー・警告を出力する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>266</b>情報・エラー・警告を出力する</h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #266<b>情報・エラー・警告を出力する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>267</b>情報・エラー・警告を出力する</h2>
+<ul>
+	<li></li>
+</ul>
+<h4>SAMPLE #267<b>情報・エラー・警告を出力する</b></h4>
+<pre><code>
+</code></pre>
+</section><!-- section -->
+
+
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script src="../js/18.js"></script>
+</body>
+
+</html>
