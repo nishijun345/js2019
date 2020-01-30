@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="robots" content="noindex">
+	<title>【js_19】JavaScriptをより深く知る</title>
+	<!--css-->
+	<link rel="stylesheet" href="../css/base.css" media="all">
+	<!--js-->
+</head>
+
+<body>
+<h1>【Chapter19】JavaScriptをより深く知る【268〜278】</h1>
+<section>
+<h2><b>268</b>JavaScriptの読み込みタイミングを最適化する</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>&lt;script src="" async&gt;&lt;/script&gt;</td>
+		<td>JSファイルを非同期で読み込み、即座に実行</td>
+	</tr>
+	<tr>
+		<td>&lt;script src="" defer&gt;&lt;/script&gt;</td>
+		<td>JSファイルを非同期で読み込み、HTMLの解析完了後に実行</td>
+	</tr>
+</table>
+<ul>
+	<li>scriptタグにdefer属性やasync属性を設定すると非同期で読み込まれHTMLの解析が停止されなくなる</li>
+	<li>deferのscriptタグが複数ある場合、上から順番に実行される</li>
+	<li>deferを使うとDOM取得がしやすい（HTML解析後に実行されるため）</li>
+	<li>asyncの場合、実行順は保証されない</li>
+	<li>asyncは独立して動作するような処理と相性がいい（アクセス解析やページプラグイン）</li>
+</ul>
+</section><!-- section -->
+
+<section>
+<h2><b>269</b>処理ごとにファイルを分割したい（ESモジュール）</h2>
+<ul>
+	<li>複数のJSファイルを依存関係に応じて適切に読み込む仕組み</li>
+	<li>1つのファイルに記述すると処理の見通しが悪くなりバグの原因になる</li>
+	<li>出力するモジュールにはexport</li>
+	<li>モジュールの取り込みにはimport</li>
+</ul>
+<h4>SAMPLE #269<b>ESモジュール</b></h4>
+<div>
+	<p class="txt1"></p>
+	<p class="txt2"></p>
+</div>
+<pre><code>//MyClass1.js------
+export class MyClass1 {
+	myMethod1() {
+		return 'MyClass1のメソッド';
+	}
+}
+
+//MyClass2.js------
+export class MyClass2 {
+	myMethod2() {
+		return 'MyClass2のメソッド';
+	}
+}
+
+//読み込むjs------
+//import
+import { MyClass1 } from './myClass1.js';
+import { MyClass2 } from './myClass2.js';
+//文字列取得
+const txt1 = new MyClass1().myMethod1();
+const txt2 = new MyClass2().myMethod2();
+//出力
+document.querySelector('.txt1').innerHTML = txt1;
+document.querySelector('.txt2').innerHTML = txt2;
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>270</b>モジュールをエクスポートする</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>export モジュール</td>
+		<td>モジュールを公開する</td>
+	</tr>
+</table>
+<ul>
+	<li>exportはモジュールを公開するための宣言</li>
+	<li>クラス・オブジェクト・変数・関数などあらゆるものをモジュールとして扱える</li>
+	<li>exportを複数宣言することで1つのJSファイルから複数のモジュールをエクスポートできる</li>
+	<li>export defaultとすると1つのモジュールだけエクスポートする</li>
+</ul>
+<pre><code>//定数をエクスポート
+export const myConstant = 100;
+//オブジェクトをエクスポート
+export const myObj = {name: '山口', age: 30};
+
+//1つだけエクスポート
+export default モジュール名;
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>271</b>モジュールをインポートする</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>import {モジュール名} from './ファイル.js'</td>
+		<td>モジュールを取り込む</td>
+	</tr>
+</table>
+<ul>
+	<li>importはモジュールを取り込むための宣言</li>
+	<li>サーバーにアップされたJSファイルがモジュールに対応していれば、URL指定でインポートできる</li>
+</ul>
+<pre><code>//モジュからモジュールを読み込む
+import {モジュール名} from 'モジュ.js';
+
+//モジュからモジュールを複数読み込む
+import {モジュール名1, モジュール名2} from 'モジュ.js';
+
+//モジュール1をモジュール2という名前で読み込む
+import {モジュール名 as モジュール名2} from 'モジュ.js';
+
+//モジュからexport defaultで定義されたモジュールを読み込む
+import モジュール名 from 'モジュ.js';
+
+//モジュからすべてのモジュールを読み込み、モジュール名3とする
+import * as モジュール名3 from 'モジュ.js';
+
+//モジュールの読み込みだけ行う
+import 'モジュ.js';
+
+//URL指定でインポート
+import * as RemoteModule from 'http://〜hoge.js'
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>272</b>モジュールを用いたJavaScriptをHTMLで読み込む</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>&lt;script type="module" src="" &gt;&lt;/script&gt;</td>
+		<td>ESモジュールを使ったJSの読み込み</td>
+	</tr>
+</table>
+<ul>
+	<li>scriptタグのtype属性でmoduleを指定する（ないとエラー）</li>
+	<li>インラインでもモジュールが使える</li>
+</ul>
+<pre><code>&lt;script type="module" src="" &gt;
+	import {MyClass} from './MyClass.js';
+	new MyClass();
+&lt;/script&gt;
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>273</b>反復処理のためのイテレータを使う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>オブジェクト[Symbol.iterator]()</td>
+		<td>イテレータを取得する</td>
+		<td>イテレータ</td>
+	</tr>
+	<tr>
+		<td>イテレータ.next()</td>
+		<td>次のイテレータを取得する</td>
+		<td>イテレータ</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>イテレータ.value</td>
+		<td>現在の値</td>
+		<td>任意</td>
+	</tr>
+	<tr>
+		<td>イテレータ.done</td>
+		<td>終了したかどうか</td>
+		<td>真偽値</td>
+	</tr>
+</table>
+<ul>
+	<li>イテレータとは複数の値に次々アクセスできる仕組みを備えたオブジェクト</li>
+	<li>イテレータを持つオブジェクトのことをイテラブルなオブジェクトという</li>
+	<li>代表的なのは配列</li>
+	<li>イテラブルなオブジェクトであれば、配列同様にfor...ofによる処理が可能</li>
+	<li>配列の個別のイテレータにアクセスするには、配列[Symbol.iterator]()とする</li>
+	<li>next()で次のイテレータを取り出せる</li>
+	<li>各オブジェクトはvalue、doneのプロパティを備えている</li>
+</ul>
+<h4>SAMPLE #273<b>イテレータを使う</b></h4>
+<pre><code>const array = ['あか', 'あお', 'みどり'];
+const iterator = array[Symbol.iterator]();
+const next1 = iterator.next();
+console.log(next1.value);
+console.log(next1.done);
+const next2 = iterator.next();
+console.log(next2.value);
+console.log(next2.done);
+const next3 = iterator.next();
+console.log(next3.value);
+console.log(next3.done);
+const next4 = iterator.next();
+console.log(next4.value);
+console.log(next4.done);</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>274</b>イテレータを自作する（ジェネレータ）</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>function* 関数名() {}</td>
+		<td>ジェネレータを定義する</td>
+	</tr>
+	<tr>
+		<td>yield 値</td>
+		<td>値を返す</td>
+	</tr>
+</table>
+<ul>
+	<li>イテレータを簡単に取り扱うための方法としてジェネレータがある</li>
+	<li>ジェネレータを使うとイテレータを自作できる</li>
+	<li>function宣言にアスタリスクを付与する</li>
+	<li>ジェネレータでは次に何の値を取り出すかをyieldによって指定する</li>
+</ul>
+<pre><code>function* myGenerator() {
+	yield 'ao';
+	yield 'aka';
+	yield 'midori';
+}
+const myIterable = myGenerator();
+
+//nextで一つずつ取り出す
+console.log(myIterable.next().value);
+console.log(myIterable.next().value);
+console.log(myIterable.next().value);
+console.log(myIterable.next().done);
+
+//for...ofで各値にアクセス
+for (let value of myIterable) {
+	console, log(value);
+}</code></pre>
+<ul>
+	<li>yieldはその時点での関数の実行を停止し、next()が呼ばれると続きから実行されるという性質がある</li>
+</ul>
+<pre><code>function* myGenerator() {
+	console.log('おはよう');
+	yield 1000;
+	console.log('こんにちは');
+	yield 2000;
+	console.log('さよなら');
+	yield 3000;
+}
+const myIterable = myGenerator();
+setInterval(() => {
+	console.log(myIterable.next().value);
+}, 1000);</code></pre>
+<h4>SAMPLE #274<b>指定の範囲の整数を一つずつ返すイテレータの例</b></h4>
+<div class="result274"></div>
+<pre><code>//ジェネレータの定義
+function* range(start, end) {
+	let result = start;
+	while (result &lt;= end) {
+		yield result;
+		result++;
+	}
+}
+//使用例
+for (let value of range(2, 6)) {
+	document.querySelector('.result274').append(`${value},`);
+}</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>275</b>自分自身と等しくなるデータを扱う（Symbol）</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>Symbol(文字列または数値)</td>
+		<td>シンボルを生成する</td>
+		<td>シンボル</td>
+	</tr>
+</table>
+<ul>
+	<li>シンボルは他と重複しない値（ユニークなデータ）を扱える</li>
+	<li>一意なIDに用いたり、ビルトインオブジェクトに追加する独自メソッド名として使えたりする</li>
+	<li>新しいシンボルを生成するには、newを使わずSymbol()と記述</li>
+</ul>
+<pre><code>const symbol1 = Symbol();
+const symbol2 = Symbol();
+console.log(symbol1 == symbol2); //false
+console.log(symbol1 === symbol2); //false
+</code></pre>
+<ul>
+	<li>シンボルの型はSymbol</li>
+</ul>
+<pre><code>const symbol1 = Symbol();
+console.log(typeof symbol1); //'symbol'
+</code></pre>
+<ul>
+	<li>生成時に値を渡しておくことで、デバッグした際にシンボルを識別できる</li>
+</ul>
+<pre><code>const symbol1 = Symbol();
+const symbol2 = Symbol();
+const symbol3 = Symbol('しんぼる');
+const symbol4 = Symbol(100);
+console.log(symbol1);
+console.log(symbol2);
+console.log(symbol3);
+console.log(symbol4);
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>276</b>配列やオブジェクトに独自メソッドを追加する</h2>
+<table>
+	<tr>
+		<th>構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>オブジェクト.prototype[シンボル] = function() {}</td>
+		<td>オブジェクトに独自メソッドを追加する</td>
+	</tr>
+	<tr>
+		<td>オブジェクト[シンボル]()</td>
+		<td>独自メソッドを実行する</td>
+	</tr>
+</table>
+<ul>
+	<li>prototypeとSymbolを使うと、Array、Date、Objectといった既存のオブジェクト（ビルトインオブジェクト）に独自メソッドを追加できる</li>
+</ul>
+<pre><code>//Symbol生成
+const myMethod = Symbol();
+//独自メソッドの追加
+Array.prototype[myMethod] = function () {
+	console.log('独自メソッド');
+};
+//独自メソッドの実行
+const array = [1, 3, 5];
+array[myMethod]();</code></pre>
+<h4>SAMPLE #276<b>配列にシャッフル用のメソッドを追加する例</b></h4>
+<div>
+	<p class="btn btn276">シャッフル</p>
+	<p class="result276"></p>
+</div>
+<pre><code>//Symbol生成
+const shuffle = Symbol();
+//独自メソッドの追加
+Array.prototype[shuffle] = function () {
+	//シャッフル処理
+	const arrayLength = this.length;
+	for (let i = arrayLength - 1; i >= 0; i--) {
+		const randomIndex = Math.floor(Math.random() * (i + 1));
+		[this[i], this[randomIndex]] = [this[randomIndex], this[i]];
+	}
+	//自身を返す
+	return this;
+};
+//配列の各数値を偶数を抜き出しシャッフルして100倍する
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+let result = array
+	.filter((value) => value % 2 === 0)[shuffle]()
+	.map((value) => value * 100);
+document.querySelector('.btn276').addEventListener('click', () => {
+	document.querySelector('.result276').innerHTML = result;
+});</code></pre>
+<ul>
+	<li>prototypeとはオブジェクトにメンバー（メンバー変数・メンバー関数）を追加するためのプロパティ</li>
+	<li>Array、Date、FunctionはすべてObjectを継承したオブジェクト（ビルトインオブジェクト）なので、全てにprototypeが存在する</li>
+</ul>
+<h3>console.dir()でprototypeの中身を確認</h3>
+<pre><code>//Stringオブジェクトのlength、indexOf()などの全メンバー
+console.dir(String.prototype);
+//Arrayオブジェクトのmap()、filter()などの全メンバー
+console.dir(Array.prototype);
+//DateオブジェクトのgetDate()、getFullYear()などの全メンバー
+console.dir(Date.prototype);</code></pre>
+<ul>
+	<li>prototypeに対してメンバーを追加すれば、オブジェクト.メンバー名として自前のメンバーが使えるようになる</li>
+	<li>定義済みのメンバー名と同じメンバーを定義すると上書きされるので注意</li>
+</ul>
+<pre><code>Array.prototype.myMethod = function() {
+	console.log('まいめそっど');
+};
+const array = [1, 2, 3];
+array.myMethod(); //'まいめそっど'
+
+//上書きの例
+Array.prototype.filter = function() {
+	console.log('ふぃるたー');
+}
+array.filter(); //'ふぃるたー'
+//既存のfilter()が自前のfilter()で上書きされてしまう
+</code></pre>
+<ul>
+	<li>自前のメソッドが将来JavaScriptに追加される可能性がある（プロトタイプ汚染）</li>
+	<li>そこで登場するのがユニークな値を扱えるSymbol</li>
+	<li>Symbolを生成して拡張メソッド名として使用した場合、メソッド名が重複することはない</li>
+</ul>
+<pre><code>//シンボル生成
+const shuffle = Symbol();
+
+//shuffleメソッド追加
+Array.prototype.shuffle = function() {};
+//シンボルのshuffleメソッド追加
+Array.prototype[shuffle] = function() {};
+
+const array = [1, 2, 3];
+
+//shuffleメソッド
+array.shuffle();
+//シンボルのshuffleメソッド
+array[shuffle]();
+
+//将来shuffle()が追加された場合シンボルのshuffle()は重複しないので安全
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>277</b>キーと値のコレクション「Map」を使う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>new Map(イテラブルなオブジェクト)</td>
+		<td>Mapオブジェクトを初期化</td>
+		<td>オブジェクト（Map）</td>
+	</tr>
+	<tr>
+		<td>マップ.set(キー,値)</td>
+		<td>キーと値のセットをマップに登録</td>
+		<td>オブジェクト（Map）</td>
+	</tr>
+	<tr>
+		<td>マップ.get(キー)</td>
+		<td>キーを指定して値を取り出す</td>
+		<td>値</td>
+	</tr>
+	<tr>
+		<td>マップ.has(キー)</td>
+		<td>キーの値が存在するか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>マップ.delete(キー)</td>
+		<td>キーの値を削除</td>
+		<td>真偽値（削除されたかどうか）</td>
+	</tr>
+	<tr>
+		<td>マップ.clear()</td>
+		<td>キーと値をすべて削除</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>マップ.keys()</td>
+		<td>キーからなるIteratorオブジェクト</td>
+		<td>オブジェクト（Iterator）</td>
+	</tr>
+	<tr>
+		<td>マップ.values()</td>
+		<td>値からなるIteratorオブジェクト</td>
+		<td>オブジェクト（Iterator）</td>
+	</tr>
+	<tr>
+		<td>マップ.entrys()</td>
+		<td>キーと値の配列からなるIteratorオブジェクトを返す</td>
+		<td>オブジェクト（Iterator）</td>
+	</tr>
+	<tr>
+		<td>マップ.forEach(コールバック)</td>
+		<td>各ペアに対して処理を行う</td>
+		<td>なし</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>マップ.size</td>
+		<td>キーと値のペア数</td>
+		<td>数値</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>forEachのコールバック構文</th>
+		<th>意味</th>
+	</tr>
+	<tr>
+		<td>(キー, 値) => {}</td>
+		<td>キーと値を受け取って処理する</td>
+	</tr>
+</table>
+<ul>
+	<li>Mapオブジェクトはキーと値を組み合わせて複数のデータをまとめて取り扱う</li>
+	<li>他のプログラミング言語でいう連想配列や辞書のような挙動をする</li>
+</ul>
+<pre><code>//マップの初期化
+const list = new Map();
+
+//マップの初期化（初期値設定）
+const list2 = new Map([[20, 'あお'], [50, 'あか']]);
+
+//マップに値を設定
+list.set(20, 'あお').set(50, 'あか').set(100, 'みどり');
+
+//マップから値を取得
+list.get(20); //'あお'
+
+//マップの存在をチェック
+list.has(100); //true
+
+//マップのペア数の取得
+list.size; //3
+
+//各キーの抽出
+const keyList = list.keys();
+for (let key of keyList) {
+	console.log(key); //キーが順番に出力
+}
+
+//各値の抽出
+const valueList = list.values();
+for (let value of valueList) {
+	console.log(value); //値が順番に出力
+}
+
+//各ペアの抽出
+const entryList = list.entries();
+for (let entry of entryList) {
+	console.log(entry); //ペアが順番に出力
+}
+
+//各ペアの抽出（forEach）
+list.forEach((value, key) => {
+	console.log(`${key} : ${value}`); //ペアが順番に出力
+});
+</code></pre>
+</section><!-- section -->
+
+<section>
+<h2><b>278</b>重複しない値のコレクションのための「Set」を使う</h2>
+<table>
+	<tr>
+		<th>メソッド</th>
+		<th>意味</th>
+		<th>戻り値</th>
+	</tr>
+	<tr>
+		<td>new Set(イテラブルなオブジェクト)</td>
+		<td>Setオブジェクトを初期化</td>
+		<td>オブジェクト（Set）</td>
+	</tr>
+	<tr>
+		<td>セット.add(値)</td>
+		<td>値を登録</td>
+		<td>オブジェクト（Set）</td>
+	</tr>
+	<tr>
+		<td>セット.has(値)</td>
+		<td>値が存在するか</td>
+		<td>真偽値</td>
+	</tr>
+	<tr>
+		<td>セット.delete(値)</td>
+		<td>値を削除</td>
+		<td>真偽値（削除されたかどうか）</td>
+	</tr>
+	<tr>
+		<td>セット.clear()</td>
+		<td>値をすべて削除</td>
+		<td>なし</td>
+	</tr>
+	<tr>
+		<td>セット.values()</td>
+		<td>各値を返す</td>
+		<td>オブジェクト（Iterator）</td>
+	</tr>
+	<tr>
+		<td>セット.forEach(コールバック)</td>
+		<td>各値に対して処理を行う</td>
+		<td>なし</td>
+	</tr>
+</table>
+<table>
+	<tr>
+		<th>プロパティ</th>
+		<th>意味</th>
+		<th>型</th>
+	</tr>
+	<tr>
+		<td>セット.size</td>
+		<td>要素の数</td>
+		<td>数値</td>
+	</tr>
+</table>
+<ul>
+	<li>Setオブジェクトは複数の値をまとめて取り扱う</li>
+	<li>配列やObjectと異なり、インデックスやキーで値にアクセスする手段がない</li>
+	<li>同じ値をセットすると無視される</li>
+</ul>
+<pre><code>//セットの初期化
+const list = new Set();
+
+//セットの初期化（初期値設定）
+const list2 = new Set([20, 50]);
+
+//セットに値を設定
+list.add(20).add(50).add(100);
+
+//セットの存在をチェック
+list.has(100); //true
+
+//要素の数を取得
+list.size; //3
+
+//各値の抽出
+const valueList = list.values();
+for (let value of valueList) {
+	console.log(value); //値が順番に出力
+}
+
+//各値の抽出（forEach）
+list.forEach((value) => {
+	console.log(`IDは${value}`); //値が順番に出力
+});
+
+//同一の値をセット（無視される）
+list.add(100);
+//スプレッド演算子で配列に変換
+const array = [...list];
+console.log(array); //100は一つしか追加されてない
+</code></pre>
+</section><!-- section -->
+
+
+
+
+<p id="top"><a href="../index.html">TOPに戻る</a></p>
+<script type="module" src="../js/19.js"></script>
+</body>
+
+</html>
